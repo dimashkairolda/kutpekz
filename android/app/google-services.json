@@ -1,0 +1,68 @@
+{
+  "project_info": {
+    "project_number": "723209621212",
+    "project_id": "sdudiplomaproject",
+    "storage_bucket": "sdudiplomaproject.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:723209621212:android:f661dc7aca04a504836e19",
+        "android_client_info": {
+          "package_name": "com.example.diplomaproject"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "723209621212-jhe5lcim8erdb06nehrt2ah3h1sbg7ti.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDW8c-1dBl4vsJSGQTJkBLuyCE051d5fOY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "723209621212-jhe5lcim8erdb06nehrt2ah3h1sbg7ti.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:723209621212:android:da4dc78bd4ba5b47836e19",
+        "android_client_info": {
+          "package_name": "com.kutpekz.kutpekz"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "723209621212-jhe5lcim8erdb06nehrt2ah3h1sbg7ti.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDW8c-1dBl4vsJSGQTJkBLuyCE051d5fOY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "723209621212-jhe5lcim8erdb06nehrt2ah3h1sbg7ti.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

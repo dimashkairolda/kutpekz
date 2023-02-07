@@ -1,6 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_core/firebase_core.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+      options: const FirebaseOptions(
+          apiKey: 'AIzaSyDW8c-1dBl4vsJSGQTJkBLuyCE051d5fOY',
+          appId: '1:723209621212:android:f661dc7aca04a504836e19',
+          messagingSenderId: '723209621212',
+          projectId: 'sdudiplomaproject',
+          storageBucket: 'sdudiplomaproject.appspot.com/'
+      )
+  );
   runApp(const MyApp());
 }
 
@@ -10,8 +21,9 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Kutpe App',
       theme: ThemeData(
         // This is the theme of your application.
         //
@@ -24,7 +36,7 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: const MyHomePage(title: 'Kutpe-Kz'),
     );
   }
 }
