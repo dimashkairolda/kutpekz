@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:kutpekz/pages/onboard1.dart';
+import 'package:kutpekz/pages/onboard2.dart';
+import 'package:kutpekz/pages/onboard3.dart';
+import 'package:kutpekz/pages/signup.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -20,6 +23,9 @@ void main() async {
     initialRoute: '/',
     routes: {
       '/' : (context) =>onboard1(),
+      '/onboard2': (context) =>onboard2(),
+      '/onboard3': (context) =>onboard3(),
+      '/signup': (context)=>signup(),
     },
   ),
   );
