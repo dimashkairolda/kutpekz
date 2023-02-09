@@ -4,6 +4,7 @@ import 'package:kutpekz/pages/onboard1.dart';
 import 'package:kutpekz/pages/onboard2.dart';
 import 'package:kutpekz/pages/onboard3.dart';
 import 'package:kutpekz/pages/signup.dart';
+import 'package:kutpekz/pages/parol1.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -18,7 +19,7 @@ void main() async {
   );
   runApp(MaterialApp(
     theme: ThemeData(
-      primaryColor: Colors.cyanAccent,
+      primarySwatch: Colors.amber,
     ),
     initialRoute: '/',
     routes: {
@@ -26,6 +27,7 @@ void main() async {
       '/onboard2': (context) =>onboard2(),
       '/onboard3': (context) =>onboard3(),
       '/signup': (context)=>signup(),
+      '/reset': (context)=>Parol(),
     },
   ),
   );

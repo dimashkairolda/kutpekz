@@ -1,45 +1,36 @@
 import 'package:flutter/material.dart';
+import 'package:kutpekz/tabs/login.dart';
+import 'package:kutpekz/tabs/registration.dart';
 
 class signup extends StatelessWidget {
   const signup({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return DefaultTabController(
-      length: tabs.length,
-      // The Builder widget is used to have a different BuildContext to access
-      // closest DefaultTabController.
-      child: Builder(builder: (BuildContext context) {
-        final TabController tabController = DefaultTabController.of(context);
-        tabController.addListener(() {
-          if (!tabController.indexIsChanging) {
-            // Your code goes here.
-            // To get index of current tab use tabController.index
-          }
-        });
-        return Scaffold(
-          appBar: AppBar(
-            bottom: const TabBar(
-              tabs: tabs,
-            ),
+    return DefaultTabController(length: 2,
+        child: Scaffold(
+          backgroundColor: Color.fromRGBO(112,166,255, 1.0),
+          body:
+              Column(
+
+            children: [
+              Padding(padding: EdgeInsets.only(top: 70)),
+              TabBar(tabs: [
+                Tab(child: Text('Register', style: TextStyle(color: Colors.black, fontFamily: 'Inter'),),),
+                Tab(child: Text('Login', style: TextStyle(color: Colors.black, fontFamily: 'Inter'),),),
+              ]),
+              Expanded(
+                child:
+                  TabBarView(children: [
+                Register(),
+               Login(),
+              ],
+                  ),
+              ),
+            ],
           ),
-          body: TabBarView(
-            children: tabs.map((Tab tab) {
-              return Center(
-                child: Text(
-                  '${tab.text!} Tab',
-                  style: Theme.of(context).textTheme.headlineSmall,
-                ),
-              );
-            }).toList(),
-          ),
-        );
-      }),
-    );
+        ),);
 
   }
 }
-const List <Tab>tabs = <Tab>[
-  Tab(text: 'Login'),
-  Tab(text: 'Register'),
-];
+
