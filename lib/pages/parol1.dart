@@ -5,7 +5,7 @@ class Parol extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+
       backgroundColor: Color.fromRGBO(112,166,255, 1.0),
       body:
       Padding(padding: EdgeInsets.fromLTRB(60, 150, 70, 150),
@@ -20,10 +20,25 @@ class Parol extends StatelessWidget {
         ],
       ),
       ),
-      floatingActionButton:
-      FloatingActionButton(onPressed: (){ },
-        child: Icon(Icons.arrow_back_ios_new),
+      floatingActionButton: Stack(
+        fit: StackFit.expand,
+        children: [
+
+          Positioned(
+              top: 20,
+
+              child: FloatingActionButton(
+              onPressed: (){
+                Navigator.pop(context);
+              },
+              child: Icon(Icons.arrow_back_ios_new),
+                backgroundColor: Color.fromRGBO(112,166,255, 1.0),
+
+          )
+          )
+        ],
       ),
+
       floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
 
     );
