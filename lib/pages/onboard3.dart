@@ -12,7 +12,7 @@ class onboard3 extends StatelessWidget {
           Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Image.asset('Onboard3.png'),
+              Image.asset('assets/Onboard3.png'),
               Padding(padding: EdgeInsets.only(top: 20)),
               Text('Оплатите онлайн', style: TextStyle(fontFamily: 'Inter', fontSize: 20),),
               Padding(padding: EdgeInsets.only(top: 10)),

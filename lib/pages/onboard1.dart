@@ -5,6 +5,7 @@ class onboard1 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       backgroundColor: Color.fromRGBO(112,166,255, 1.0),
       body: Row(
@@ -14,11 +15,11 @@ class onboard1 extends StatelessWidget {
           Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Image.asset('Onboard1.png'),
-              Padding(padding: EdgeInsets.only(top: 20)),
-              Text('Зарегистрируйтесь', style: TextStyle(fontFamily: 'Inter', fontSize: 20),),
-              Padding(padding: EdgeInsets.only(top: 10)),
-              Text(('Пройдите регистрацию и бронируйте время'), style: TextStyle(fontFamily: 'Inter', fontSize: 15, color: Colors.white),),
+              Image.asset('assets/Onboard1.png'),
+              const Padding(padding: EdgeInsets.only(top: 20)),
+              const Text('Зарегистрируйтесь', style: TextStyle(fontFamily: 'Inter', fontSize: 20),),
+              const Padding(padding: EdgeInsets.only(top: 10)),
+              const Text(('Пройдите регистрацию и бронируйте время'), style: TextStyle(fontFamily: 'Inter', fontSize: 15, color: Colors.white),),
 
             ],
           )

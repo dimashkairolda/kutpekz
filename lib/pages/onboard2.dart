@@ -13,7 +13,7 @@ class onboard2 extends StatelessWidget {
           Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Image.asset('Onboard2.png'),
+              Image.asset('assets/Onboard2.png'),
               Padding(padding: EdgeInsets.only(top: 20)),
               Text('Забронируйте авто мойку', style: TextStyle(fontFamily: 'Inter', fontSize: 20),),
               Padding(padding: EdgeInsets.only(top: 10)),
