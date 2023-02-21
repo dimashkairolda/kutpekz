@@ -44,6 +44,9 @@ dependencies:
   provider: ^6.0.5
   pinput: ^2.2.23
   image_picker: ^0.8.6+1
+  dgis_flutter: ^0.0.31
+  geolocator: ^9.0.2
+  material_floating_search_bar: ^0.3.7
 
 
 dev_dependencies:
@@ -77,6 +80,7 @@ flutter:
      - assets/Onboard2.png
      - assets/Onboard3.png
      - assets/Signup.png
+     - assets/pin_drop.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
@@ -94,6 +98,20 @@ flutter:
       fonts:
         - asset: fonts/Inter-Light.ttf
           style: italic
+    - family: San Francisco
+      fonts:
+        - asset: fonts/SF-Pro-Display.otf
+          style: normal
+
+        - asset: fonts/SF-Pro-Display-Medium.otf
+          weight: 500
+
+        - asset: fonts/SF-Pro-Display-Semibold.otf
+          weight: 700
+
+        - asset: fonts/SF-Pro-Display-Bold.otf
+          weight: 900
+
 
   # fonts:
   #   - family: Schyler

@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:kutpekz/tabs/login.dart';
 import 'package:kutpekz/tabs/registration.dart';
 
-class signup extends StatelessWidget {
-  const signup({Key? key}) : super(key: key);
+class SignUp extends StatelessWidget {
+  const SignUp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -15,8 +15,8 @@ class signup extends StatelessWidget {
                 children: [
                   Padding(padding: EdgeInsets.only(top: 70)),
                   TabBar(tabs: [
-                    Tab(child: Text('Register', style: TextStyle(color: Colors.black, fontFamily: 'Inter'),),),
-                    Tab(child: Text('Login', style: TextStyle(color: Colors.black, fontFamily: 'Inter'),),),
+                    Tab(child: Text('Register', style: TextStyle(color: Colors.black),),),
+                    Tab(child: Text('Login', style: TextStyle(color: Colors.black),),),
                   ]),
                 Expanded(
                   child:

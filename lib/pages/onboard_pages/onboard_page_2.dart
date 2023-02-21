@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class onboard2 extends StatelessWidget {
-  const onboard2({Key? key}) : super(key: key);
+class SecondOnboardPage extends StatelessWidget {
+  const SecondOnboardPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -15,9 +15,9 @@ class onboard2 extends StatelessWidget {
             children: [
               Image.asset('assets/Onboard2.png'),
               Padding(padding: EdgeInsets.only(top: 20)),
-              Text('Забронируйте авто мойку', style: TextStyle(fontFamily: 'Inter', fontSize: 20),),
+              Text('Забронируйте авто мойку', style: TextStyle(fontSize: 20),),
               Padding(padding: EdgeInsets.only(top: 10)),
-              Text(('Найдите ближайщую автомойку и забронируйте'), style: TextStyle(fontFamily: 'Inter', fontSize: 15, color: Colors.white),)
+              Text(('Найдите ближайщую автомойку и забронируйте'), style: TextStyle(fontSize: 15, color: Colors.white),)
 
             ],
           )

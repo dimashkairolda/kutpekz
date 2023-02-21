@@ -55,9 +55,7 @@ class Login extends StatelessWidget {
 
             Padding(padding: EdgeInsets.only(bottom: 20)),
             MaterialButton(onPressed: () async {
-              if (await ap.isPhoneRegistered(getPhoneNumber())){
-                ap.signInWithPhone(context, getPhoneNumber(), phoneNumberController.text);
-              }
+
             },
               color: Color.fromRGBO(224, 239, 218, 1.0),
               child: Text('Войти', style: TextStyle(fontFamily: 'Inter',),),

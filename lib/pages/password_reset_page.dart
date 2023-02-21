@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-class Parol extends StatelessWidget {
-  const Parol({Key? key}) : super(key: key);
+class ResetPassword extends StatelessWidget {
+  const ResetPassword({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

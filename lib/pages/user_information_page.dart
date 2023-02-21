@@ -70,9 +70,9 @@ class _UserInformationPageState extends State<UserInformationPage> {
                   child: Column(
                     children: [
                       // name
-                      textField(hintText: 'Name', icon: Icons.account_circle, inputType: TextInputType.name, maxLines: 1, controller: nameController),
+                      textField(hintText: 'Имя', icon: Icons.account_circle, inputType: TextInputType.name, maxLines: 1, controller: nameController),
                       // email
-                      textField(hintText: 'Email', icon: Icons.email, inputType: TextInputType.emailAddress, maxLines: 1, controller: emailController),
+                      textField(hintText: 'E-mail', icon: Icons.email, inputType: TextInputType.emailAddress, maxLines: 1, controller: emailController),
                       const SizedBox(
                         height: 50,
                       ),
@@ -80,7 +80,7 @@ class _UserInformationPageState extends State<UserInformationPage> {
                         height: 50,
                         width: MediaQuery.of(context).size.width * 0.9,
                         child: CustomButton(
-                          text: 'Continue',
+                          text: 'Продолжить',
                           onPressed: (){
                             storeData();
                           },
@@ -144,7 +144,6 @@ class _UserInformationPageState extends State<UserInformationPage> {
         profilePicture: "",
         createdAt: "",
         uid: "",
-        password: "",
     );
     if(image != null){
       ap.saveUserData(
@@ -153,7 +152,7 @@ class _UserInformationPageState extends State<UserInformationPage> {
         profilePicture: image!,
         onSuccess: (){
           ap.saveUserDataPreferences().then((value)
-          => ap.setSignIn().then((value)
+          => ap.setSignIn().then((value)).then((value)
           => Navigator.pushAndRemoveUntil(
               context, MaterialPageRoute(builder: (context) => const HomeScreen()), (route) => false)
           ));
@@ -162,7 +161,7 @@ class _UserInformationPageState extends State<UserInformationPage> {
     }
     else{
       // use default image
-      print('Update your profile picture');
+      print('Продолжить без аватара?');
     }
   }
 }

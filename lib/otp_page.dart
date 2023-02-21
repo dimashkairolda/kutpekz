@@ -28,7 +28,7 @@ class _OtpPageState extends State<OtpPage> {
         ) : Column(
           children: [
             SizedBox(height: 120),
-            Text(('OTP sent to ') + widget.phoneNumber),
+            Text(('Код подтверждения отправлен на ${widget.phoneNumber}')),
             SizedBox(height: 60),
             Pinput(
               length: 6,
@@ -56,7 +56,7 @@ class _OtpPageState extends State<OtpPage> {
                 borderRadius: BorderRadius.circular(32.0),
                 child: MaterialButton(
                   child: Text(
-                    "Verify",
+                    "Подтвердить",
                     style: TextStyle(fontWeight: FontWeight.w500, fontSize: 20.0),
                   ),
                   onPressed: () {
@@ -81,9 +81,13 @@ class _OtpPageState extends State<OtpPage> {
           if(value){
             // user exists
             print('User Exists');
-            Navigator.pushAndRemoveUntil(context,
+            ap.getDataFromStorage().then((value)
+            => ap.saveUserDataPreferences().then((value)
+            => ap.setSignIn().then((value)
+            => Navigator.pushAndRemoveUntil(context,
                 MaterialPageRoute(builder: (context) => const HomeScreen()),
-                    (route) => false);
+                    (route) => false)))
+            );
           }
           else{
             // new user

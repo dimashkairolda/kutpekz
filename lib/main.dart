@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:kutpekz/auth_provider.dart';
 import 'package:kutpekz/pages/loading_page.dart';
-import 'package:kutpekz/pages/onboard1.dart';
-import 'package:kutpekz/pages/onboard2.dart';
-import 'package:kutpekz/pages/onboard3.dart';
-import 'package:kutpekz/pages/signup.dart';
-import 'package:kutpekz/pages/parol1.dart';
+import 'package:kutpekz/pages/onboard_pages/onboard_page_1.dart';
+import 'package:kutpekz/pages/onboard_pages/onboard_page_2.dart';
+import 'package:kutpekz/pages/onboard_pages/onboard_page_3.dart';
+import 'package:kutpekz/pages/signup_page.dart';
+import 'package:kutpekz/pages/password_reset_page.dart';
 import 'package:provider/provider.dart';
 
 // TODO if sms expired go to register page -> bug after which otp page doesn't show up
@@ -41,16 +41,17 @@ class MyApp extends StatelessWidget{
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.amber,
+        // fontFamily: 'San Francisco',
       ),
       title: 'Kutpe-Kz',
       initialRoute: '/',
       routes: {
         '/': (context) => const LoadingPage(),
-        '/onboard1': (context) => const onboard1(),
-        '/onboard2': (context) => const onboard2(),
-        '/onboard3': (context) => const onboard3(),
-        '/signup': (context) => const signup(),
-        '/reset': (context) => const Parol(),
+        '/onboard1': (context) => const FirstOnboardPage(),
+        '/onboard2': (context) => const SecondOnboardPage(),
+        '/onboard3': (context) => const ThirdOnboardPage(),
+        '/signup': (context) => const SignUp(),
+        '/reset': (context) => const ResetPassword(),
       },
     );
 
