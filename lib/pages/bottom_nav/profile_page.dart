@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:kutpekz/auth_provider.dart';
 import 'package:kutpekz/pages/loading_page.dart';
 import 'package:provider/provider.dart';
+import 'package:kutpekz/main.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({Key? key}) : super(key: key);
@@ -19,14 +20,14 @@ class _ProfilePageState extends State<ProfilePage> {
         child: Column(
           children: [
             SizedBox(
-              height: 40,
+              height: 60,
             ),
             Text(
               'Профиль',
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
             ),
             SizedBox(
-              height: 10,
+              height: 25,
             ),
             InkWell(
               onTap: () {},
@@ -36,32 +37,60 @@ class _ProfilePageState extends State<ProfilePage> {
               ),
             ),
             SizedBox(
-              height: 10,
+              height: 20,
             ),
             Text(
               "Здравстуйте, ${ap.userModel.name}",
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
             ),
             SizedBox(
-              height: 60,
+              height: 50,
             ),
             Divider(
-              color: Colors.grey,
+              color: Colors.grey.shade300,
+              endIndent: 30,
+              indent: 30,
+              thickness: 1.25,
+            ),
+
+            SizedBox(
+              height: 10,
+            ),
+
+
+                Column(
+                  children: [
+                  ListTile(
+                    contentPadding:EdgeInsets.only(left: 30),
+                    leading: Icon(Icons.person, color: Colors.black,),
+                    title: Text('Редактировать Профиль', style: TextStyle(fontWeight: FontWeight.w500, fontSize: 20),),
+                    onTap: (){
+                      Navigator.pushNamed(context, '/profile_edit');
+                    },
+                  ),
+                    ListTile(
+                      contentPadding: EdgeInsets.only(left: 30),
+                      leading: Icon(Icons.credit_card_rounded, color: Colors.black,),
+                      title: Text('Оплата', style: TextStyle(fontWeight: FontWeight.w500,fontSize: 20),),
+                      onTap: (){},
+                    ),
+                    ListTile(
+                      contentPadding: EdgeInsets.only(left: 30),
+                      leading: Icon(Icons.language, color: Colors.black,),
+                      title: Text('Язык',style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),),
+                      onTap: (){},
+                    ),
+
+                  ],
+                ),
+            Divider(
+              color: Colors.grey.shade300,
               endIndent: 30,
               indent: 30,
               thickness: 1.25,
             ),
             SizedBox(
-              height: 100,
-            ),
-            Divider(
-              color: Colors.grey,
-              endIndent: 30,
-              indent: 30,
-              thickness: 1.25,
-            ),
-            SizedBox(
-              height: 60,
+              height: 50,
             ),
             SizedBox(
                 width: MediaQuery.of(context).size.width * 0.85,

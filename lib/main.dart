@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:kutpekz/auth_provider.dart';
+import 'package:kutpekz/pages/bottom_nav/profileedit.dart';
 import 'package:kutpekz/pages/loading_page.dart';
 import 'package:kutpekz/pages/onboard_pages/onboard_page_1.dart';
 import 'package:kutpekz/pages/onboard_pages/onboard_page_2.dart';
@@ -52,6 +53,7 @@ class MyApp extends StatelessWidget{
         '/onboard3': (context) => const ThirdOnboardPage(),
         '/signup': (context) => const SignUp(),
         '/reset': (context) => const ResetPassword(),
+        '/profile_edit': (context) => const ProfileEdit(),
       },
     );
 
