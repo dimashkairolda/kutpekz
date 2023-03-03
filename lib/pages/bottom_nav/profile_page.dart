@@ -78,7 +78,9 @@ class _ProfilePageState extends State<ProfilePage> {
                       contentPadding: EdgeInsets.only(left: 30),
                       leading: Icon(Icons.language, color: Colors.black,),
                       title: Text('Язык',style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),),
-                      onTap: (){},
+                      onTap: (){
+                        Navigator.pushNamed(context, '/language_edit');
+                      },
                     ),
 
                   ],

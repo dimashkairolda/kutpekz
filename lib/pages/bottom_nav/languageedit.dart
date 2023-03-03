@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 
-
-class ProfileEdit extends StatelessWidget {
-  const ProfileEdit({Key? key}) : super(key: key);
+class Language_Edit extends StatelessWidget {
+  const Language_Edit({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +42,7 @@ class ProfileEdit extends StatelessWidget {
                   children:[
                     Padding(padding: EdgeInsets.only(right: 30)),
 
-                Text('Имя',)],),
+                    Text('Имя',)],),
                 Padding(padding: EdgeInsets.fromLTRB(30, 10, 30, 0),
                   child: TextFormField(
                     decoration: const InputDecoration(
@@ -69,7 +68,7 @@ class ProfileEdit extends StatelessWidget {
                     ,),
 
                 ),
-                ],
+              ],
             ),
 
             SizedBox(
@@ -112,22 +111,22 @@ class ProfileEdit extends StatelessWidget {
       floatingActionButton: Stack(
         children: [
           Positioned(
-          top: 65,
+            top: 65,
             left: 40,
             child: Container(
               width: 40,
               height: 40,
               child: FloatingActionButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Icon(Icons.chevron_left,size: 30,),
+                backgroundColor: Colors.white,
               ),
-              child: Icon(Icons.chevron_left,size: 30,),
-              backgroundColor: Colors.white,
-            ),
-          ),),
+            ),),
         ],
       ),);
   }
