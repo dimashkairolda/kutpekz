@@ -1,67 +1,160 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:kutpekz/auth_provider.dart';
+import 'package:kutpekz/car_washes_model.dart';
+import 'package:kutpekz/pages/car_wash_detail.dart';
+import 'package:kutpekz/pages/map_page.dart';
 import 'package:material_floating_search_bar/material_floating_search_bar.dart';
+import 'package:provider/provider.dart';
 
-Widget buildFloatingSearchBar(BuildContext context) {
-  final isPortrait = MediaQuery.of(context).orientation == Orientation.portrait;
-  FloatingSearchBarController controller = FloatingSearchBarController();
-  return FloatingSearchBar(
-    elevation: 10,
-    hint: 'Поиск',
-    clearQueryOnClose: false,
-    margins: EdgeInsets.only(top: 50),
-    borderRadius: BorderRadius.circular(32),
-    automaticallyImplyBackButton: true,
-    controller: controller,
-    leadingActions: const [
-      Icon(
-          Icons.search
-      )
-    ],
-    scrollPadding: const EdgeInsets.only(top: 16, bottom: 56),
-    transitionDuration: const Duration(milliseconds: 500),
-    transitionCurve: Curves.easeInOut,
-    physics: const BouncingScrollPhysics(),
-    axisAlignment: isPortrait ? 0.0 : -1.0,
-    openAxisAlignment: 0.0,
-    width: MediaQuery.of(context).size.width * 0.9,
-    height: 50,
-    debounceDelay: const Duration(milliseconds: 500),
-    onQueryChanged: (query) {
-      // Search here!!
+class SearchBar extends StatefulWidget {
+  const SearchBar({Key? key}) : super(key: key);
 
-    },
-    // Specify a custom transition to be used for
-    // animating between opened and closed stated.
-    transition: CircularFloatingSearchBarTransition(),
-    actions: [
-      FloatingSearchBarAction.icon(
-        icon: Icons.clear, onTap: () {
-          if(controller.query.isNotEmpty){
-            controller.clear();
-          }
-          else{
-            controller.close();
-          }
-      },
-        showIfClosed: false,
-        showIfOpened: true,
+
+  @override
+  State<SearchBar> createState() => _SearchBarState();
+}
+
+class _SearchBarState extends State<SearchBar> {
+  bool _isSearching = false;
+  String searchQuery = "";
+  TextEditingController _searchQueryController = TextEditingController();
+  List<CarWashes> carWashes = [];
+  List<CarWashes> output = [];
+  late final ap = Provider.of<AuthProvider>(context, listen: false);
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    getCarWashNames();
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        centerTitle: true,
+        backgroundColor: Colors.white,
+        title: _buildSearchField(),
+        actions: _buildActions(),
       ),
-    ],
-    builder: (context, transition) {
-      return ClipRRect(
-        borderRadius: BorderRadius.circular(8),
-        child: Material(
-          color: Colors.white,
-          elevation: 4.0,
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: Colors.accents.map((color) {
-              return Container(height: 112, color: color);
-            }).toList(),
-          ),
+      body: Stack(
+        children: [
+          const MapPage(),
+          if(_isSearching) _buildList(),
+        ],
+      ),
+    );
+  }
+  Widget _buildSearchField() {
+    return TextField(
+      controller: _searchQueryController,
+      autofocus: false,
+      decoration: InputDecoration(
+        hintText: "Поиск...",
+        border: InputBorder.none,
+        hintStyle: TextStyle(color: Colors.black),
+      ),
+      style: TextStyle(color: Colors.black, fontSize: 16.0),
+      onChanged: (query) => updateSearchQuery(query),
+      onSubmitted: (query){_stopSearching();} ,
+      onTap: (){_startSearch();},
+      // onTapOutside: (query){_stopSearching();},
+    );
+  }
+
+  List<Widget> _buildActions() {
+    if (_isSearching) {
+      return <Widget>[
+        IconButton(
+          icon: const Icon(Icons.clear),
+          onPressed: () {
+            if (_searchQueryController == null ||
+                _searchQueryController.text.isEmpty) {
+              Navigator.pop(context);
+              return;
+            }
+            _clearSearchQuery();
+          },
         ),
-      );
-    },
-  );
+      ];
+    }
+
+    return <Widget>[
+      IconButton(
+        icon: const Icon(Icons.search),
+        onPressed: (){}
+      ),
+    ];
+  }
+
+  Widget _buildList() {
+
+    return ListView.builder(
+      itemCount: output.length,
+      itemBuilder: (BuildContext context, int index) {
+        return Container(
+          color: Colors.white,
+          // padding: EdgeInsets.fromLTRB(25, 16, 0, 0),
+          child: TextButton(
+            style: ButtonStyle(alignment: Alignment.centerLeft),
+            child: Text(output[index].getName, style: TextStyle(fontSize: 16),),
+            onPressed: () {
+              CarWashes c = output[index];
+              Navigator.of(context).push(MaterialPageRoute(builder: (context) =>
+                  CarWashDetail(carWash: c,)));
+              _stopSearching();
+            },
+          )
+        );
+      },
+    );
+  }
+
+  void _startSearch() {
+    ModalRoute.of(context)
+        ?.addLocalHistoryEntry(LocalHistoryEntry(onRemove: _stopSearching));
+
+    setState(() {
+      _isSearching = true;
+    });
+  }
+
+  void updateSearchQuery(String newQuery) {
+    setState(() {
+      searchQuery = newQuery;
+
+      output.clear();
+      for(CarWashes carWash in carWashes){
+        if(searchQuery != '' && carWash.getName.contains(RegExp(searchQuery, caseSensitive: false))){
+          output.add(carWash);
+        }
+      }
+    });
+  }
+
+  void _stopSearching() {
+    _clearSearchQuery();
+
+    setState(() {
+      _isSearching = false;
+    });
+  }
+
+  void _clearSearchQuery() {
+    setState(() {
+      _searchQueryController.clear();
+      updateSearchQuery("");
+    });
+  }
+
+  Future getCarWashNames() async {
+    ap.getCarWashesFromStorage();
+    carWashes = ap.carWashes;
+    for(CarWashes carWash in carWashes){
+      print(carWash.toMap().toString());
+    }
+  }
 }

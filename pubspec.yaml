@@ -45,8 +45,10 @@ dependencies:
   pinput: ^2.2.23
   image_picker: ^0.8.6+1
   dgis_flutter: ^0.0.31
-  geolocator: ^9.0.2
   material_floating_search_bar: ^0.3.7
+  floating_search_bar: ^0.3.0
+  image_to_byte: ^1.0.0
+  flutter_map: ^3.1.0
 
 
 dev_dependencies:
@@ -81,6 +83,7 @@ flutter:
      - assets/Onboard3.png
      - assets/Signup.png
      - assets/pin_drop.png
+     - assets/position.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

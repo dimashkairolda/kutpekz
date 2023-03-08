@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:kutpekz/auth_provider.dart';
 import 'package:kutpekz/pages/bottom_nav/profile_page.dart';
 import 'package:kutpekz/pages/map_page.dart';
+import 'package:kutpekz/pages/search_bar.dart';
 import 'package:material_floating_search_bar/material_floating_search_bar.dart';
 import 'package:provider/provider.dart';
 
@@ -18,16 +19,15 @@ class _HomeScreenState extends State<HomeScreen> {
   _changeIndex(int index) {
     setState(() {
       _selectedTabIndex = index;
-      print("index..." + index.toString());
     });
   }
 
   final List  _pages = [
-    MapPage(),
-    Text("Уведомления"),
-    Text("История"),
-    Text("Избранное"),
-    ProfilePage(),
+    const SearchBar(),
+    const Text("Уведомления"),
+    const Text("История"),
+    const Text("Избранное"),
+    const ProfilePage(),
   ];
 
   @override

@@ -8,7 +8,8 @@ import 'package:provider/provider.dart';
 class OtpPage extends StatefulWidget {
   final String verificationId;
   final String phoneNumber;
-  const OtpPage({super.key, required this.verificationId, required this.phoneNumber});
+  final bool isChange;
+  const OtpPage({super.key, required this.verificationId, required this.phoneNumber, required this.isChange});
 
   @override
   State<OtpPage> createState() => _OtpPageState();
@@ -72,6 +73,14 @@ class _OtpPageState extends State<OtpPage> {
   }
   void verifyOtp(BuildContext context, String userOtp){
     final ap = Provider.of<AuthProvider>(context, listen: false);
+    if(widget.isChange){
+      ap.getCredentials(context, widget.verificationId, userOtp);
+      Navigator.pushAndRemoveUntil(context,
+          MaterialPageRoute(builder: (context) => const HomeScreen()),
+              (route) => false);
+      return;
+    }
+
     ap.verifyOtp(
       context: context,
       verificationId: widget.verificationId,
