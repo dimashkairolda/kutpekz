@@ -20,17 +20,40 @@ class _ProfileEditState extends State<ProfileEdit> {
     final ap = Provider.of<AuthProvider>(context, listen: false);
 
     return Scaffold(
+      appBar: AppBar(title: Text('Редактировать профиль'),
+        toolbarHeight: 100  ,
+        backgroundColor: Colors.transparent, elevation: 0,
+        foregroundColor: Colors.black,
+        automaticallyImplyLeading: false,
+        centerTitle: true,
+        leading:
+        Container(height: 100.0,
+          width: 100.0,
+          margin: EdgeInsets.only(left: 10),
+          child: FittedBox(
+            child: FloatingActionButton( onPressed: () {
+              Navigator.pop(context);
+            },
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20),
+                ),
+              child: Icon(Icons.chevron_left, size: 30, color: Colors.black,),
+              backgroundColor: Colors.white,),
+          ),
+        ),
+
+        ),
       body: SingleChildScrollView(
         child: Center(
           child: Column(
             children: [
-              SizedBox(
-                height: 60,
-              ),
-              Text(
-                'Редактировать профиль',
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
-              ),
+              // SizedBox(
+              //   height: 60,
+              // ),
+              // Text(
+              //   'Редактировать профиль',
+              //   style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
+              // ),
               SizedBox(
                 height: 25,
               ),
@@ -141,28 +164,28 @@ class _ProfileEditState extends State<ProfileEdit> {
         ),
       ),
 
-      floatingActionButton: Stack(
-        children: [
-          Positioned(
-            top: 65,
-            left: 40,
-            child: Container(
-              width: 40,
-              height: 40,
-              child: FloatingActionButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: Icon(Icons.chevron_left, size: 30,),
-                backgroundColor: Colors.white,
-              ),
-            ),),]
-        ,
-      )
-      ,
+      // floatingActionButton: Stack(
+      //   children: [
+      //     Positioned(
+      //       top: 65,
+      //       left: 40,
+      //       child: Container(
+      //         width: 40,
+      //         height: 40,
+      //         child: FloatingActionButton(
+      //           onPressed: () {
+      //             Navigator.pop(context);
+      //           },
+      //           shape: RoundedRectangleBorder(
+      //             borderRadius: BorderRadius.circular(10),
+      //           ),
+      //           child: Icon(Icons.chevron_left, size: 30,),
+      //           backgroundColor: Colors.white,
+      //         ),
+      //       ),),]
+      //   ,
+      // )
+      // ,
     );
   }
 }

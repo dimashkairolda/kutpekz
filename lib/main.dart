@@ -42,7 +42,7 @@ class MyApp extends StatelessWidget{
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primarySwatch: Colors.amber,
+        primarySwatch: Colors.indigo,
         // fontFamily: 'San Francisco',
       ),
       title: 'Kutpe-Kz',
@@ -55,7 +55,7 @@ class MyApp extends StatelessWidget{
         '/signup': (context) => const SignUp(),
         '/reset': (context) => const ResetPassword(),
         '/profile_edit': (context) => const ProfileEdit(),
-        '/language_edit': (context) => const Language_Edit(),
+        '/language_edit': (context) => const Language_edit(),
         '/profile_page':(context)=> const ProfileEdit(),
       },
     );
