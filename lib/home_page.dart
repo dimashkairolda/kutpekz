@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:kutpekz/auth_provider.dart';
+import 'package:kutpekz/pages/bottom_nav/favourites_page.dart';
 import 'package:kutpekz/pages/bottom_nav/profile_page.dart';
 import 'package:kutpekz/pages/map_page.dart';
+import 'package:kutpekz/pages/search_bar.dart';
 import 'package:kutpekz/pages/washservice.dart';
 import 'package:material_floating_search_bar/material_floating_search_bar.dart';
 import 'package:provider/provider.dart';
@@ -25,10 +27,10 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   final List  _pages = [
-    MapPage(),
+    SearchBar(),
     washservice(),
     History(),
-    Text("Избранное"),
+    FavouritesPage(),
     ProfilePage(),
   ];
 

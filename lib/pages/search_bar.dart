@@ -27,6 +27,7 @@ class _SearchBarState extends State<SearchBar> {
   void initState() {
     // TODO: implement initState
     getCarWashNames();
+    ap.getFavourites();
     super.initState();
   }
 
@@ -52,7 +53,7 @@ class _SearchBarState extends State<SearchBar> {
     return TextField(
       controller: _searchQueryController,
       autofocus: false,
-      decoration: InputDecoration(
+      decoration: const InputDecoration(
         hintText: "Поиск...",
         border: InputBorder.none,
         hintStyle: TextStyle(color: Colors.black),
@@ -85,6 +86,7 @@ class _SearchBarState extends State<SearchBar> {
     return <Widget>[
       IconButton(
         icon: const Icon(Icons.search),
+        color: Colors.black,
         onPressed: (){}
       ),
     ];
@@ -154,6 +156,7 @@ class _SearchBarState extends State<SearchBar> {
     ap.getCarWashesFromStorage();
     carWashes = ap.carWashes;
     for(CarWashes carWash in carWashes){
+      print("search bar getCarWashNames()");
       print(carWash.toMap().toString());
     }
   }

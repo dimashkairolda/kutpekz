@@ -3,6 +3,7 @@ import 'dart:ui';
 
 import 'package:dgis_flutter/dgis_flutter.dart';
 import 'package:flutter/material.dart';
+import 'package:image_to_byte/image_to_byte.dart';
 import 'package:kutpekz/auth_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -17,13 +18,69 @@ class MapPage extends StatefulWidget {
 
 class _MapPageState extends State<MapPage> {
   final GisMapController controller = GisMapController();
-  List<GisMapMarker> list = [];
+  late final List<GisMapMarker> list;
+  List<GisMapMarker> tempList = [];
   late AuthProvider ap;
+  Uint8List? icon;
 
+  @override
+  void initState() {
+    ap = Provider.of<AuthProvider>(context, listen: false);
+    getMarkers();
+    super.initState();
+  }
+
+  Future setIcon() async {
+    if(icon != null){
+      print("is not null");
+      return;
+    }
+    else{
+      print("is null");
+      icon = await imageToByte(
+          "https://icon-library.com/images/drop-pin-icon-png/drop-pin-icon-png-11.jpg");
+    }
+  }
+
+  Future<void> getMarkers() async {
+    print("Entered getMarkers");
+    if (ap.carWashMarkers.isNotEmpty) {
+      print("is Not empty");
+      return;
+    }
+    List<GisMapMarker> markers = [];
+    int index = 0;
+    await setIcon();
+
+    while (index < ap.carWashes.length) {
+      markers.add(GisMapMarker(
+          latitude: double.parse(ap.carWashes[index].latitude),
+          longitude: double.parse(ap.carWashes[index].longitude),
+          icon: icon!,
+          id: ap.carWashes[index].uid,
+          zIndex: 1));
+      index += 1;
+    }
+    print("Left getMarkers");
+    list = markers;
+
+    setState(() {
+      print("State");
+      controller.updateMarkers(list);
+    });
+  }
+
+  Future setMarkers() async {
+    setState(() {
+      controller.init();
+      controller.updateMarkers(list);
+      // controller.updateMarkers(tempList);
+    });
+  }
 
   @override
   build(BuildContext context) {
-    ap = Provider.of<AuthProvider>(context, listen: false);
+    // setMarkers();
     return Scaffold(
       body: SizedBox(
         width: MediaQuery.of(context).size.width,
@@ -32,7 +89,7 @@ class _MapPageState extends State<MapPage> {
           directoryKey: 'ruqvec0919',
           mapKey: '5f32900c-934a-4575-8f50-c7d8f1eac2f4',
           useHybridComposition: true,
-          controller: ap.controller,
+          controller: controller,
           onTapMarker: (marker) {
             // ignore: avoid_print
             print("marker pressed");

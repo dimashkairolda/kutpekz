@@ -52,7 +52,10 @@ class AuthProvider extends ChangeNotifier {
 
   GisMapController get controller => _controller;
 
-  late final icon;
+  List<bool> _favourites = [];
+
+  List<bool> get favourtites => _favourites;
+
 
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
   final FirebaseFirestore _firebaseFirestore = FirebaseFirestore.instance;
@@ -68,7 +71,6 @@ class AuthProvider extends ChangeNotifier {
     _isSignedIn = s.getBool("is_signedin") ?? false;
     if (_isSignedIn) {
       getUserDataFromPreferences();
-      getMarkers();
     }
     notifyListeners();
   }
@@ -204,7 +206,12 @@ class AuthProvider extends ChangeNotifier {
         .collection('users')
         .doc(_firebaseAuth.currentUser!.uid)
         .get()
-        .then((DocumentSnapshot snapshot) {
+        .then((DocumentSnapshot snapshot) async {
+          List<bool> b = [];
+          for(int i = 0; i < carWashes.length; i++){
+            b.add(false);
+          }
+
       _userModel = UserModel(
         phoneNumber: snapshot['phoneNumber'],
         email: snapshot['email'],
@@ -212,7 +219,9 @@ class AuthProvider extends ChangeNotifier {
         profilePicture: snapshot['profilePicture'],
         createdAt: snapshot['createdAt'],
         uid: snapshot['uid'],
+        isFavourite: b,
       );
+      b.clear();
       _uid = userModel.uid;
     });
   }
@@ -238,11 +247,8 @@ class AuthProvider extends ChangeNotifier {
   }
 
   Future<void> getCarWashesFromStorage() async {
-    print("Entered getCarWash");
-    if (_carWashNames.isNotEmpty) {
-      print("List is not empty");
-      return;
-    }
+      _carWashes = [];
+      _carWashNames = [];
       var snapshot = await _firebaseFirestore.collection('car-washes').get();
       for (var item in snapshot.docs) {
         CarWashes c = CarWashes(
@@ -282,30 +288,6 @@ class AuthProvider extends ChangeNotifier {
     return phone;
   }
 
-
-
-  Future<void> getMarkers() async {
-    if (_carWashMarkers.isNotEmpty) {
-      return;
-    }
-    icon = await imageToByte(
-        "https://icon-library.com/images/drop-pin-icon-png/drop-pin-icon-png-11.jpg");
-    List<GisMapMarker> markers = [];
-    int index = 0;
-    while (index < carWashes.length) {
-      markers.add(GisMapMarker(
-          latitude: double.parse(carWashes[index].latitude),
-          longitude: double.parse(carWashes[index].longitude),
-          icon: icon,
-          id: carWashes[index].uid,
-          zIndex: 1));
-      index += 1;
-    }
-    print("Left getMarkers");
-    _carWashMarkers = markers;
-    _controller.updateMarkers(markers);
-  }
-
   Future<bool> phoneNumberExists(String phoneNumber) async {
     String user = '';
     var snapshot = await _firebaseFirestore.collection('users').get();
@@ -327,5 +309,36 @@ class AuthProvider extends ChangeNotifier {
 
   String? getCurrentName() {
     return userModel.name;
+  }
+
+  Future getFavourites() async {
+    favourtites.clear();
+    await _firebaseFirestore
+        .collection('users')
+        .doc(_firebaseAuth.currentUser!.uid)
+        .get()
+        .then((DocumentSnapshot snapshot) async {
+      List<bool> b = List<bool>.from(snapshot['isFavourite'], growable: true);
+      userModel.setFavourites(b);
+      favourtites.addAll(userModel.isFavourite);
+    });
+  }
+
+  Future updateFavourites(BuildContext context) async {
+    userModel.isFavourite = favourtites;
+
+    try {
+      await _firebaseFirestore
+          .collection("users")
+          .doc(_uid)
+          .set(userModel.toMap());
+
+      _isLoading = false;
+      notifyListeners();
+    } on FirebaseAuthException catch (e) {
+      showSnackBar(context, e.message.toString());
+      _isLoading = false;
+      notifyListeners();
+    }
   }
 }

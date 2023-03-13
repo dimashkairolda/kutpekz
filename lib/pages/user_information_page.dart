@@ -144,6 +144,7 @@ class _UserInformationPageState extends State<UserInformationPage> {
         profilePicture: "",
         createdAt: "",
         uid: "",
+        isFavourite: [false],
     );
     if(image != null){
       ap.saveUserData(

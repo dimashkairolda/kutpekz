@@ -35,8 +35,8 @@ class History extends StatelessWidget {
         Column(
           children: [
             TabBar(tabs: [
-              Tab(child: Text('Активный', style: TextStyle(color: Colors.black, fontWeight: FontWeight.w500, fontSize: 20),),),
-              Tab(child: Text('Завершен', style: TextStyle(color: Colors.black, fontWeight: FontWeight.w500, fontSize: 20),),),
+              Tab(child: Text('Активно', style: TextStyle(color: Colors.black, fontWeight: FontWeight.w500, fontSize: 20),),),
+              Tab(child: Text('Завершено', style: TextStyle(color: Colors.black, fontWeight: FontWeight.w500, fontSize: 20),),),
             ]),
             Expanded(
               child:

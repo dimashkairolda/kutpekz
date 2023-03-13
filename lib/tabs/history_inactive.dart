@@ -26,27 +26,27 @@ class Inactive extends StatelessWidget {
       child: Column(
         children: [
           Row( children:[
-          Text('Avtomoika', style: TextStyle(fontSize: 15, fontWeight: FontWeight.w400, fontFamily: 'San Fracisco'),),
+          Text('Автомойка', style: TextStyle(fontSize: 15, fontWeight: FontWeight.w400, fontFamily: 'San Fracisco'),),
           Spacer(),
-          Text('Something', style: TextStyle(fontWeight: FontWeight.w700, fontFamily: 'San Francisco', fontSize: 15),),
+          Text('PROAUTO', style: TextStyle(fontWeight: FontWeight.w700, fontFamily: 'San Francisco', fontSize: 15),),
           ],),
           Padding(padding: EdgeInsets.only(top: 10)),
       Row( children:[
-          Text('Address', style: TextStyle(fontSize: 15, fontWeight: FontWeight.w400, fontFamily: 'San Fracisco'),),
+          Text('Аддрес', style: TextStyle(fontSize: 15, fontWeight: FontWeight.w400, fontFamily: 'San Fracisco'),),
         Spacer(),
-        Text('Something', style: TextStyle(fontWeight: FontWeight.w700, fontFamily: 'San Francisco', fontSize: 15),),
+        Text('ул. Розыбакиева, 166Б', style: TextStyle(fontWeight: FontWeight.w700, fontFamily: 'San Francisco', fontSize: 15),),
       ],),
       Padding(padding: EdgeInsets.only(top: 10)),
       Row( children:[
-          Text('Data bron',style: TextStyle(fontSize: 15, fontWeight: FontWeight.w400, fontFamily: 'San Fracisco'),),
+          Text('День брони',style: TextStyle(fontSize: 15, fontWeight: FontWeight.w400, fontFamily: 'San Fracisco'),),
         Spacer(),
-        Text('Something', style: TextStyle(fontWeight: FontWeight.w700, fontFamily: 'San Francisco', fontSize: 15),),
+        Text('11.03.2023', style: TextStyle(fontWeight: FontWeight.w700, fontFamily: 'San Francisco', fontSize: 15),),
       ],),
           Padding(padding: EdgeInsets.only(top: 10)),
       Row( children:[
-          Text('Vremya bron',style: TextStyle(fontSize: 15, fontWeight: FontWeight.w400, fontFamily: 'San Fracisco'),),
+          Text('Время брони',style: TextStyle(fontSize: 15, fontWeight: FontWeight.w400, fontFamily: 'San Fracisco'),),
         Spacer(),
-        Text('Something', style: TextStyle(fontWeight: FontWeight.w700, fontFamily: 'San Francisco', fontSize: 15),),
+        Text('14:22', style: TextStyle(fontWeight: FontWeight.w700, fontFamily: 'San Francisco', fontSize: 15),),
       ],),
           Padding(padding: EdgeInsets.only(top: 10)),
 
