@@ -9,6 +9,7 @@ import 'package:kutpekz/pages/onboard_pages/onboard_page_2.dart';
 import 'package:kutpekz/pages/onboard_pages/onboard_page_3.dart';
 import 'package:kutpekz/pages/signup_page.dart';
 import 'package:kutpekz/pages/password_reset_page.dart';
+import 'package:kutpekz/pages/washservice.dart';
 import 'package:provider/provider.dart';
 
 // TODO if sms expired go to register page -> bug after which otp page doesn't show up
@@ -57,6 +58,7 @@ class MyApp extends StatelessWidget{
         '/profile_edit': (context) => const ProfileEdit(),
         '/language_edit': (context) => const Language_edit(),
         '/profile_page':(context)=> const ProfileEdit(),
+        '/washservice':(context)=> const washservice(),
       },
     );
 

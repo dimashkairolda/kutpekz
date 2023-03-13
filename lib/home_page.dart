@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:kutpekz/auth_provider.dart';
 import 'package:kutpekz/pages/bottom_nav/profile_page.dart';
 import 'package:kutpekz/pages/map_page.dart';
+import 'package:kutpekz/pages/washservice.dart';
 import 'package:material_floating_search_bar/material_floating_search_bar.dart';
 import 'package:provider/provider.dart';
 import 'package:kutpekz/pages/history_page.dart';
@@ -25,7 +26,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   final List  _pages = [
     MapPage(),
-    Text("Уведомления"),
+    washservice(),
     History(),
     Text("Избранное"),
     ProfilePage(),
