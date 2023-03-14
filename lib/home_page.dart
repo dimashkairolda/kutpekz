@@ -14,6 +14,7 @@ import 'package:kutpekz/pages/history_page.dart';
 // DID - PFP PRELOAD
 // FIX - MARKERS NOT LOADING
 // FIX - FIX FAVOURITES PAGE NOT LOADING
+// DID - UPDATED CAR WASH DETAILS PAGE
 
 // TODO - LOAD DATA WHILE APPLICATION LOADS
 // TODO - GEOLOCATION
@@ -32,6 +33,7 @@ class HomeScreen extends StatefulWidget {
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
+
 }
 
 class _HomeScreenState extends State<HomeScreen> {
@@ -45,15 +47,21 @@ class _HomeScreenState extends State<HomeScreen> {
 
   final List<Widget>  _pages = [
     SearchBar(),
-    washservice(),
+    Text("Уведомления"),
     History(),
     FavouritesPage(),
     ProfilePage(),
   ];
 
   @override
+  void initState() {
+    // TODO: implement initState
+  }
+
+  @override
   Widget build(BuildContext context) {
     final ap = Provider.of<AuthProvider>(context, listen: false);
+    ap.getFavourites();
     return Scaffold(
         body: Stack(
           children: [

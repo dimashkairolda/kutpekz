@@ -55,7 +55,6 @@ class MyApp extends StatelessWidget{
         '/profile_edit': (context) => const ProfileEdit(),
         '/language_edit': (context) => const LanguageEdit(),
         '/profile_page':(context)=> const ProfileEdit(),
-        '/washservice':(context)=> const washservice(),
       },
     );
 

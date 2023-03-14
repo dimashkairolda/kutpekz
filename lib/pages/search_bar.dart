@@ -2,8 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:kutpekz/auth_provider.dart';
 import 'package:kutpekz/car_washes_model.dart';
-import 'package:kutpekz/pages/car_wash_detail.dart';
 import 'package:kutpekz/pages/map_page.dart';
+import 'package:kutpekz/pages/washservice.dart';
 import 'package:provider/provider.dart';
 
 class SearchBar extends StatefulWidget {

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:kutpekz/auth_provider.dart';
-import 'package:kutpekz/pages/car_wash_detail.dart';
 import 'package:provider/provider.dart';
+
+import '../washservice.dart';
 
 class FavouritesPage extends StatefulWidget {
   const FavouritesPage({Key? key}) : super(key: key);

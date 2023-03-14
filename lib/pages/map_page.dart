@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_to_byte/image_to_byte.dart';
 import 'package:kutpekz/auth_provider.dart';
-import 'package:kutpekz/pages/car_wash_detail.dart';
+import 'package:kutpekz/pages/washservice.dart';
 import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
 
