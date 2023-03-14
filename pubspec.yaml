@@ -49,6 +49,7 @@ dependencies:
   floating_search_bar: ^0.3.0
   image_to_byte: ^1.0.0
   flutter_map: ^3.1.0
+  carousel_slider: ^4.2.1
 
 
 dev_dependencies:
