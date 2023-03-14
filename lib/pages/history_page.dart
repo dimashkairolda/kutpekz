@@ -9,7 +9,7 @@ class History extends StatelessWidget {
   Widget build(BuildContext context) {
     return DefaultTabController(length: 2,
       child: Scaffold(
-        appBar: AppBar(title: Text('История'),
+        appBar: AppBar(title: const Text('История'),
           toolbarHeight: 100  ,
           backgroundColor: Colors.transparent, elevation: 0,
           foregroundColor: Colors.black,
@@ -18,22 +18,25 @@ class History extends StatelessWidget {
           leading:
           Container(height: 100.0,
             width: 100.0,
-            margin: EdgeInsets.only(left: 10),
+            margin: const EdgeInsets.only(left: 10),
             child: FittedBox(
-              child: FloatingActionButton( onPressed: () {
+              child: FloatingActionButton(
+                onPressed: () {
+
               },
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(20),
                 ),
-                child: Icon(Icons.chevron_left, size: 30, color: Colors.black,),
-                backgroundColor: Colors.white,),
+                backgroundColor: Colors.white,
+                heroTag: UniqueKey(),
+                child: const Icon(Icons.chevron_left, size: 30, color: Colors.black,),),
             ),
           ),
 
         ),
         body:
         Column(
-          children: [
+          children: const [
             TabBar(tabs: [
               Tab(child: Text('Активно', style: TextStyle(color: Colors.black, fontWeight: FontWeight.w500, fontSize: 20),),),
               Tab(child: Text('Завершено', style: TextStyle(color: Colors.black, fontWeight: FontWeight.w500, fontSize: 20),),),

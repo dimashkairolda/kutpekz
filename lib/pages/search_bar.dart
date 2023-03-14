@@ -4,7 +4,6 @@ import 'package:kutpekz/auth_provider.dart';
 import 'package:kutpekz/car_washes_model.dart';
 import 'package:kutpekz/pages/car_wash_detail.dart';
 import 'package:kutpekz/pages/map_page.dart';
-import 'package:material_floating_search_bar/material_floating_search_bar.dart';
 import 'package:provider/provider.dart';
 
 class SearchBar extends StatefulWidget {
@@ -25,10 +24,8 @@ class _SearchBarState extends State<SearchBar> {
 
   @override
   void initState() {
-    // TODO: implement initState
-    getCarWashNames();
-    ap.getFavourites();
     super.initState();
+    ap.getCarWashesFromStorage();
   }
 
   @override
@@ -38,126 +35,110 @@ class _SearchBarState extends State<SearchBar> {
         automaticallyImplyLeading: false,
         centerTitle: true,
         backgroundColor: Colors.white,
-        title: _buildSearchField(),
-        actions: _buildActions(),
-      ),
-      body: Stack(
-        children: [
-          const MapPage(),
-          if(_isSearching) _buildList(),
+        title: Text('Kutpe-Kz', style: TextStyle(color: Colors.black),),
+        actions: [
+          IconButton(
+              onPressed: (){
+                showSearch(
+                    context: context,
+                    delegate: CustomSearchDelegate());
+              },
+              icon: const Icon(Icons.search, color: Colors.black,)),
         ],
       ),
+      body: MapPage(),
     );
   }
-  Widget _buildSearchField() {
-    return TextField(
-      controller: _searchQueryController,
-      autofocus: false,
-      decoration: const InputDecoration(
-        hintText: "Поиск...",
-        border: InputBorder.none,
-        hintStyle: TextStyle(color: Colors.black),
-      ),
-      style: TextStyle(color: Colors.black, fontSize: 16.0),
-      onChanged: (query) => updateSearchQuery(query),
-      onSubmitted: (query){_stopSearching();} ,
-      onTap: (){_startSearch();},
-      // onTapOutside: (query){_stopSearching();},
-    );
-  }
+}
 
-  List<Widget> _buildActions() {
-    if (_isSearching) {
-      return <Widget>[
-        IconButton(
-          icon: const Icon(Icons.clear),
-          onPressed: () {
-            if (_searchQueryController == null ||
-                _searchQueryController.text.isEmpty) {
-              Navigator.pop(context);
-              return;
-            }
-            _clearSearchQuery();
-          },
-        ),
-      ];
-    }
+class CustomSearchDelegate extends SearchDelegate {
 
-    return <Widget>[
+  List<String> search = [];
+  List<CarWashes> carWashes = [];
+
+  @override
+  List<Widget>? buildActions(BuildContext context) {
+    return [
       IconButton(
-        icon: const Icon(Icons.search),
-        color: Colors.black,
-        onPressed: (){}
+        icon: const Icon(Icons.clear, color: Colors.black,),
+        onPressed: () {
+          query = '';
+        },
       ),
+
     ];
   }
 
-  Widget _buildList() {
+  @override
+  Widget? buildLeading(BuildContext context) {
+    return IconButton(onPressed: (){
+      close(context, null);
+    },
+        icon: const Icon(Icons.arrow_back, color: Colors.black,));
+  }
+
+  @override
+  Widget buildResults(BuildContext context) {
+    final ap = Provider.of<AuthProvider>(context, listen: false);
+    search = ap.carWashNames;
+    carWashes = ap.carWashes;
+
+    List<String> matchQuery = [];
+    for(var item in search){
+      if(item.toLowerCase().contains(query.toLowerCase())){
+        matchQuery.add(item);
+      }
+    }
 
     return ListView.builder(
-      itemCount: output.length,
-      itemBuilder: (BuildContext context, int index) {
-        return Container(
-          color: Colors.white,
-          // padding: EdgeInsets.fromLTRB(25, 16, 0, 0),
-          child: TextButton(
-            style: ButtonStyle(alignment: Alignment.centerLeft),
-            child: Text(output[index].getName, style: TextStyle(fontSize: 16),),
-            onPressed: () {
-              CarWashes c = output[index];
-              Navigator.of(context).push(MaterialPageRoute(builder: (context) =>
-                  CarWashDetail(carWash: c,)));
-              _stopSearching();
-            },
-          )
-        );
-      },
+        itemCount: matchQuery.length,
+        itemBuilder: (context, index){
+          var result = carWashes[index];
+          return Container(
+              color: Colors.white,
+              // padding: EdgeInsets.fromLTRB(25, 16, 0, 0),
+              child: TextButton(
+                style: ButtonStyle(alignment: Alignment.centerLeft),
+                child: Text(result.name, style: TextStyle(fontSize: 16),),
+                onPressed: () {
+                  Navigator.of(context).push(MaterialPageRoute(builder: (context) =>
+                      CarWashDetail(carWash: result,)));
+                },
+              )
+          );
+        }
     );
   }
 
-  void _startSearch() {
-    ModalRoute.of(context)
-        ?.addLocalHistoryEntry(LocalHistoryEntry(onRemove: _stopSearching));
-
-    setState(() {
-      _isSearching = true;
-    });
-  }
-
-  void updateSearchQuery(String newQuery) {
-    setState(() {
-      searchQuery = newQuery;
-
-      output.clear();
-      for(CarWashes carWash in carWashes){
-        if(searchQuery != '' && carWash.getName.contains(RegExp(searchQuery, caseSensitive: false))){
-          output.add(carWash);
-        }
-      }
-    });
-  }
-
-  void _stopSearching() {
-    _clearSearchQuery();
-
-    setState(() {
-      _isSearching = false;
-    });
-  }
-
-  void _clearSearchQuery() {
-    setState(() {
-      _searchQueryController.clear();
-      updateSearchQuery("");
-    });
-  }
-
-  Future getCarWashNames() async {
-    ap.getCarWashesFromStorage();
+  @override
+  Widget buildSuggestions(BuildContext context) {
+    final ap = Provider.of<AuthProvider>(context, listen: false);
+    search = ap.carWashNames;
     carWashes = ap.carWashes;
-    for(CarWashes carWash in carWashes){
-      print("search bar getCarWashNames()");
-      print(carWash.toMap().toString());
+    List<String> matchQuery = [];
+    for(var item in search){
+      if(item.toLowerCase().contains(query.toLowerCase())){
+        matchQuery.add(item);
+      }
     }
+    return ListView.builder(
+        itemCount: matchQuery.length,
+        itemBuilder: (context, index){
+          var result = carWashes[index];
+          return Container(
+              color: Colors.white,
+              // padding: EdgeInsets.fromLTRB(25, 16, 0, 0),
+              child: TextButton(
+                style: ButtonStyle(alignment: Alignment.centerLeft),
+                child: Text(result.name, style: TextStyle(fontSize: 16),),
+                onPressed: () {
+                  Navigator.of(context).push(MaterialPageRoute(builder: (context) =>
+                      CarWashDetail(carWash: result,)));
+                },
+              )
+          );
+        }
+    );
   }
+
 }

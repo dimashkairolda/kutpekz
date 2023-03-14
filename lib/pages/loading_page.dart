@@ -21,6 +21,7 @@ class _LoadingPageState extends State<LoadingPage> {
 
   @override
   Widget build(BuildContext context) {
+
     if(ap.isSignedIn){
       loadData();
       return const HomeScreen();

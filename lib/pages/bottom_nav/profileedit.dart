@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:image_picker/image_picker.dart';
+import 'dart:io';
 import 'package:kutpekz/auth_provider.dart';
 import 'package:provider/provider.dart';
+
+import '../../utils/utils.dart';
 
 //TODO make notifications
 
 class ProfileEdit extends StatefulWidget {
   const ProfileEdit({Key? key}) : super(key: key);
+
   @override
   State<ProfileEdit> createState() => _ProfileEditState();
 }
@@ -14,120 +19,104 @@ class ProfileEdit extends StatefulWidget {
 class _ProfileEditState extends State<ProfileEdit> {
   TextEditingController nameController = TextEditingController();
   TextEditingController phoneController = TextEditingController();
+  File? image;
 
+  @override
   Widget build(BuildContext context) {
-
     final ap = Provider.of<AuthProvider>(context, listen: false);
 
     return Scaffold(
-      appBar: AppBar(title: Text('Редактировать профиль'),
-        toolbarHeight: 100  ,
-        backgroundColor: Colors.transparent, elevation: 0,
+      appBar: AppBar(
+        title: Text('Редактировать профиль'),
+        toolbarHeight: 100,
+        backgroundColor: Colors.transparent,
+        elevation: 0,
         foregroundColor: Colors.black,
         automaticallyImplyLeading: false,
         centerTitle: true,
         leading:
         Container(height: 100.0,
           width: 100.0,
-          margin: EdgeInsets.only(left: 10),
+          margin: const EdgeInsets.only(left: 10),
           child: FittedBox(
-            child: FloatingActionButton( onPressed: () {
-              Navigator.pop(context);
-            },
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20),
-                ),
-              child: Icon(Icons.chevron_left, size: 30, color: Colors.black,),
+            child: FloatingActionButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20),
+              ),
+              heroTag: UniqueKey(),
+              child: const Icon(Icons.chevron_left, size: 30, color: Colors.black,),
               backgroundColor: Colors.white,),
           ),
         ),
 
-        ),
+      ),
       body: SingleChildScrollView(
         child: Center(
           child: Column(
             children: [
-              // SizedBox(
-              //   height: 60,
-              // ),
-              // Text(
-              //   'Редактировать профиль',
-              //   style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
-              // ),
-              SizedBox(
+              const SizedBox(
                 height: 25,
               ),
 
-              SizedBox(
-                height: 20,
+              InkWell(
+                child: CircleAvatar(
+                  radius: 52,
+                  backgroundImage: ap.pfp,
+                ),
+                // onTap: () async {
+                //   try{
+                //     final pickedImage = await ImagePicker().pickImage(source: ImageSource.gallery);
+                //     if(pickedImage != null){
+                //       image = File(pickedImage.path);
+                //     }
+                //   } catch(e){
+                //     showSnackBar(context, e.toString());
+                //   }
+                // },
               ),
 
-              SizedBox(
-                height: 50,
+              const SizedBox(
+                height: 25,
               ),
-
-
-              SizedBox(
-                height: 10,
-              ),
-
 
               Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Row(
                     mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
+                    children: const [
                       Padding(padding: EdgeInsets.only(right: 30)),
-
-                      Text('Имя',)],),
-                  Padding(padding: EdgeInsets.fromLTRB(30, 10, 30, 0),
+                      Text(
+                        'Имя',
+                      )
+                    ],
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(30, 10, 30, 0),
                     child: TextFormField(
                       controller: nameController,
                       // onChanged: (value){},
-                      decoration:  InputDecoration(
-                        hintText: ap.userModel.name,
-                        border: OutlineInputBorder(),
-                      )
-                      ,),
-
-                  ),
-                  Padding(padding: EdgeInsets.only(bottom: 50)),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Padding(padding: EdgeInsets.only(right: 30)),
-
-                      Text('Номер телефона',)],),
-                  Padding(padding: EdgeInsets.fromLTRB(30, 10, 30, 0),
-                    child: TextFormField(
-                      keyboardType: TextInputType.phone,
-                      controller: phoneController,
-                      inputFormatters: [
-                        LengthLimitingTextInputFormatter(12),
-                      ],
                       decoration: InputDecoration(
-                        hintText: ap.userModel.phoneNumber,
-                        border: OutlineInputBorder(),
-                      )
-                      ,),
-
+                        hintText: ap.userModel.name,
+                        border: const OutlineInputBorder(),
+                      ),
+                    ),
                   ),
                 ],
               ),
 
-              SizedBox(
+              const SizedBox(
                 height: 60,
               ),
               SizedBox(
-                  width: MediaQuery
-                      .of(context)
-                      .size
-                      .width * 0.85,
+                  width: MediaQuery.of(context).size.width * 0.85,
                   child: Container(
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10.0),
-                      gradient: LinearGradient(
+                      gradient: const LinearGradient(
                           begin: Alignment.topLeft,
                           end: Alignment.bottomRight,
                           colors: <Color>[
@@ -139,7 +128,7 @@ class _ProfileEditState extends State<ProfileEdit> {
                       elevation: 5,
                       color: Colors.transparent,
                       child: MaterialButton(
-                        child: Text(
+                        child: const Text(
                           "Сохранить",
                           style: TextStyle(
                               fontWeight: FontWeight.w700,
@@ -148,13 +137,14 @@ class _ProfileEditState extends State<ProfileEdit> {
                         ),
                         onPressed: () async {
                           String? nameUpdate = nameController.text;
-
-                          if(nameUpdate.isEmpty){
+                          if(image != null){
+                            ap.saveUserData(context: context, userModel: ap.userModel, profilePicture: image!, onSuccess: (){});
+                          }
+                          if (nameUpdate.isEmpty) {
                             nameUpdate = ap.getCurrentName();
                           }
 
                           ap.updateName(context, nameUpdate!);
-
                         },
                       ),
                     ),
@@ -163,30 +153,6 @@ class _ProfileEditState extends State<ProfileEdit> {
           ),
         ),
       ),
-
-      // floatingActionButton: Stack(
-      //   children: [
-      //     Positioned(
-      //       top: 65,
-      //       left: 40,
-      //       child: Container(
-      //         width: 40,
-      //         height: 40,
-      //         child: FloatingActionButton(
-      //           onPressed: () {
-      //             Navigator.pop(context);
-      //           },
-      //           shape: RoundedRectangleBorder(
-      //             borderRadius: BorderRadius.circular(10),
-      //           ),
-      //           child: Icon(Icons.chevron_left, size: 30,),
-      //           backgroundColor: Colors.white,
-      //         ),
-      //       ),),]
-      //   ,
-      // )
-      // ,
     );
   }
 }
-

@@ -23,6 +23,7 @@ class washservice extends StatelessWidget {
                 borderRadius: BorderRadius.circular(20),
               ),
               child: Icon(Icons.chevron_left, size: 30, color: Colors.black,),
+              heroTag: UniqueKey(),
               backgroundColor: Colors.white,),
           ),
         ),
@@ -38,6 +39,7 @@ class washservice extends StatelessWidget {
                   borderRadius: BorderRadius.circular(20),
                 ),
                 child: Icon(Icons.favorite_border, size: 30, color: Colors.black,),
+                heroTag: UniqueKey(),
                 backgroundColor: Colors.white,),
             ),
           ),
@@ -45,10 +47,6 @@ class washservice extends StatelessWidget {
 
       ),
       body:Image.asset('assets/Frame_208.png',width: 500,),
-
-
-
-
     );
   }
 }

@@ -4,6 +4,7 @@ import 'dart:io';
 import 'dart:typed_data';
 
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dgis_flutter/dgis_flutter.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -54,7 +55,9 @@ class AuthProvider extends ChangeNotifier {
 
   List<bool> _favourites = [];
 
-  List<bool> get favourtites => _favourites;
+  List<bool> get favourites => _favourites;
+
+  late CachedNetworkImageProvider pfp;
 
 
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
@@ -243,6 +246,7 @@ class AuthProvider extends ChangeNotifier {
     String data = sp.getString("user_model") ?? '';
     _userModel = UserModel.fromMap(jsonDecode(data));
     _uid = _userModel!.uid;
+    pfp = CachedNetworkImageProvider(userModel.profilePicture);
     notifyListeners();
   }
 
@@ -312,7 +316,7 @@ class AuthProvider extends ChangeNotifier {
   }
 
   Future getFavourites() async {
-    favourtites.clear();
+    favourites.clear();
     await _firebaseFirestore
         .collection('users')
         .doc(_firebaseAuth.currentUser!.uid)
@@ -320,12 +324,14 @@ class AuthProvider extends ChangeNotifier {
         .then((DocumentSnapshot snapshot) async {
       List<bool> b = List<bool>.from(snapshot['isFavourite'], growable: true);
       userModel.setFavourites(b);
-      favourtites.addAll(userModel.isFavourite);
+      print("User model ${userModel.isFavourite}");
+      _favourites = (userModel.isFavourite);
+      print("Favourites ${_favourites}");
     });
   }
 
   Future updateFavourites(BuildContext context) async {
-    userModel.isFavourite = favourtites;
+    userModel.isFavourite = favourites;
 
     try {
       await _firebaseFirestore
