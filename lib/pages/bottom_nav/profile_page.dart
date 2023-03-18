@@ -1,8 +1,10 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:kutpekz/auth_provider.dart';
+import 'package:kutpekz/pages/bottom_nav/languageedit.dart';
+import 'package:kutpekz/pages/bottom_nav/profileedit.dart';
 import 'package:kutpekz/pages/loading_page.dart';
 import 'package:provider/provider.dart';
-import 'package:kutpekz/main.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({Key? key}) : super(key: key);
@@ -19,31 +21,30 @@ class _ProfilePageState extends State<ProfilePage> {
       body: Center(
         child: Column(
           children: [
-            SizedBox(
+            const SizedBox(
               height: 60,
             ),
-            Text(
+            const Text(
               'Профиль',
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
             ),
-            SizedBox(
+            const SizedBox(
               height: 25,
             ),
             InkWell(
-              onTap: () {},
               child: CircleAvatar(
                 radius: 47.5,
-                backgroundImage: NetworkImage(ap.userModel.profilePicture),
+                backgroundImage: ap.pfp,
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 20,
             ),
             Text(
               "Здравстуйте, ${ap.userModel.name}",
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
+              style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
             ),
-            SizedBox(
+            const SizedBox(
               height: 50,
             ),
             Divider(
@@ -52,83 +53,112 @@ class _ProfilePageState extends State<ProfilePage> {
               indent: 30,
               thickness: 1.25,
             ),
-
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
-
-
-                Column(
-                  children: [
-                  ListTile(
-                    contentPadding:EdgeInsets.only(left: 30),
-                    leading: Icon(Icons.person, color: Colors.black,),
-                    title: Text('Редактировать Профиль', style: TextStyle(fontWeight: FontWeight.w500, fontSize: 20),),
-                    onTap: (){
-                      Navigator.pushNamed(context, '/profile_edit');
-                    },
+            Column(
+              children: [
+                ListTile(
+                  contentPadding: const EdgeInsets.only(left: 30),
+                  leading: const Icon(
+                    Icons.person,
+                    color: Colors.black,
                   ),
-                    ListTile(
-                      contentPadding: EdgeInsets.only(left: 30),
-                      leading: Icon(Icons.credit_card_rounded, color: Colors.black,),
-                      title: Text('Оплата', style: TextStyle(fontWeight: FontWeight.w500,fontSize: 20),),
-                      onTap: (){},
-                    ),
-                    ListTile(
-                      contentPadding: EdgeInsets.only(left: 30),
-                      leading: Icon(Icons.language, color: Colors.black,),
-                      title: Text('Язык',style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),),
-                      onTap: (){
-                        Navigator.pushNamed(context, '/language_edit');
-                      },
-                    ),
-
-                  ],
+                  title: const Text(
+                    'Редактировать Профиль',
+                    style: TextStyle(fontWeight: FontWeight.w500, fontSize: 20),
+                  ),
+                  onTap: () {
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => ProfileEdit()));
+                  },
                 ),
+                ListTile(
+                  contentPadding: const EdgeInsets.only(left: 30),
+                  leading: const Icon(
+                    Icons.credit_card_rounded,
+                    color: Colors.black,
+                  ),
+                  title: const Text(
+                    'Оплата',
+                    style: TextStyle(fontWeight: FontWeight.w500, fontSize: 20),
+                  ),
+                  onTap: () {},
+                ),
+                ListTile(
+                  contentPadding: const EdgeInsets.only(left: 30),
+                  leading: const Icon(
+                    Icons.language,
+                    color: Colors.black,
+                  ),
+                  title: const Text(
+                    'Язык',
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
+                  ),
+                  onTap: () {
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => LanguageEdit()));
+                  },
+                ),
+              ],
+            ),
             Divider(
               color: Colors.grey.shade300,
               endIndent: 30,
               indent: 30,
               thickness: 1.25,
             ),
-            SizedBox(
+            const SizedBox(
               height: 50,
             ),
             SizedBox(
-                width: MediaQuery.of(context).size.width * 0.85,
-                child: Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10.0),
-                    gradient: LinearGradient(
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
-                        colors: <Color>[
-                          Color.fromRGBO(145, 122, 253, 1),
-                          Color.fromRGBO(98, 78, 234, 1)
-                        ]),
-                  ),
-                  child: Material(
-                    elevation: 5,
-                    color: Colors.transparent,
-                    child: MaterialButton(
-                      child: Text(
-                        "Выйти",
-                        style: TextStyle(
-                            fontWeight: FontWeight.w700,
-                            fontSize: 20.0,
-                            color: Colors.white),
-                      ),
-                      onPressed: () async {
-                        // Exit form profile and app
-                        ap.userSignOut().then((value) => Navigator.of(context)
-                            .pushAndRemoveUntil(
-                                MaterialPageRoute(
-                                    builder: (context) => const LoadingPage()),
-                                ((route) => false)));
-                      },
+              width: MediaQuery.of(context).size.width * 0.85,
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10.0),
+                  gradient: const LinearGradient(
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                      colors: <Color>[
+                        Color.fromRGBO(145, 122, 253, 1),
+                        Color.fromRGBO(98, 78, 234, 1)
+                      ]),
+                ),
+                child: Material(
+                  elevation: 5,
+                  color: Colors.transparent,
+                  child: MaterialButton(
+                    child: const Text(
+                      "Выйти",
+                      style: TextStyle(
+                          fontWeight: FontWeight.w700,
+                          fontSize: 20.0,
+                          color: Colors.white),
                     ),
+                    onPressed: () async {
+                      // Exit form profile and app
+                      showDialog(context: context, builder: (ctx) => CupertinoAlertDialog(
+                        title: const Text("Вы действительно хотите выйти?"),
+                        actions: [
+                          CupertinoDialogAction(child: TextButton(
+                            child: const Text("Да"),
+                            onPressed: () { ap.userSignOut().then((value) => Navigator.of(context)
+                              .pushAndRemoveUntil( MaterialPageRoute(
+                                  builder: (context) => const LoadingPage()), ((route) => false))); },
+                            ),
+                          ),
+                          CupertinoDialogAction(child: TextButton(
+                            child: const Text("Нет"),
+                            onPressed: (){Navigator.of(ctx).pop();},
+                            ),
+                          ),
+                        ],
+                      ));
+
+                    },
                   ),
-                ))
+                ),
+              ),
+            ),
+
           ],
         ),
       ),

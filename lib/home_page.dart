@@ -9,11 +9,31 @@ import 'package:material_floating_search_bar/material_floating_search_bar.dart';
 import 'package:provider/provider.dart';
 import 'package:kutpekz/pages/history_page.dart';
 
+// DID - FIX SEARCH BAR
+// DID - SPLASH SCREEN
+// DID - PFP PRELOAD
+// FIX - MARKERS NOT LOADING
+// FIX - FIX FAVOURITES PAGE NOT LOADING
+// DID - UPDATED CAR WASH DETAILS PAGE
+
+// TODO - LOAD DATA WHILE APPLICATION LOADS
+// TODO - GEOLOCATION
+// TODO - CARDS
+// TODO - LANGUAGE CHANGE
+// TODO - ? TAB BAR VIEW
+// TODO - ADMIN VIEW
+// TODO - BOOKING
+// TODO - BUG FIXING
+
+// TODO if sms expired go to register page -> bug after which otp page doesn't show up
+
+
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
+
 }
 
 class _HomeScreenState extends State<HomeScreen> {
@@ -22,25 +42,30 @@ class _HomeScreenState extends State<HomeScreen> {
   _changeIndex(int index) {
     setState(() {
       _selectedTabIndex = index;
-      print("index..." + index.toString());
     });
   }
 
-  final List  _pages = [
+  final List<Widget>  _pages = [
     SearchBar(),
-    washservice(),
+    Text("Уведомления"),
     History(),
     FavouritesPage(),
     ProfilePage(),
   ];
 
   @override
+  void initState() {
+    // TODO: implement initState
+  }
+
+  @override
   Widget build(BuildContext context) {
     final ap = Provider.of<AuthProvider>(context, listen: false);
+    ap.getFavourites();
     return Scaffold(
         body: Stack(
           children: [
-            Center(child:_pages[_selectedTabIndex]),
+            _pages[_selectedTabIndex],
           ],
         ),
         bottomNavigationBar: bottomNavigationBar,
@@ -51,7 +76,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Widget get bottomNavigationBar {
     return Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           borderRadius: BorderRadius.only(
               topRight: Radius.circular(30), topLeft: Radius.circular(30)),
           boxShadow: [
@@ -59,7 +84,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ],
         ),
         child: ClipRRect(
-          borderRadius: BorderRadius.only(
+          borderRadius: const BorderRadius.only(
             topLeft: Radius.circular(30.0),
             topRight: Radius.circular(30.0),
           ),
@@ -67,9 +92,9 @@ class _HomeScreenState extends State<HomeScreen> {
             currentIndex: _selectedTabIndex,
             onTap: _changeIndex,
             type: BottomNavigationBarType.fixed,
-            selectedFontSize: 12,
-            unselectedFontSize: 12,
-            selectedItemColor: Color(0xff6246EA),
+            selectedFontSize: 10,
+            unselectedFontSize: 10,
+            selectedItemColor: const Color(0xff6246EA),
             unselectedItemColor: Colors.grey[500],
             showUnselectedLabels: true,
             items: const <BottomNavigationBarItem>[
@@ -105,7 +130,7 @@ class _HomeScreenState extends State<HomeScreen> {
       elevation: 10,
       hint: 'Поиск',
       clearQueryOnClose: false,
-      margins: EdgeInsets.only(top: 50),
+      margins: const EdgeInsets.only(top: 50),
       borderRadius: BorderRadius.circular(32),
       automaticallyImplyBackButton: true,
       controller: controller,

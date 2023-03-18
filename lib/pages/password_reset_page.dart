@@ -23,15 +23,14 @@ class ResetPassword extends StatelessWidget {
       floatingActionButton: Stack(
         fit: StackFit.expand,
         children: [
-
           Positioned(
               top: 20,
-
               child: FloatingActionButton(
               onPressed: (){
                 Navigator.pop(context);
               },
               child: Icon(Icons.arrow_back_ios_new),
+                heroTag: UniqueKey(),
                 backgroundColor: Color.fromRGBO(112,166,255, 1.0),
 
           )
