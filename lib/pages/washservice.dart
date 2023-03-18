@@ -219,13 +219,14 @@ class _washserviceState extends State<washservice> {
                     color: Colors.transparent,
                     child: MaterialButton(
                       child: Text(
-                        "Выйти",
+                        "Забронировать",
                         style: TextStyle(
                             fontWeight: FontWeight.w600,
                             fontSize: 16.0,
                             color: Colors.white),
                       ),
                       onPressed: ()  {
+                        Navigator.pushNamed(context, '/booking');
 
                       },
                     ),
