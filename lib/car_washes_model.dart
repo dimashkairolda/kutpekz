@@ -5,6 +5,9 @@ class CarWashes{
   String uid;
   String latitude;
   String longitude;
+  String phoneNumber;
+  String weekEndHours;
+  String weekDayHours;
 
   String get getName => name;
   String get getAddress => address;
@@ -17,6 +20,9 @@ class CarWashes{
     required this.uid,
     required this.latitude,
     required this.longitude,
+    required this.phoneNumber,
+    required this.weekDayHours,
+    required this.weekEndHours,
     });
 
   factory CarWashes.fromMap(Map<String, dynamic> map){
@@ -27,6 +33,9 @@ class CarWashes{
       uid: map['uid'] ?? '',
       latitude: map['latitude'] ?? '',
       longitude: map['longitude'] ?? '',
+      phoneNumber: map['phoneNumber'] ?? '',
+      weekDayHours: map['weekDayHours'] ?? '',
+      weekEndHours: map['weekEndHours'] ?? '',
     );
   }
 
@@ -39,6 +48,9 @@ class CarWashes{
       "uid": uid,
       "latitude": latitude,
       "longitude": longitude,
+      "phoneNumber": phoneNumber,
+      "weekEndHours": weekEndHours,
+      "weekDayHours": weekDayHours,
     };
   }
 

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:kutpekz/auth_provider.dart';
 import 'package:provider/provider.dart';
 
-import '../washservice.dart';
+import '../car_wash_detail.dart';
 
 class FavouritesPage extends StatefulWidget {
   const FavouritesPage({Key? key}) : super(key: key);
@@ -10,6 +10,8 @@ class FavouritesPage extends StatefulWidget {
   @override
   State<FavouritesPage> createState() => _FavouritesPageState();
 }
+
+// TODO STYLIZE PAGE
 
 class _FavouritesPageState extends State<FavouritesPage> {
   late final ap = Provider.of<AuthProvider>(context, listen: false);
@@ -31,6 +33,12 @@ class _FavouritesPageState extends State<FavouritesPage> {
   }
 
   @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -48,7 +56,7 @@ class _FavouritesPageState extends State<FavouritesPage> {
                           context,
                           MaterialPageRoute(
                               builder: (context) =>
-                                  CarWashDetail(carWash: ap.carWashes[index])))
+                                  CarWashDetail(carWash: ap.carWashes[index],)))
                       .then((_) {
                     setState(() {});
                   });

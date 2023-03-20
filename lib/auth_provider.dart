@@ -262,6 +262,9 @@ class AuthProvider extends ChangeNotifier {
           uid: item['uid'],
           latitude: item['latitude'],
           longitude: item['longitude'],
+          phoneNumber: item['phoneNumber'],
+          weekEndHours: item['weekEndHours'],
+          weekDayHours: item['weekDayHours'],
         );
         _carWashNames.add(c.name);
         _carWashes.add(c);
@@ -324,9 +327,7 @@ class AuthProvider extends ChangeNotifier {
         .then((DocumentSnapshot snapshot) async {
       List<bool> b = List<bool>.from(snapshot['isFavourite'], growable: true);
       userModel.setFavourites(b);
-      print("User model ${userModel.isFavourite}");
       _favourites = (userModel.isFavourite);
-      print("Favourites ${_favourites}");
     });
   }
 

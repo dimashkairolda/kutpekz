@@ -4,7 +4,7 @@ import 'package:kutpekz/pages/bottom_nav/favourites_page.dart';
 import 'package:kutpekz/pages/bottom_nav/profile_page.dart';
 import 'package:kutpekz/pages/map_page.dart';
 import 'package:kutpekz/pages/search_bar.dart';
-import 'package:kutpekz/pages/washservice.dart';
+import 'package:kutpekz/pages/car_wash_detail.dart';
 import 'package:material_floating_search_bar/material_floating_search_bar.dart';
 import 'package:provider/provider.dart';
 import 'package:kutpekz/pages/history_page.dart';
@@ -17,10 +17,10 @@ import 'package:kutpekz/pages/history_page.dart';
 // DID - UPDATED CAR WASH DETAILS PAGE
 
 // TODO - LOAD DATA WHILE APPLICATION LOADS
+// TODO - DISPOSE
 // TODO - GEOLOCATION
 // TODO - CARDS
 // TODO - LANGUAGE CHANGE
-// TODO - ? TAB BAR VIEW
 // TODO - ADMIN VIEW
 // TODO - BOOKING
 // TODO - BUG FIXING
@@ -47,7 +47,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
   final List<Widget>  _pages = [
     SearchBar(),
-    Text("Уведомления"),
     History(),
     FavouritesPage(),
     ProfilePage(),
@@ -65,7 +64,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
         body: Stack(
           children: [
-            _pages[_selectedTabIndex],
+            Center(child: _pages[_selectedTabIndex],),
           ],
         ),
         bottomNavigationBar: bottomNavigationBar,
@@ -101,10 +100,6 @@ class _HomeScreenState extends State<HomeScreen> {
               BottomNavigationBarItem(
                   icon: Icon(Icons.home),
                   label: 'Главная'
-              ),
-              BottomNavigationBarItem(
-                  icon: Icon(Icons.notifications),
-                  label: 'Уведомления'
               ),
               BottomNavigationBarItem(
                   icon: Icon(Icons.history),

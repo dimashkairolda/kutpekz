@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../signup_page.dart';
+
 class SecondOnboardPage extends StatelessWidget {
   const SecondOnboardPage({Key? key}) : super(key: key);
 
@@ -32,7 +34,10 @@ class SecondOnboardPage extends StatelessWidget {
             left: 30,
             bottom: 20,
             child: FloatingActionButton.extended(
-              onPressed: () {/* Do something */},
+              heroTag: UniqueKey(),
+              onPressed: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) => const SignUp()));
+              },
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10),
               ),
@@ -44,6 +49,7 @@ class SecondOnboardPage extends StatelessWidget {
             bottom: 20,
             right: 30,
             child: FloatingActionButton.extended(
+              heroTag: UniqueKey(),
               onPressed: () {
                 Navigator.pushNamed(context, '/onboard3');
               },

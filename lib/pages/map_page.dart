@@ -1,12 +1,10 @@
 import 'dart:typed_data';
-import 'dart:ui';
 
 import 'package:dgis_flutter/dgis_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:image_to_byte/image_to_byte.dart';
 import 'package:kutpekz/auth_provider.dart';
-import 'package:kutpekz/pages/washservice.dart';
+import 'package:kutpekz/pages/car_wash_detail.dart';
 import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
 
@@ -32,22 +30,17 @@ class _MapPageState extends State<MapPage> {
     super.initState();
   }
 
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+  }
+
   Future setIcon() async {
     http.Response response = await http.get(
       Uri.parse('https://firebasestorage.googleapis.com/v0/b/kutpe-kz.appspot.com/o/marker%2Fpin_drop.png?alt=media&token=1beb06ad-18dc-409b-a835-61acbe426524'),
     );
     icon = response.bodyBytes;
-
-
-    // if(icon != null){
-    //   print("is not null");
-    //   return;
-    // }
-    // else{
-    //   print("is null");
-    //   icon = await imageToByte(
-    //       "https://firebasestorage.googleapis.com/v0/b/kutpe-kz.appspot.com/o/marker%2Fpin_drop.png?alt=media&token=a468c928-24e8-4abb-9042-99f3d234d45b");
-    // }
   }
 
   Future<void> getMarkers() async {
@@ -82,7 +75,6 @@ class _MapPageState extends State<MapPage> {
     setState(() {
       controller.init();
       controller.updateMarkers(list!);
-      // controller.updateMarkers(tempList);
     });
   }
 
@@ -102,7 +94,7 @@ class _MapPageState extends State<MapPage> {
           onTapMarker: (marker) {
             // ignore: avoid_print
             final c = ap.carWashes[int.parse(marker.id)];
-            Navigator.push(context, MaterialPageRoute(builder: (context) => CarWashDetail(carWash: c)));
+            Navigator.push(context, MaterialPageRoute(builder: (context) => CarWashDetail(carWash: c,)));
           },
           startCameraPosition: const GisCameraPosition(
             latitude: 43.2567,

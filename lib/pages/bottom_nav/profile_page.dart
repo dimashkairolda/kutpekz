@@ -75,18 +75,6 @@ class _ProfilePageState extends State<ProfilePage> {
                 ListTile(
                   contentPadding: const EdgeInsets.only(left: 30),
                   leading: const Icon(
-                    Icons.credit_card_rounded,
-                    color: Colors.black,
-                  ),
-                  title: const Text(
-                    'Оплата',
-                    style: TextStyle(fontWeight: FontWeight.w500, fontSize: 20),
-                  ),
-                  onTap: () {},
-                ),
-                ListTile(
-                  contentPadding: const EdgeInsets.only(left: 30),
-                  leading: const Icon(
                     Icons.language,
                     color: Colors.black,
                   ),

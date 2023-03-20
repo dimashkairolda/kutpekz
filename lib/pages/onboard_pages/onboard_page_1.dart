@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:kutpekz/pages/signup_page.dart';
 
+// TODO - MAKE IMAGE SLIDER
+
 class FirstOnboardPage extends StatelessWidget {
   const FirstOnboardPage({Key? key}) : super(key: key);
 
@@ -31,14 +33,6 @@ class FirstOnboardPage extends StatelessWidget {
         ],
       ),
 
-      // floatingActionButton: FloatingActionButton.extended(
-      //   onPressed: () {
-      //     Navigator.pushNamed(context, '/onboard2');
-      //   },
-      //   label:  Text('Далее', style: TextStyle(color: Colors.black),),
-      // backgroundColor: Color.fromRGBO(224, 239, 218, 1.0),
-      //
-      // ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: Stack(
         fit: StackFit.expand,
@@ -47,6 +41,7 @@ class FirstOnboardPage extends StatelessWidget {
             left: 0,
             bottom: 0,
             child: FloatingActionButton.extended(
+              heroTag: UniqueKey(),
               onPressed: () {
                 Navigator.push(context,
                     MaterialPageRoute(builder: (context) => const SignUp()));
@@ -65,6 +60,7 @@ class FirstOnboardPage extends StatelessWidget {
             bottom: 0,
             right: 0,
             child: FloatingActionButton.extended(
+              heroTag: UniqueKey(),
               onPressed: () {
                 Navigator.pushNamed(context, '/onboard2');
               },

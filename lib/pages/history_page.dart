@@ -9,30 +9,12 @@ class History extends StatelessWidget {
   Widget build(BuildContext context) {
     return DefaultTabController(length: 2,
       child: Scaffold(
-        appBar: AppBar(title: const Text('История'),
+        appBar: AppBar(title: const Text('История', style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700),),
           toolbarHeight: 100  ,
           backgroundColor: Colors.transparent, elevation: 0,
           foregroundColor: Colors.black,
           automaticallyImplyLeading: false,
           centerTitle: true,
-          leading:
-          Container(height: 100.0,
-            width: 100.0,
-            margin: const EdgeInsets.only(left: 10),
-            child: FittedBox(
-              child: FloatingActionButton(
-                onPressed: () {
-
-              },
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                backgroundColor: Colors.white,
-                heroTag: UniqueKey(),
-                child: const Icon(Icons.chevron_left, size: 30, color: Colors.black,),),
-            ),
-          ),
-
         ),
         body:
         Column(

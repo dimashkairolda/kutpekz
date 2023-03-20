@@ -24,6 +24,7 @@ class ThirdOnboardPage extends StatelessWidget {
         ],
       ),
       floatingActionButton: FloatingActionButton.extended(
+        heroTag: UniqueKey(),
         onPressed: () {
           Navigator.pushNamed(context, '/signup');
         },
