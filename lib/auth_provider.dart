@@ -226,6 +226,7 @@ class AuthProvider extends ChangeNotifier {
       );
       b.clear();
       _uid = userModel.uid;
+      pfp = CachedNetworkImageProvider(userModel.profilePicture);
     });
   }
 

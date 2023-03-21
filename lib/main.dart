@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:kutpekz/auth_provider.dart';
@@ -14,10 +15,11 @@ import 'package:provider/provider.dart';
 import 'package:kutpekz/pages/booking.dart';
 import 'package:kutpekz/pages/date.dart';
 
-// TODO if sms expired go to register page -> bug after which otp page doesn't show up
-// TODO
+import 'generated/codegen_loader.g.dart';
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await EasyLocalization.ensureInitialized();
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
       name: 'Kutpe-App',
@@ -26,23 +28,37 @@ void main() async {
           appId: '1:760528812857:android:3e2af3845231555b9946e8',
           messagingSenderId: '760528812857',
           projectId: 'kutpe-kz',
-          storageBucket: 'kutpe-kz.appspot.com/'
-      )
-  );
+          storageBucket: 'kutpe-kz.appspot.com/'));
   runApp(
-      MultiProvider(providers: [
+    MultiProvider(
+      providers: [
         ChangeNotifierProvider(create: (_) => AuthProvider()),
       ],
+      child: EasyLocalization(
+        supportedLocales: [Locale('kk'), Locale('ru')],
+        path: 'assets/translations',
+        fallbackLocale: Locale('ru'),
+        assetLoader: CodegenLoader(),
+        // saveLocale: true,
+        useOnlyLangCode: true,
         child: const MyApp(),
       ),
-    );
+    ),
+  );
 }
-class MyApp extends StatelessWidget{
+
+class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      localizationsDelegates: context.localizationDelegates,
+      supportedLocales: const [
+        Locale('ru'),
+        Locale('kk'),
+      ],
+      locale: context.locale,
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.indigo,
@@ -59,12 +75,10 @@ class MyApp extends StatelessWidget{
         '/reset': (context) => const ResetPassword(),
         '/profile_edit': (context) => const ProfileEdit(),
         '/language_edit': (context) => const LanguageEdit(),
-        '/profile_page':(context)=> const ProfileEdit(),
-        '/booking':(context)=> const Booking(),
-        '/datepicker':(context)=> const DatePicker(),
+        '/profile_page': (context) => const ProfileEdit(),
+        '/booking': (context) => const Booking(),
+        '/datepicker': (context) => const DatePicker(),
       },
     );
-
   }
 }
-

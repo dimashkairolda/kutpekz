@@ -18,19 +18,20 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget build(BuildContext context) {
     final ap = Provider.of<AuthProvider>(context, listen: true);
     return Scaffold(
+      appBar: AppBar(
+        toolbarHeight: 60,
+        title: Text(
+        'Профиль',
+        style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
+        ),
+        backgroundColor: Colors.transparent, elevation: 0,
+        foregroundColor: Colors.black,
+        automaticallyImplyLeading: false,
+        centerTitle: true,
+      ),
       body: Center(
         child: Column(
           children: [
-            const SizedBox(
-              height: 60,
-            ),
-            const Text(
-              'Профиль',
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
-            ),
-            const SizedBox(
-              height: 25,
-            ),
             InkWell(
               child: CircleAvatar(
                 radius: 47.5,
@@ -83,7 +84,11 @@ class _ProfilePageState extends State<ProfilePage> {
                     style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
                   ),
                   onTap: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => LanguageEdit()));
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => LanguageEdit())).then((value) => (_){
+                      setState(() {
+
+                      });
+                    });
                   },
                 ),
               ],

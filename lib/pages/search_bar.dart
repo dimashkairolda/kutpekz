@@ -1,7 +1,9 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:kutpekz/auth_provider.dart';
 import 'package:kutpekz/car_washes_model.dart';
+import 'package:kutpekz/generated/locale_keys.g.dart';
 import 'package:kutpekz/pages/map_page.dart';
 import 'package:kutpekz/pages/car_wash_detail.dart';
 import 'package:provider/provider.dart';
@@ -15,7 +17,6 @@ class SearchBar extends StatefulWidget {
 
 class _SearchBarState extends State<SearchBar> {
   late final ap = Provider.of<AuthProvider>(context, listen: false);
-
   @override
   void initState() {
     super.initState();
@@ -26,9 +27,11 @@ class _SearchBarState extends State<SearchBar> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        toolbarHeight: 60,
+        backgroundColor: Colors.transparent, elevation: 0,
+        foregroundColor: Colors.black,
         automaticallyImplyLeading: false,
         centerTitle: true,
-        backgroundColor: Colors.white,
         title: const Text(
           'Kutpe-Kz',
           style: TextStyle(
@@ -37,7 +40,7 @@ class _SearchBarState extends State<SearchBar> {
         actions: [
           IconButton(
               onPressed: () {
-                showSearch(context: context, delegate: CustomSearchDelegate());
+                showSearch(context: context, delegate: CustomSearchDelegate(hintText: LocaleKeys.search_hint.tr()));
               },
               icon: const Icon(
                 Icons.search,
@@ -51,7 +54,12 @@ class _SearchBarState extends State<SearchBar> {
 }
 
 class CustomSearchDelegate extends SearchDelegate {
-  CustomSearchDelegate({String hintText = "Поиск"})
+  String hintText;
+
+
+  CustomSearchDelegate({
+    required this.hintText,
+    })
       : super(
           searchFieldLabel: hintText,
         );

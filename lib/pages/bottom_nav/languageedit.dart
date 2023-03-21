@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 class LanguageEdit extends StatefulWidget {
@@ -11,10 +12,11 @@ class LanguageEdit extends StatefulWidget {
 
 class _LanguageEditState extends State<LanguageEdit> {
   // The inital group value
-  String _selectedlanguage = 'rus';
+  String _selectedlanguage = 'ru';
 
   @override
   Widget build(BuildContext context) {
+    _selectedlanguage = context.locale.toString();
     return Scaffold(
       appBar: AppBar(
         title: const Text('Изменить язык'),
@@ -67,11 +69,12 @@ class _LanguageEditState extends State<LanguageEdit> {
               ),
               child: ListTile(
                 trailing: Radio<String>(
-                  value: 'kaz',
+                  value: 'kk',
                   groupValue: _selectedlanguage,
                   onChanged: (value) {
                     setState(() {
                       _selectedlanguage = value!;
+                      context.setLocale(Locale('kk'));
                     });
                   },
                 ),
@@ -94,11 +97,12 @@ class _LanguageEditState extends State<LanguageEdit> {
               ),
               child: ListTile(
                 trailing: Radio<String>(
-                  value: 'rus',
+                  value: 'ru',
                   groupValue: _selectedlanguage,
                   onChanged: (value) {
                     setState(() {
                       _selectedlanguage = value!;
+                      context.setLocale(Locale(value));
                     });
                   },
                 ),

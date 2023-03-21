@@ -1,8 +1,10 @@
+import 'dart:async';
 import 'dart:typed_data';
 
 import 'package:dgis_flutter/dgis_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:kutpekz/auth_provider.dart';
 import 'package:kutpekz/pages/car_wash_detail.dart';
 import 'package:provider/provider.dart';
@@ -16,6 +18,7 @@ class MapPage extends StatefulWidget {
 }
 
 class _MapPageState extends State<MapPage> {
+  Position currentPosition = Position(longitude: 43, latitude: 76, timestamp: DateTime.now(), accuracy: 0, altitude: 0, heading: 0, speed: 0, speedAccuracy: 0);
   final GisMapController controller = GisMapController();
   List<GisMapMarker>? list;
   List<GisMapMarker> tempList = [];
@@ -24,9 +27,18 @@ class _MapPageState extends State<MapPage> {
 
   @override
   void initState() {
-    print("Init state");
     ap = Provider.of<AuthProvider>(context, listen: false);
     getMarkers();
+    _getCurrentLocation();
+
+    StreamSubscription positionStream =
+        Geolocator.getPositionStream(locationSettings: const LocationSettings())
+            .listen((Position position) {
+      setState(() {
+        currentPosition = position;
+      });
+    });
+
     super.initState();
   }
 
@@ -36,17 +48,32 @@ class _MapPageState extends State<MapPage> {
     super.dispose();
   }
 
+  _getCurrentLocation() async {
+    LocationPermission permission;
+    permission = await Geolocator.requestPermission();
+
+    Geolocator.getCurrentPosition(
+            desiredAccuracy: LocationAccuracy.best,
+            forceAndroidLocationManager: true)
+        .then((Position position) {
+      setState(() {
+        currentPosition = position;
+      });
+    }).catchError((e) {
+      print(e);
+    });
+  }
+
   Future setIcon() async {
     http.Response response = await http.get(
-      Uri.parse('https://firebasestorage.googleapis.com/v0/b/kutpe-kz.appspot.com/o/marker%2Fpin_drop.png?alt=media&token=1beb06ad-18dc-409b-a835-61acbe426524'),
+      Uri.parse(
+          'https://firebasestorage.googleapis.com/v0/b/kutpe-kz.appspot.com/o/marker%2Fpin_drop.png?alt=media&token=1beb06ad-18dc-409b-a835-61acbe426524'),
     );
     icon = response.bodyBytes;
   }
 
   Future<void> getMarkers() async {
-    print("Entered getMarkers");
     if (ap.carWashMarkers.isNotEmpty) {
-      print("is Not empty");
       return;
     }
     List<GisMapMarker> markers = [];
@@ -62,11 +89,9 @@ class _MapPageState extends State<MapPage> {
           zIndex: 1));
       index += 1;
     }
-    print("Left getMarkers");
     list = markers;
 
     setState(() {
-      print("State");
       controller.updateMarkers(list!);
     });
   }
@@ -81,6 +106,7 @@ class _MapPageState extends State<MapPage> {
   @override
   build(BuildContext context) {
     precacheImage(ap.pfp, context);
+
     // setMarkers();
     return Scaffold(
       body: SizedBox(
@@ -92,52 +118,25 @@ class _MapPageState extends State<MapPage> {
           useHybridComposition: true,
           controller: controller,
           onTapMarker: (marker) {
-            // ignore: avoid_print
             final c = ap.carWashes[int.parse(marker.id)];
-            Navigator.push(context, MaterialPageRoute(builder: (context) => CarWashDetail(carWash: c,)));
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => CarWashDetail(
+                  carWash: c,
+                ),
+              ),
+            );
           },
-          startCameraPosition: const GisCameraPosition(
-            latitude: 43.2567,
-            longitude: 76.9286,
+          startCameraPosition: GisCameraPosition(
+            latitude: currentPosition.latitude,
+            longitude: currentPosition.longitude,
             bearing: 0,
             tilt: 0,
             zoom: 15,
           ),
         ),
       ),
-    );
-  }
-}
-
-class ButtonMapWidget extends StatelessWidget {
-  final Widget child;
-  final GisMapController controller;
-
-  const ButtonMapWidget(
-      {Key? key, required this.child, required this.controller})
-      : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        child,
-        Align(
-            alignment: Alignment.bottomCenter,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                FloatingActionButton(
-                  child: const Icon(Icons.gps_fixed),
-                  onPressed: () async {
-                    final status = await controller.setCameraPosition(
-                        latitude: 22, longitude: 72, bearing: 0, zoom: 12);
-                  },
-                  heroTag: UniqueKey(),
-                ),
-              ],
-            )),
-      ],
     );
   }
 }

@@ -1,0 +1,10 @@
+{
+  "search_hint" : "Поиск",
+  "btm_nav_home" : "Главная",
+  "btm_nav_favourites" : "Избранное",
+  "btm_nav_history" : "История",
+  "btm_nav_profile" : "Профиль",
+  "history_acitve" : "Активно",
+  "history_inactive" : "Завершено",
+  "history_active_empty" : "В настоящее время бронирования нет"
+}

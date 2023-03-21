@@ -31,9 +31,6 @@ dependencies:
   flutter:
     sdk: flutter
 
-
-  # The following adds the Cupertino Icons font to your application.
-  # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
   firebase_auth: ^4.2.5
   firebase_storage: ^11.0.10
@@ -45,25 +42,19 @@ dependencies:
   pinput: ^2.2.23
   image_picker: ^0.8.6+1
   dgis_flutter: ^0.0.31
-  material_floating_search_bar: ^0.3.7
-  floating_search_bar: ^0.3.0
   image_to_byte: ^1.0.0
   flutter_map: ^3.1.0
   cached_network_image: ^3.2.3
   flutter_native_splash: ^2.2.19
   carousel_slider: ^4.2.1
   booking_calendar: ^1.1.9
-
+  geolocator: ^9.0.2
+  easy_localization: ^3.0.1
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
 
-  # The "flutter_lints" package below contains a set of recommended lints to
-  # encourage good coding practices. The lint set provided by the package is
-  # activated in the `analysis_options.yaml` file located at the root of your
-  # package. See that file for information about deactivating specific lint
-  # rules and activating additional ones.
   flutter_lints: ^2.0.0
 
 # For information on the generic Dart part of this file, see the
@@ -91,6 +82,8 @@ flutter:
      - assets/Frame_208.png
      - assets/Empty_box.png
      - assets/12.png
+     - assets/translations/ru.json
+     - assets/translations/kk.json
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

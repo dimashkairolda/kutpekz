@@ -1,5 +1,7 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:kutpekz/auth_provider.dart';
+import 'package:kutpekz/generated/locale_keys.g.dart';
 import 'package:provider/provider.dart';
 
 import '../car_wash_detail.dart';
@@ -27,7 +29,6 @@ class _FavouritesPageState extends State<FavouritesPage> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     getFavourites();
   }
@@ -42,42 +43,42 @@ class _FavouritesPageState extends State<FavouritesPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        title: Text(
+          LocaleKeys.btm_nav_favourites.tr(),
+          style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
+        ),
+        toolbarHeight: 60,
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        foregroundColor: Colors.black,
         automaticallyImplyLeading: false,
-        title: const Text('Избранное'),
         centerTitle: true,
       ),
       body: ListView.builder(
           itemCount: favourites.length,
           itemBuilder: (BuildContext context, int index) {
             if (favourites[index]) {
-              return InkWell(
-                onTap: () {
-                  Navigator.push(
+              return Padding(
+                padding: EdgeInsets.symmetric(horizontal: 12, vertical: 0),
+                child: Card(
+                  child: ListTile(
+                    onTap: () {
+                      Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) =>
-                                  CarWashDetail(carWash: ap.carWashes[index],)))
-                      .then((_) {
-                    setState(() {});
-                  });
-                },
-                child: Card(
-                  child: Column(
-                    children: <Widget>[
-                      Container(
-                        alignment: Alignment.centerLeft,
-                        child: Text(
-                          ap.carWashes[index].name,
-                          style: const TextStyle(
-                            fontSize: 20,
-                          ),
-                        ),
+                              builder: (context) => CarWashDetail(
+                                carWash: ap.carWashes[index],
+                              ))).then((_) {
+                        setState(() {});
+                      });
+                    },
+                    title: Text(
+                      ap.carWashes[index].name,
+                      style: const TextStyle(
+                        fontSize: 20,
                       ),
-                      Container(
-                        alignment: Alignment.centerLeft,
-                        child: Text(ap.carWashes[index].address),
-                      ),
-                    ],
+                    ),
+                    subtitle: Text(ap.carWashes[index].address),
                   ),
                 ),
               );
