@@ -14,13 +14,11 @@ import 'package:kutpekz/pages/history_page.dart';
 // TODO - DISPOSE
 // TODO - CARDS
 
-// TODO - GEOLOCATION      - 1)
-// TODO - LANGUAGE CHANGE  - 2)
-
 // TODO - ADMIN VIEW - Dimash doing
 
 // TODO - BOOKING
 // TODO - BUG FIXING
+// TODO - HISTORY
 
 // TODO if sms expired go to register page -> bug after which otp page doesn't show up
 

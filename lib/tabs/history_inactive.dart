@@ -115,6 +115,7 @@ class Inactive extends StatelessWidget {
                 const SizedBox(
                     width: 136,
                     height: 35,
+                ),
                     // child: Container(
                     //   decoration: BoxDecoration(
                     //     borderRadius: BorderRadius.circular(10.0),
@@ -142,7 +143,7 @@ class Inactive extends StatelessWidget {
                       //     },
                       //   ),
                       // ),
-                    ),
+                    // ),
         // )
               ],
             ),

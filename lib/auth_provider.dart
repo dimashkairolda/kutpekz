@@ -12,6 +12,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_to_byte/image_to_byte.dart';
 import 'package:kutpekz/car_washes_model.dart';
+import 'package:kutpekz/history_model.dart';
 import 'package:kutpekz/home_page.dart';
 import 'package:kutpekz/otp_page.dart';
 import 'package:kutpekz/user_model.dart';
@@ -32,6 +33,10 @@ class AuthProvider extends ChangeNotifier {
   String get uid => _uid!;
 
   PhoneAuthCredential? credential;
+
+  HistoryModel? _historyModel;
+
+  HistoryModel get historyModel => _historyModel!;
 
   UserModel? _userModel;
 

@@ -21,7 +21,6 @@ class UserModel{
 
   // from Map
   factory UserModel.fromMap(Map<String, dynamic> map){
-    print(List<bool>.from(map['isFavourite']).toString());
     return UserModel(
         phoneNumber: map['phoneNumber'] ?? '',
         email: map['email'] ?? '',
