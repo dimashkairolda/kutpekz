@@ -1,5 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:iconsax/iconsax.dart';
+import 'package:kutpekz/theme_provider.dart';
 
 class LanguageEdit extends StatefulWidget {
   const LanguageEdit({Key? key}) : super(key: key);
@@ -23,7 +25,6 @@ class _LanguageEditState extends State<LanguageEdit> {
         toolbarHeight: 100,
         backgroundColor: Colors.transparent,
         elevation: 0,
-        foregroundColor: Colors.black,
         automaticallyImplyLeading: true,
         centerTitle: true,
         leading: Container(
@@ -39,11 +40,9 @@ class _LanguageEditState extends State<LanguageEdit> {
                 borderRadius: BorderRadius.circular(20),
               ),
               heroTag: UniqueKey(),
-              backgroundColor: Colors.white,
               child: const Icon(
-                Icons.chevron_left,
+                Iconsax.arrow_left_2,
                 size: 30,
-                color: Colors.black,
               ),
             ),
           ),
@@ -56,57 +55,41 @@ class _LanguageEditState extends State<LanguageEdit> {
           children: [
             Container(
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: Theme.of(context).colorScheme.secondary,
                 borderRadius: BorderRadius.circular(20),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey.withOpacity(0.5),
-                    spreadRadius: 3,
-                    blurRadius: 30,
-                    offset: const Offset(0, 3),
-                  )
-                ],
               ),
-              child: ListTile(
-                trailing: Radio<String>(
-                  value: 'kk',
-                  groupValue: _selectedlanguage,
-                  onChanged: (value) {
-                    setState(() {
-                      _selectedlanguage = value!;
-                      context.setLocale(Locale('kk'));
-                    });
-                  },
-                ),
-                title: const Text('Қазақша'),
+              child: CheckboxListTile(
+                // activeColor: Colors.white,
+                checkColor: Colors.grey.shade900,
+                checkboxShape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15), side: BorderSide(color: Theme.of(context).scaffoldBackgroundColor)),
+                value: _selectedlanguage == 'kk',
+                onChanged: (value) async {
+                  _selectedlanguage = 'kk';
+                  await context.setLocale(Locale('kk'));
+                  setState(() {
+
+                  });},
+                title: Text('Қазақша', style: TextStyle(color: Colors.grey.shade900),),
               ),
             ),
             const Padding(padding: EdgeInsets.only(top: 20)),
             Container(
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: Theme.of(context).colorScheme.secondary,
                 borderRadius: BorderRadius.circular(20),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey.withOpacity(0.5),
-                    spreadRadius: 3,
-                    blurRadius: 30,
-                    offset: const Offset(0, 3),
-                  )
-                ],
               ),
-              child: ListTile(
-                trailing: Radio<String>(
-                  value: 'ru',
-                  groupValue: _selectedlanguage,
-                  onChanged: (value) {
-                    setState(() {
-                      _selectedlanguage = value!;
-                      context.setLocale(Locale(value));
-                    });
-                  },
-                ),
-                title: const Text('Русский'),
+              child: CheckboxListTile(
+                // activeColor: Colors.white,
+                checkColor: Colors.grey.shade900,
+                checkboxShape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15), side: BorderSide(color: Theme.of(context).scaffoldBackgroundColor)),
+                value: _selectedlanguage == 'ru',
+                onChanged: (value) async {
+                  _selectedlanguage = 'ru';
+                  await context.setLocale(Locale('ru'));
+                  setState(() {
+
+                  });},
+                title: Text('Русский', style: TextStyle(color: Colors.grey.shade900),),
               ),
             ),
           ],

@@ -23,33 +23,32 @@ class History extends StatelessWidget {
           toolbarHeight: 60,
           backgroundColor: Colors.transparent,
           elevation: 0,
-          foregroundColor: Colors.black,
           automaticallyImplyLeading: false,
           centerTitle: true,
         ),
         body: Column(
-          children: const [
+          children: [
             TabBar(tabs: [
               Tab(
                 child: Text(
                   'Активно',
                   style: TextStyle(
-                      color: Colors.black,
                       fontWeight: FontWeight.w500,
-                      fontSize: 20),
+                      fontSize: 20,
+                  color: Theme.of(context).primaryColor),
                 ),
               ),
               Tab(
                 child: Text(
                   'Завершено',
                   style: TextStyle(
-                      color: Colors.black,
                       fontWeight: FontWeight.w500,
-                      fontSize: 20),
+                      fontSize: 20,
+                      color: Theme.of(context).primaryColor),
                 ),
               ),
             ]),
-            Expanded(
+            const Expanded(
               child: TabBarView(
                 children: [
                   Active(),

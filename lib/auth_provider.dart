@@ -56,7 +56,6 @@ class AuthProvider extends ChangeNotifier {
 
   late CachedNetworkImageProvider pfp;
 
-
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
   final FirebaseFirestore _firebaseFirestore = FirebaseFirestore.instance;
   final FirebaseStorage _firebaseStorage = FirebaseStorage.instance;
@@ -82,6 +81,8 @@ class AuthProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+
+  // TODO FIX!!1!!
   void signInWithPhone(BuildContext context, String phoneNumber) async {
     try {
       await _firebaseAuth.verifyPhoneNumber(
@@ -97,12 +98,12 @@ class AuthProvider extends ChangeNotifier {
             Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (context) =>
-                      OtpPage(
-                        verificationId: verificationId,
-                        phoneNumber: phoneNumber,
-                        isChange: false,
-                      )),
+                builder: (context) => OtpPage(
+                  verificationId: verificationId,
+                  phoneNumber: phoneNumber,
+                  isChange: false,
+                ),
+              ),
             );
           },
           codeAutoRetrievalTimeout: (verificationId) {});
@@ -111,8 +112,10 @@ class AuthProvider extends ChangeNotifier {
     }
   }
 
-  void getCredentials(BuildContext context, String verificationId, String userOtp){
-    credential = PhoneAuthProvider.credential(verificationId: verificationId, smsCode: userOtp);
+  void getCredentials(
+      BuildContext context, String verificationId, String userOtp) {
+    credential = PhoneAuthProvider.credential(
+        verificationId: verificationId, smsCode: userOtp);
   }
 
   void verifyOtp({
@@ -152,7 +155,7 @@ class AuthProvider extends ChangeNotifier {
 
   Future<bool> checkExistingUsers() async {
     DocumentSnapshot snapshot =
-    await _firebaseFirestore.collection("users").doc(_uid).get();
+        await _firebaseFirestore.collection("users").doc(_uid).get();
     if (snapshot.exists) {
       print("User Exists");
       return true;
@@ -175,10 +178,7 @@ class AuthProvider extends ChangeNotifier {
       await storeFileToStorage("profilePicture/$_uid", profilePicture)
           .then((value) {
         userModel.profilePicture = value;
-        userModel.createdAt = DateTime
-            .now()
-            .millisecondsSinceEpoch
-            .toString();
+        userModel.createdAt = DateTime.now().millisecondsSinceEpoch.toString();
         userModel.phoneNumber = _firebaseAuth.currentUser!.phoneNumber!;
         userModel.uid = _firebaseAuth.currentUser!.uid;
       });
@@ -202,15 +202,16 @@ class AuthProvider extends ChangeNotifier {
   }
 
   Future getDataFromStorage() async {
+    await getCarWashesFromStorage();
     await _firebaseFirestore
         .collection('users')
         .doc(_firebaseAuth.currentUser!.uid)
         .get()
         .then((DocumentSnapshot snapshot) async {
-          List<bool> b = [];
-          for(int i = 0; i < carWashes.length; i++){
-            b.add(snapshot['isFavourite'][i]);
-          }
+      List<bool> b = [];
+      for (int i = 0; i < carWashes.length; i++) {
+        b.add(false);
+      }
 
       _userModel = UserModel(
         phoneNumber: snapshot['phoneNumber'],
@@ -219,7 +220,7 @@ class AuthProvider extends ChangeNotifier {
         profilePicture: snapshot['profilePicture'],
         createdAt: snapshot['createdAt'],
         uid: snapshot['uid'],
-        isFavourite: b,
+        isFavourite: List<bool>.from(b),
         history: HistoryModel.fromMap(snapshot['history']),
       );
       b.clear();
@@ -250,26 +251,26 @@ class AuthProvider extends ChangeNotifier {
   }
 
   Future<void> getCarWashesFromStorage() async {
-      print("Get Car Washes");
-      _carWashes = [];
-      _carWashNames = [];
-      var snapshot = await _firebaseFirestore.collection('car-washes').get();
-      for (var item in snapshot.docs) {
-        CarWashes c = CarWashes(
-          name: item['name'],
-          address: item['address'],
-          photoURL: item['photoURL'],
-          uid: item['uid'],
-          latitude: item['latitude'],
-          longitude: item['longitude'],
-          phoneNumber: item['phoneNumber'],
-          weekEndHours: item['weekEndHours'],
-          weekDayHours: item['weekDayHours'],
-        );
-        _carWashNames.add(c.name);
-        _carWashes.add(c);
-      }
+    print("Get Car Washes");
+    _carWashes = [];
+    _carWashNames = [];
+    var snapshot = await _firebaseFirestore.collection('car-washes').get();
+    for (var item in snapshot.docs) {
+      CarWashes c = CarWashes(
+        name: item['name'],
+        address: item['address'],
+        photoURL: item['photoURL'],
+        uid: item['uid'],
+        latitude: item['latitude'],
+        longitude: item['longitude'],
+        phoneNumber: item['phoneNumber'],
+        weekEndHours: item['weekEndHours'],
+        weekDayHours: item['weekDayHours'],
+      );
+      _carWashNames.add(c.name);
+      _carWashes.add(c);
     }
+  }
 
   Future<void> updateName(BuildContext context, String name) async {
     _userModel?.name = name;
@@ -300,7 +301,7 @@ class AuthProvider extends ChangeNotifier {
     var snapshot = await _firebaseFirestore.collection('users').get();
     for (var item in snapshot.docs) {
       user = item['uid'];
-      if (item['phoneNumber'] == phoneNumber && user != uid)  return true;
+      if (item['phoneNumber'] == phoneNumber && user != uid) return true;
     }
     return false;
   }

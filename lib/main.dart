@@ -11,6 +11,7 @@ import 'package:kutpekz/pages/onboard_pages/onboard_page_3.dart';
 import 'package:kutpekz/pages/signup_page.dart';
 import 'package:kutpekz/pages/password_reset_page.dart';
 import 'package:kutpekz/pages/car_wash_detail.dart';
+import 'package:kutpekz/theme_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:kutpekz/pages/booking.dart';
 import 'package:kutpekz/pages/date.dart';
@@ -60,10 +61,9 @@ class MyApp extends StatelessWidget {
       ],
       locale: context.locale,
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        primarySwatch: Colors.indigo,
-        // fontFamily: 'San Francisco',
-      ),
+      theme: MyTheme.light,
+      themeMode: ThemeMode.system,
+      darkTheme: MyTheme.dark,
       title: 'Kutpe-Kz',
       initialRoute: '/',
       routes: {

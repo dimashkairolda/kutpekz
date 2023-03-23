@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:iconsax/iconsax.dart';
 import 'package:kutpekz/auth_provider.dart';
 import 'package:kutpekz/car_washes_model.dart';
 import 'package:kutpekz/generated/locale_keys.g.dart';
@@ -20,7 +21,6 @@ class _SearchBarState extends State<SearchBar> {
   @override
   void initState() {
     super.initState();
-    ap.getCarWashesFromStorage();
   }
 
   @override
@@ -29,13 +29,12 @@ class _SearchBarState extends State<SearchBar> {
       appBar: AppBar(
         toolbarHeight: 60,
         backgroundColor: Colors.transparent, elevation: 0,
-        foregroundColor: Colors.black,
         automaticallyImplyLeading: false,
         centerTitle: true,
         title: const Text(
           'Kutpe-Kz',
           style: TextStyle(
-              fontSize: 20, fontWeight: FontWeight.w700, color: Colors.black),
+              fontSize: 20, fontWeight: FontWeight.w700),
         ),
         actions: [
           IconButton(
@@ -43,8 +42,7 @@ class _SearchBarState extends State<SearchBar> {
                 showSearch(context: context, delegate: CustomSearchDelegate(hintText: LocaleKeys.search_hint.tr()));
               },
               icon: const Icon(
-                Icons.search,
-                color: Colors.black,
+                Iconsax.search_normal,
               )),
         ],
       ),
@@ -72,8 +70,8 @@ class CustomSearchDelegate extends SearchDelegate {
     return [
       IconButton(
         icon: const Icon(
-          Icons.clear,
-          color: Colors.black,
+          Iconsax.close_circle,
+          size: 27,
         ),
         onPressed: () {
           if(query == '') close(context, "");
@@ -90,9 +88,8 @@ class CustomSearchDelegate extends SearchDelegate {
           close(context, null);
         },
         icon: const Icon(
-          Icons.arrow_back,
-          color: Colors.black,
-        ));
+          Iconsax.arrow_left_2,
+        ),);
   }
 
   @override
@@ -113,12 +110,11 @@ class CustomSearchDelegate extends SearchDelegate {
       }
     }
 
-    return ListView.builder(
+    return matchQuery.length == 0 ? Text("По запросу: \"$query\", автомоек не найдено", style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),) :ListView.builder(
       itemCount: matchQuery.length,
       itemBuilder: (context, index) {
         var item = result[index];
         return Container(
-          color: Colors.white,
           // padding: EdgeInsets.fromLTRB(25, 16, 0, 0),
           child: TextButton(
             style: const ButtonStyle(alignment: Alignment.centerLeft),

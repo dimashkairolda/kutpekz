@@ -1,5 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:iconsax/iconsax.dart';
 import 'package:kutpekz/car_washes_model.dart';
 import 'package:provider/provider.dart';
 
@@ -31,8 +32,8 @@ class _CarWashDetailState extends State<CarWashDetail> {
     int id = int.parse(widget.carWash.uid);
     bool isFavourite = ap.favourites[id];
     Icon icon = isFavourite
-        ? const Icon(Icons.favorite, color: Colors.black,)
-        : const Icon(Icons.favorite_border, color: Colors.black,);
+        ? const Icon(Iconsax.heart5, )
+        : const Icon(Iconsax.heart,);
 
     return Scaffold(
       appBar: AppBar(
@@ -40,7 +41,6 @@ class _CarWashDetailState extends State<CarWashDetail> {
         toolbarHeight: 100,
         backgroundColor: Colors.transparent,
         elevation: 0,
-        foregroundColor: Colors.black,
         automaticallyImplyLeading: false,
         centerTitle: true,
         leading: Container(
@@ -56,11 +56,9 @@ class _CarWashDetailState extends State<CarWashDetail> {
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(20),
               ),
-              backgroundColor: Colors.white,
               child: const Icon(
-                Icons.chevron_left,
+                Iconsax.arrow_left_2,
                 size: 30,
-                color: Colors.black,
               ),
             ),
           ),
@@ -79,14 +77,13 @@ class _CarWashDetailState extends State<CarWashDetail> {
                     ap.favourites[id] = isFavourite;
                     ap.updateFavourites(context);
                     icon = isFavourite
-                        ? const Icon(Icons.favorite, color: Colors.black,)
-                        : const Icon(Icons.favorite_border, color: Colors.black,);
+                        ? const Icon(Icons.favorite,)
+                        : const Icon(Icons.favorite_border,);
                   });
                 },
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(20),
                 ),
-                backgroundColor: Colors.white,
                 child: icon,
               ),
             ),
@@ -134,7 +131,6 @@ class _CarWashDetailState extends State<CarWashDetail> {
               ),
             ),
             const Divider(
-              color: Colors.black,
               height: 20,
               thickness: 3,
               indent: 25,
@@ -229,7 +225,6 @@ class _CarWashDetailState extends State<CarWashDetail> {
               ),
             ),
             const Divider(
-              color: Colors.black,
               height: 20,
               thickness: 3,
               indent: 25,
@@ -248,16 +243,8 @@ class _CarWashDetailState extends State<CarWashDetail> {
               width: 340,
               height: 50,
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: Theme.of(context).colorScheme.secondary,
                 borderRadius: BorderRadius.circular(20),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey.withOpacity(0.5),
-                    spreadRadius: 3,
-                    blurRadius: 30,
-                    offset: const Offset(0, 3),
-                  )
-                ],
               ),
               child: Padding(
                 padding:
@@ -296,16 +283,8 @@ class _CarWashDetailState extends State<CarWashDetail> {
               width: 340,
               height: 50,
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: Theme.of(context).colorScheme.secondary,
                 borderRadius: BorderRadius.circular(20),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey.withOpacity(0.5),
-                    spreadRadius: 3,
-                    blurRadius: 30,
-                    offset: const Offset(0, 3),
-                  ),
-                ],
               ),
               child: Padding(
                 padding:

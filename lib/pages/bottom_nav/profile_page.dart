@@ -1,6 +1,9 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:iconsax/iconsax.dart';
 import 'package:kutpekz/auth_provider.dart';
+import 'package:kutpekz/home_page.dart';
 import 'package:kutpekz/pages/bottom_nav/languageedit.dart';
 import 'package:kutpekz/pages/bottom_nav/profileedit.dart';
 import 'package:kutpekz/pages/loading_page.dart';
@@ -25,7 +28,6 @@ class _ProfilePageState extends State<ProfilePage> {
         style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
         ),
         backgroundColor: Colors.transparent, elevation: 0,
-        foregroundColor: Colors.black,
         automaticallyImplyLeading: false,
         centerTitle: true,
       ),
@@ -49,7 +51,7 @@ class _ProfilePageState extends State<ProfilePage> {
               height: 50,
             ),
             Divider(
-              color: Colors.grey.shade300,
+              color: Theme.of(context).primaryColor,
               endIndent: 30,
               indent: 30,
               thickness: 1.25,
@@ -61,9 +63,9 @@ class _ProfilePageState extends State<ProfilePage> {
               children: [
                 ListTile(
                   contentPadding: const EdgeInsets.only(left: 30),
-                  leading: const Icon(
-                    Icons.person,
-                    color: Colors.black,
+                  leading: Icon(
+                    Iconsax.user_octagon4,
+                    color: Theme.of(context).primaryColor,
                   ),
                   title: const Text(
                     'Редактировать Профиль',
@@ -75,16 +77,16 @@ class _ProfilePageState extends State<ProfilePage> {
                 ),
                 ListTile(
                   contentPadding: const EdgeInsets.only(left: 30),
-                  leading: const Icon(
-                    Icons.language,
-                    color: Colors.black,
+                  leading: Icon(
+                    Iconsax.language_circle,
+                    color: Theme.of(context).primaryColor,
                   ),
                   title: const Text(
                     'Язык',
                     style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
                   ),
                   onTap: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => LanguageEdit())).then((value) => (_){
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => LanguageEdit())).then((value) {
                       setState(() {
 
                       });

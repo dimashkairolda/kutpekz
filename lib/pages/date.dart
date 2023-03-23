@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:iconsax/iconsax.dart';
+import 'package:time_range_picker/time_range_picker.dart';
 
 class DatePicker extends StatefulWidget {
   const DatePicker({Key? key}) : super(key: key);
@@ -9,6 +11,10 @@ class DatePicker extends StatefulWidget {
 
 class _DatePickerState extends State<DatePicker> {
   DateTime _dateTime = DateTime.now();
+  TimeOfDay time = TimeOfDay(hour: 10, minute: 0);
+  late TimeOfDay bookedTime;
+  DateTimeRange range = DateTimeRange(
+      start: DateTime.now(), end: DateTime.now().add(Duration(days: 14)));
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +24,6 @@ class _DatePickerState extends State<DatePicker> {
         toolbarHeight: 100,
         backgroundColor: Colors.transparent,
         elevation: 0,
-        foregroundColor: Colors.black,
         automaticallyImplyLeading: false,
         centerTitle: true,
         leading: Container(
@@ -34,57 +39,71 @@ class _DatePickerState extends State<DatePicker> {
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(20),
               ),
-              backgroundColor: Colors.white,
               child: const Icon(
-                Icons.chevron_left,
+                Iconsax.arrow_left_2,
                 size: 30,
-                color: Colors.black,
               ),
             ),
           ),
         ),
       ),
       body: Padding(
-          padding: const EdgeInsets.all(25),
-          child: Column(
-            children: [
-              CalendarDatePicker(
-                  initialDate: DateTime.now(),
-                  firstDate: DateTime.utc(2023),
-                  lastDate: DateTime.utc(2024),
-                  onDateChanged: (date) {
-                    setState(() {
-                      _dateTime = date;
-                      print(_dateTime);
-                    });
-                  }),
-              SizedBox(
-                  width: 365,
-                  height: 50,
-                  child: Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10.0),
-                      gradient: const LinearGradient(
-                          begin: Alignment.topLeft,
-                          end: Alignment.bottomRight,
-                          colors: <Color>[
-                            Color.fromRGBO(145, 122, 253, 1),
-                            Color.fromRGBO(98, 78, 234, 1)
-                          ]),
+        padding: const EdgeInsets.all(25),
+        child: Column(
+          children: [
+            CalendarDatePicker(
+                initialDate: DateTime.now(),
+                firstDate: DateTime.now(),
+                lastDate: DateTime.now().add(Duration(days: 14)),
+                onDateChanged: (date) {
+                  setState(() {
+                    _dateTime = date;
+                    print(_dateTime);
+                  });
+                }),
+            SizedBox(
+              width: 365,
+              height: 50,
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10.0),
+                  gradient: const LinearGradient(
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                    colors: <Color>[
+                      Color.fromRGBO(145, 122, 253, 1),
+                      Color.fromRGBO(98, 78, 234, 1)
+                    ],
+                  ),
+                ),
+                child: Material(
+                  elevation: 5,
+                  color: Colors.transparent,
+                  child: MaterialButton(
+                    child: const Text(
+                      "Забронировать",
+                      style: TextStyle(
+                          fontWeight: FontWeight.w600,
+                          fontSize: 16.0,
+                          color: Colors.white),
                     ),
-                    child: Material(
-                      elevation: 5,
-                      color: Colors.transparent,
-                      child: MaterialButton(
-                        child: const Text(
-                          "Забронировать",
-                          style: TextStyle(
-                              fontWeight: FontWeight.w600,
-                              fontSize: 16.0,
-                              color: Colors.white),
-                        ),
-                        onPressed: () {
-                          showDialog(
+                    onPressed: () async {
+                      TimeRange selectedTime = await showTimeRangePicker(
+                          context: context,
+                          start: TimeOfDay(hour: 10, minute: 00),
+                          disabledTime: TimeRange(
+                              startTime: TimeOfDay(hour: 24, minute: 00),
+                              endTime: TimeOfDay(hour: 9, minute: 59)),
+                          interval: Duration(minutes: 30),
+                      maxDuration: Duration(hours: 1, minutes: 30));
+                    },
+                  ),
+                ),
+              ),
+            ),
+
+            /*
+              showDialog(
                             context: context,
                             builder: (BuildContext context) => AlertDialog(
                               title: const Text('Ваше бронирование было успешно выполнено'),
@@ -98,12 +117,10 @@ class _DatePickerState extends State<DatePicker> {
                               ],
                             ),
                           );
-                        },
-                      ),
-                    ),
-                  )),
-            ],
-          )),
+               */
+          ],
+        ),
+      ),
     );
   }
 }

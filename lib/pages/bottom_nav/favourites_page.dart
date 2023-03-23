@@ -2,9 +2,9 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:kutpekz/auth_provider.dart';
 import 'package:kutpekz/generated/locale_keys.g.dart';
+import 'package:kutpekz/pages/car_wash_detail.dart';
 import 'package:provider/provider.dart';
 
-import '../car_wash_detail.dart';
 
 class FavouritesPage extends StatefulWidget {
   const FavouritesPage({Key? key}) : super(key: key);
@@ -15,14 +15,18 @@ class FavouritesPage extends StatefulWidget {
 
 class _FavouritesPageState extends State<FavouritesPage> {
   late final ap = Provider.of<AuthProvider>(context, listen: false);
+  bool isLoading = false;
 
   List<bool> favourites = [];
 
   Future getFavourites() async {
+    isLoading = true;
     await ap.getFavourites();
     if(!mounted) return;
     setState(() {
       favourites = ap.favourites;
+      isLoading = false;
+      print(favourites.isEmpty);
     });
   }
 
@@ -43,7 +47,6 @@ class _FavouritesPageState extends State<FavouritesPage> {
         toolbarHeight: 60,
         backgroundColor: Colors.transparent,
         elevation: 0,
-        foregroundColor: Colors.black,
         automaticallyImplyLeading: false,
         centerTitle: true,
       ),
@@ -54,7 +57,8 @@ class _FavouritesPageState extends State<FavouritesPage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Column(
-                    children: [
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: isLoading ? [CircularProgressIndicator()] : [
                       Image.asset(
                         'assets/Empty_box.png',
                         width: 340,
@@ -87,7 +91,9 @@ class _FavouritesPageState extends State<FavouritesPage> {
                                   builder: (context) => CarWashDetail(
                                         carWash: ap.carWashes[index],
                                       ))).then((_) {
-                            setState(() {});
+                            setState(() {
+
+                            });
                           });
                         },
                         title: Text(

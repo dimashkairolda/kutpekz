@@ -13,15 +13,24 @@ class LoadingPage extends StatefulWidget {
 
 class _LoadingPageState extends State<LoadingPage> {
   late final ap = Provider.of<AuthProvider>(context, listen: true);
+  bool isLoading = false;
 
-  void loadData(){
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    isLoading = false;
+  }
+
+  Future loadData() async {
+    if(isLoading) return;
+    isLoading = true;
     ap.getDataFromStorage();
     ap.saveUserDataPreferences();
   }
 
   @override
   Widget build(BuildContext context) {
-
     if(ap.isSignedIn){
       loadData();
       return const HomeScreen();

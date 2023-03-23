@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:iconsax/iconsax.dart';
 
 class Booking extends StatefulWidget {
   const Booking({Key? key}) : super(key: key);
@@ -23,7 +24,6 @@ class _BookingState extends State<Booking> {
         toolbarHeight: 100,
         backgroundColor: Colors.transparent,
         elevation: 0,
-        foregroundColor: Colors.black,
         automaticallyImplyLeading: false,
         centerTitle: true,
         leading: Container(
@@ -38,11 +38,9 @@ class _BookingState extends State<Booking> {
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(20),
               ),
-              backgroundColor: Colors.white,
               child: const Icon(
-                Icons.chevron_left,
+                Iconsax.arrow_left_2,
                 size: 30,
-                color: Colors.black,
               ),
             ),
           ),
@@ -55,121 +53,101 @@ class _BookingState extends State<Booking> {
           children: [
             Container(
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: Theme.of(context).colorScheme.secondary,
                 borderRadius: BorderRadius.circular(20),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey.withOpacity(0.5),
-                    spreadRadius: 3,
-                    blurRadius: 30,
-                    offset: const Offset(0, 3),
-                  ),
-                ],
               ),
-              child: Row(
-                children: [
-                  Checkbox(
-                    value: _checkbox,
-                    onChanged: (value) {
-                      setState(
-                        () {
-                          _checkbox = !_checkbox;
-                        },
-                      );
+              child: CheckboxListTile(
+                // activeColor: Colors.white,
+                checkColor: Colors.grey.shade900,
+                controlAffinity: ListTileControlAffinity.leading,
+                checkboxShape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20),
+                  side: BorderSide(
+                      color: Theme.of(context).scaffoldBackgroundColor),
+                ),
+                onChanged: (value) {
+                  setState(
+                    () {
+                      _checkbox = !_checkbox;
                     },
-                  ),
-                  const Text('Мойка машин'),
-                ],
+                  );
+                },
+                value: _checkbox,
+                title: Text('Мойка машин'),
               ),
             ),
             const Padding(padding: EdgeInsets.only(top: 20)),
             Container(
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: Theme.of(context).colorScheme.secondary,
                 borderRadius: BorderRadius.circular(20),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey.withOpacity(0.5),
-                    spreadRadius: 3,
-                    blurRadius: 30,
-                    offset: const Offset(0, 3),
-                  ),
-                ],
               ),
-              child: Row(
-                children: [
-                  Checkbox(
-                    value: _checkbox1,
-                    onChanged: (value) {
-                      setState(
-                        () {
-                          _checkbox1 = !_checkbox1;
-                        },
-                      );
+              child: CheckboxListTile(
+                // activeColor: Colors.white,
+                checkColor: Colors.grey.shade900,
+                value: _checkbox1,
+                controlAffinity: ListTileControlAffinity.leading,
+                checkboxShape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20),
+                  side: BorderSide(
+                      color: Theme.of(context).scaffoldBackgroundColor),
+                ),
+                onChanged: (value) {
+                  setState(
+                    () {
+                      _checkbox1 = !_checkbox1;
                     },
-                  ),
-                  const Text('Химчистка автомобилей'),
-                ],
+                  );
+                },
+                title: Text('Химчистка автомобилей'),
               ),
             ),
             const Padding(padding: EdgeInsets.only(top: 20)),
             Container(
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: Theme.of(context).colorScheme.secondary,
                 borderRadius: BorderRadius.circular(20),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey.withOpacity(0.5),
-                    spreadRadius: 3,
-                    blurRadius: 30,
-                    offset: const Offset(0, 3),
-                  ),
-                ],
               ),
-              child: Row(
-                children: [
-                  Checkbox(
-                    value: _checkbox2,
-                    onChanged: (value) {
-                      setState(
-                        () {
-                          _checkbox2 = !_checkbox2;
-                        },
-                      );
+              child: CheckboxListTile(
+                // activeColor: Colors.white,
+                checkColor: Colors.grey.shade900,
+                value: _checkbox2,
+                controlAffinity: ListTileControlAffinity.leading,
+                checkboxShape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                onChanged: (value) {
+                  setState(
+                    () {
+                      _checkbox2 = !_checkbox2;
                     },
-                  ),
-                  const Text('Мойка двигателя'),
-                ],
+                  );
+                },
+                title: const Text('Мойка двигателя'),
               ),
             ),
             const Padding(padding: EdgeInsets.only(top: 20)),
             Container(
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: Theme.of(context).colorScheme.secondary,
                 borderRadius: BorderRadius.circular(20),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey.withOpacity(0.5),
-                    spreadRadius: 3,
-                    blurRadius: 30,
-                    offset: const Offset(0, 3),
-                  )
-                ],
               ),
-              child: Row(
-                children: [
-                  Checkbox(
-                    value: _checkbox3,
-                    onChanged: (value) {
-                      setState(
-                        () {
-                          _checkbox3 = !_checkbox3;
-                        },
-                      );
+              child: CheckboxListTile(
+                // activeColor: Colors.white,
+                checkColor: Colors.grey.shade900,
+                value: _checkbox3,
+                controlAffinity: ListTileControlAffinity.leading,
+                checkboxShape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                onChanged: (value) {
+                  setState(
+                    () {
+                      _checkbox3 = !_checkbox3;
                     },
-                  ),
-                  const Text('Автомойка самообслуживания'),
-                ],
+                  );
+                },
+                title: const Text('Автомойка самообслуживания'),
               ),
             ),
             const Padding(padding: EdgeInsets.only(top: 20)),

@@ -7,7 +7,7 @@ class UserModel{
   String profilePicture;
   String createdAt;
   String uid;
-  List<bool> isFavourite = <bool>[];
+  List<bool> isFavourite;
   HistoryModel history;
 
   UserModel({

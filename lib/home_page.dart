@@ -1,25 +1,23 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:iconsax/iconsax.dart';
 import 'package:kutpekz/auth_provider.dart';
 import 'package:kutpekz/generated/locale_keys.g.dart';
 import 'package:kutpekz/pages/bottom_nav/favourites_page.dart';
 import 'package:kutpekz/pages/bottom_nav/profile_page.dart';
-import 'package:kutpekz/pages/map_page.dart';
 import 'package:kutpekz/pages/search_bar.dart';
-import 'package:kutpekz/pages/car_wash_detail.dart';
 import 'package:provider/provider.dart';
 import 'package:kutpekz/pages/history_page.dart';
 
+// DID - PFP CHANGE
+// DID - CUSTOM BOTTOM NAV BAR(HEIGHT, ICONS, CURVE)
+// DID COLOR THEMES
+
+
+// TODO - TIME PICKER -> BOOKING
+
 // TODO - LOAD DATA WHILE APPLICATION LOADS
-// TODO - DISPOSE
-// TODO - CARDS
-
-// TODO - ADMIN VIEW - Dimash doing
-
-// TODO - BOOKING
 // TODO - BUG FIXING
-// TODO - HISTORY
-
 // TODO if sms expired go to register page -> bug after which otp page doesn't show up
 
 class HomeScreen extends StatefulWidget {
@@ -60,14 +58,21 @@ class _HomeScreenState extends State<HomeScreen> {
           Center(
             child: _pages[_selectedTabIndex],
           ),
+          Positioned.fill(
+            child: Align(
+              alignment: Alignment.bottomCenter,
+              child: bottomNavigationBar,
+            ),
+          )
         ],
       ),
-      bottomNavigationBar: bottomNavigationBar,
+      // bottomNavigationBar: ,
     );
   }
 
   Widget get bottomNavigationBar {
     return Container(
+      height: 60,
       decoration: const BoxDecoration(
         borderRadius: BorderRadius.only(
             topRight: Radius.circular(30), topLeft: Radius.circular(30)),
@@ -84,19 +89,20 @@ class _HomeScreenState extends State<HomeScreen> {
           currentIndex: _selectedTabIndex,
           onTap: _changeIndex,
           type: BottomNavigationBarType.fixed,
-          selectedFontSize: 10,
-          unselectedFontSize: 10,
+          selectedFontSize: 12,
+          unselectedFontSize: 12,
           selectedItemColor: const Color(0xff6246EA),
-          unselectedItemColor: Colors.grey[500],
+          unselectedItemColor: Theme.of(context).primaryColor,
           showUnselectedLabels: true,
           items: <BottomNavigationBarItem>[
-            BottomNavigationBarItem(icon: Icon(Icons.home), label: LocaleKeys.btm_nav_home.tr()),
+            //fontawesome antdesign
+            BottomNavigationBarItem(icon: Icon(Iconsax.home, size: 24,), label: LocaleKeys.btm_nav_home.tr()),
             BottomNavigationBarItem(
-                icon: Icon(Icons.history), label: LocaleKeys.btm_nav_history.tr()),
+                icon: Icon(Iconsax.clock, size: 24,), label: LocaleKeys.btm_nav_history.tr()),
             BottomNavigationBarItem(
-                icon: Icon(Icons.favorite), label: LocaleKeys.btm_nav_favourites.tr()),
+                icon: Icon(Iconsax.heart, size: 24,), label: LocaleKeys.btm_nav_favourites.tr()),
             BottomNavigationBarItem(
-                icon: Icon(Icons.account_circle), label: LocaleKeys.btm_nav_profile.tr()),
+                icon: Icon(Iconsax.user, size: 24,), label: LocaleKeys.btm_nav_profile.tr()),
           ],
         ),
       ),
