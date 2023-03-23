@@ -13,11 +13,20 @@ class HistoryModel {
 
   factory HistoryModel.fromMap(Map<String, dynamic> map){
      return HistoryModel(
-      names: map['names'],
-      addresses: map['addresses'],
-      dates: map['dates'],
-      times: map['times'],
+      names: List<String>.from(map['names']),
+      addresses: List<String>.from(map['addresses']),
+      dates: List<String>.from(map['dates']),
+      times: List<String>.from(map['times']),
       );
+  }
+
+  factory HistoryModel.fromMapString(Map<String, List<String>> map){
+    return HistoryModel(
+      names: (map['names']!),
+      addresses: (map['addresses']!),
+      dates: (map['dates']!),
+      times: (map['times']!),
+    );
   }
 
   Map<String, dynamic> toMap() {

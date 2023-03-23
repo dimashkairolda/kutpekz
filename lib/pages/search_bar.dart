@@ -76,6 +76,7 @@ class CustomSearchDelegate extends SearchDelegate {
           color: Colors.black,
         ),
         onPressed: () {
+          if(query == '') close(context, "");
           query = '';
         },
       ),
@@ -92,47 +93,6 @@ class CustomSearchDelegate extends SearchDelegate {
           Icons.arrow_back,
           color: Colors.black,
         ));
-  }
-
-  @override
-  Widget buildResults(BuildContext context) {
-    final ap = Provider.of<AuthProvider>(context, listen: false);
-    search = ap.carWashNames;
-    carWashes = ap.carWashes;
-
-    List<String> matchQuery = [];
-    for (var item in search) {
-      if (item.toLowerCase().contains(query.toLowerCase())) {
-        matchQuery.add(item);
-      }
-    }
-
-    return ListView.builder(
-      itemCount: matchQuery.length,
-      itemBuilder: (context, index) {
-        var result = carWashes[index];
-        return Container(
-          color: Colors.white,
-          // padding: EdgeInsets.fromLTRB(25, 16, 0, 0),
-          child: TextButton(
-            style: const ButtonStyle(alignment: Alignment.centerLeft),
-            child: Text(
-              result.name,
-              style: const TextStyle(fontSize: 16),
-            ),
-            onPressed: () {
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (context) => CarWashDetail(
-                    carWash: result,
-                  ),
-                ),
-              );
-            },
-          ),
-        );
-      },
-    );
   }
 
   @override
@@ -179,5 +139,11 @@ class CustomSearchDelegate extends SearchDelegate {
         );
       },
     );
+  }
+
+  @override
+  Widget buildResults(BuildContext context) {
+    // TODO: implement buildResults
+    throw UnimplementedError();
   }
 }

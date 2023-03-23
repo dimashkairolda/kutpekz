@@ -13,8 +13,6 @@ class FavouritesPage extends StatefulWidget {
   State<FavouritesPage> createState() => _FavouritesPageState();
 }
 
-// TODO STYLIZE PAGE
-
 class _FavouritesPageState extends State<FavouritesPage> {
   late final ap = Provider.of<AuthProvider>(context, listen: false);
 
@@ -22,6 +20,7 @@ class _FavouritesPageState extends State<FavouritesPage> {
 
   Future getFavourites() async {
     await ap.getFavourites();
+    if(!mounted) return;
     setState(() {
       favourites = ap.favourites;
     });
@@ -31,12 +30,6 @@ class _FavouritesPageState extends State<FavouritesPage> {
   void initState() {
     super.initState();
     getFavourites();
-  }
-
-  @override
-  void dispose() {
-    // TODO: implement dispose
-    super.dispose();
   }
 
   @override
@@ -54,40 +47,65 @@ class _FavouritesPageState extends State<FavouritesPage> {
         automaticallyImplyLeading: false,
         centerTitle: true,
       ),
-      body: ListView.builder(
-          itemCount: favourites.length,
-          itemBuilder: (BuildContext context, int index) {
-            if (favourites[index]) {
-              return Padding(
-                padding: EdgeInsets.symmetric(horizontal: 12, vertical: 0),
-                child: Card(
-                  child: ListTile(
-                    onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => CarWashDetail(
-                                carWash: ap.carWashes[index],
-                              ))).then((_) {
-                        setState(() {});
-                      });
-                    },
-                    title: Text(
-                      ap.carWashes[index].name,
-                      style: const TextStyle(
-                        fontSize: 20,
+      body: favourites.isEmpty
+          ? Scaffold(
+              body: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Column(
+                    children: [
+                      Image.asset(
+                        'assets/Empty_box.png',
+                        width: 340,
+                        height: 267,
+                      ),
+                      const Text(
+                        'У вас нет избранных автомоек',
+                        style: TextStyle(
+                            fontFamily: 'San Francisco',
+                            fontWeight: FontWeight.w500,
+                            fontSize: 18),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            )
+          : ListView.builder(
+              itemCount: favourites.length,
+              itemBuilder: (BuildContext context, int index) {
+                if (favourites[index]) {
+                  return Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 12, vertical: 0),
+                    child: Card(
+                      child: ListTile(
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => CarWashDetail(
+                                        carWash: ap.carWashes[index],
+                                      ))).then((_) {
+                            setState(() {});
+                          });
+                        },
+                        title: Text(
+                          ap.carWashes[index].name,
+                          style: const TextStyle(
+                            fontSize: 20,
+                          ),
+                        ),
+                        subtitle: Text(ap.carWashes[index].address),
                       ),
                     ),
-                    subtitle: Text(ap.carWashes[index].address),
-                  ),
-                ),
-              );
-            } else {
-              return const SizedBox(
-                height: 0,
-              );
-            }
-          }),
+                  );
+                } else {
+                  return const SizedBox(
+                    height: 0,
+                  );
+                }
+              }),
     );
   }
 }

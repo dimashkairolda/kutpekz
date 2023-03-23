@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:kutpekz/auth_provider.dart';
 import 'package:kutpekz/custom_button.dart';
+import 'package:kutpekz/history_model.dart';
 import 'package:kutpekz/home_page.dart';
 import 'package:kutpekz/user_model.dart';
 import 'package:kutpekz/utils/utils.dart';
@@ -137,6 +138,9 @@ class _UserInformationPageState extends State<UserInformationPage> {
 
   void storeData() async {
     final ap = Provider.of<AuthProvider>(context, listen: false);
+    await ap.getCarWashesFromStorage();
+    List<bool> favs = List.filled(ap.carWashes.length, false, growable: true);
+    HistoryModel hist = HistoryModel(names: [], addresses: [], dates: [], times: []);
     UserModel userModel = UserModel(
         phoneNumber: "",
         email: emailController.text.trim(),
@@ -144,7 +148,8 @@ class _UserInformationPageState extends State<UserInformationPage> {
         profilePicture: "",
         createdAt: "",
         uid: "",
-        isFavourite: [false],
+        isFavourite: favs,
+        history: hist,
     );
     if(image != null){
       ap.saveUserData(
@@ -153,7 +158,7 @@ class _UserInformationPageState extends State<UserInformationPage> {
         profilePicture: image!,
         onSuccess: (){
           ap.saveUserDataPreferences().then((value)
-          => ap.setSignIn().then((value)).then((value)
+          => ap.setSignIn().then((value)
           => Navigator.pushAndRemoveUntil(
               context, MaterialPageRoute(builder: (context) => const HomeScreen()), (route) => false)
           ));

@@ -1,8 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
-import 'dart:typed_data';
-
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -10,10 +8,8 @@ import 'package:dgis_flutter/dgis_flutter.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:image_to_byte/image_to_byte.dart';
 import 'package:kutpekz/car_washes_model.dart';
 import 'package:kutpekz/history_model.dart';
-import 'package:kutpekz/home_page.dart';
 import 'package:kutpekz/otp_page.dart';
 import 'package:kutpekz/user_model.dart';
 import 'package:kutpekz/utils/utils.dart';
@@ -33,10 +29,6 @@ class AuthProvider extends ChangeNotifier {
   String get uid => _uid!;
 
   PhoneAuthCredential? credential;
-
-  HistoryModel? _historyModel;
-
-  HistoryModel get historyModel => _historyModel!;
 
   UserModel? _userModel;
 
@@ -192,7 +184,6 @@ class AuthProvider extends ChangeNotifier {
       });
       _userModel = userModel;
       // upload usermodel to database
-
       await _firebaseFirestore
           .collection("users")
           .doc(_uid)
@@ -202,6 +193,7 @@ class AuthProvider extends ChangeNotifier {
         _isLoading = false;
         notifyListeners();
       });
+      pfp = CachedNetworkImageProvider(userModel.profilePicture);
     } on FirebaseAuthException catch (e) {
       showSnackBar(context, e.message.toString());
       _isLoading = false;
@@ -217,7 +209,7 @@ class AuthProvider extends ChangeNotifier {
         .then((DocumentSnapshot snapshot) async {
           List<bool> b = [];
           for(int i = 0; i < carWashes.length; i++){
-            b.add(false);
+            b.add(snapshot['isFavourite'][i]);
           }
 
       _userModel = UserModel(
@@ -228,6 +220,7 @@ class AuthProvider extends ChangeNotifier {
         createdAt: snapshot['createdAt'],
         uid: snapshot['uid'],
         isFavourite: b,
+        history: HistoryModel.fromMap(snapshot['history']),
       );
       b.clear();
       _uid = userModel.uid;
@@ -249,14 +242,15 @@ class AuthProvider extends ChangeNotifier {
 
   Future getUserDataFromPreferences() async {
     SharedPreferences sp = await SharedPreferences.getInstance();
-    String data = sp.getString("user_model") ?? '';
-    _userModel = UserModel.fromMap(jsonDecode(data));
+    String userModelSP = sp.getString("user_model") ?? '';
+    _userModel = UserModel.fromMap(jsonDecode(userModelSP));
     _uid = _userModel!.uid;
     pfp = CachedNetworkImageProvider(userModel.profilePicture);
     notifyListeners();
   }
 
   Future<void> getCarWashesFromStorage() async {
+      print("Get Car Washes");
       _carWashes = [];
       _carWashNames = [];
       var snapshot = await _firebaseFirestore.collection('car-washes').get();

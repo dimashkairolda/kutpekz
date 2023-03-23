@@ -1,3 +1,5 @@
+import 'package:kutpekz/history_model.dart';
+
 class UserModel{
   String phoneNumber;
   String email;
@@ -6,6 +8,7 @@ class UserModel{
   String createdAt;
   String uid;
   List<bool> isFavourite = <bool>[];
+  HistoryModel history;
 
   UserModel({
     required this.phoneNumber,
@@ -15,6 +18,7 @@ class UserModel{
     required this.createdAt,
     required this.uid,
     required this.isFavourite,
+    required this.history,
   });
 
 
@@ -29,6 +33,7 @@ class UserModel{
         createdAt: map['createdAt'] ?? '',
         uid: map['uid'] ?? '',
         isFavourite: List<bool>.from(map['isFavourite']),
+        history: HistoryModel.fromMap(map['history']),
     );
   }
 
@@ -42,6 +47,7 @@ class UserModel{
       "createdAt": createdAt,
       "uid": uid,
       "isFavourite" : isFavourite,
+      "history" : history.toMap(),
     };
   }
 

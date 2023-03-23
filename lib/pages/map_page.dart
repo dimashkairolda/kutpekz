@@ -18,7 +18,7 @@ class MapPage extends StatefulWidget {
 }
 
 class _MapPageState extends State<MapPage> {
-  Position currentPosition = Position(longitude: 43, latitude: 76, timestamp: DateTime.now(), accuracy: 0, altitude: 0, heading: 0, speed: 0, speedAccuracy: 0);
+  Position currentPosition = Position(longitude: 76.897746, latitude: 43.234571, timestamp: DateTime.now(), accuracy: 0, altitude: 0, heading: 0, speed: 0, speedAccuracy: 0);
   final GisMapController controller = GisMapController();
   List<GisMapMarker>? list;
   List<GisMapMarker> tempList = [];
@@ -31,21 +31,15 @@ class _MapPageState extends State<MapPage> {
     getMarkers();
     _getCurrentLocation();
 
-    StreamSubscription positionStream =
-        Geolocator.getPositionStream(locationSettings: const LocationSettings())
-            .listen((Position position) {
-      setState(() {
-        currentPosition = position;
-      });
-    });
+    // StreamSubscription positionStream =
+    //     Geolocator.getPositionStream(locationSettings: const LocationSettings())
+    //         .listen((Position position) {
+    //   setState(() {
+    //     currentPosition = position;
+    //   });
+    // });
 
     super.initState();
-  }
-
-  @override
-  void dispose() {
-    // TODO: implement dispose
-    super.dispose();
   }
 
   _getCurrentLocation() async {
@@ -56,6 +50,7 @@ class _MapPageState extends State<MapPage> {
             desiredAccuracy: LocationAccuracy.best,
             forceAndroidLocationManager: true)
         .then((Position position) {
+      if(!mounted) return;
       setState(() {
         currentPosition = position;
       });
@@ -90,13 +85,14 @@ class _MapPageState extends State<MapPage> {
       index += 1;
     }
     list = markers;
-
+    if(!mounted) return;
     setState(() {
       controller.updateMarkers(list!);
     });
   }
 
   Future setMarkers() async {
+    if(!mounted) return;
     setState(() {
       controller.init();
       controller.updateMarkers(list!);
