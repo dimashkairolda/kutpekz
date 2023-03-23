@@ -14,6 +14,7 @@ import 'package:kutpekz/otp_page.dart';
 import 'package:kutpekz/user_model.dart';
 import 'package:kutpekz/utils/utils.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:time_range_picker/time_range_picker.dart';
 
 class AuthProvider extends ChangeNotifier {
   bool _isSignedIn = false;
@@ -53,6 +54,24 @@ class AuthProvider extends ChangeNotifier {
   List<bool> _favourites = [];
 
   List<bool> get favourites => _favourites;
+
+  TimeRange? _bookedTime;
+
+  TimeRange? get bookedTime => _bookedTime;
+
+  String? _bookedCarWashName;
+  String get bookedCarWashName => _bookedCarWashName!;
+  void setBookedCarWashName(String name) => _bookedCarWashName = name;
+
+  String? _bookedCarWashAddress;
+  String get bookedCarWashAddress => _bookedCarWashAddress!;
+  void setBookedCarWashAddress(String address) => _bookedCarWashAddress = address;
+
+  DateTime? _bookedDate;
+  DateTime get bookedDate => _bookedDate!;
+  void setBookedDate(DateTime date) => _bookedDate = date;
+
+  void setBookedTime(TimeRange timeRange) => _bookedTime = timeRange;
 
   late CachedNetworkImageProvider pfp;
 

@@ -346,6 +346,10 @@ class _CarWashDetailState extends State<CarWashDetail> {
                           color: Colors.white),
                     ),
                     onPressed: () {
+                      setState(() {
+                        ap.setBookedCarWashName(widget.carWash.name);
+                        ap.setBookedCarWashAddress(widget.carWash.address);
+                      });
                       Navigator.pushNamed(context, '/booking');
                     },
                   ),

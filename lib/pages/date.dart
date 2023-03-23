@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:kutpekz/auth_provider.dart';
+import 'package:provider/provider.dart';
 import 'package:time_range_picker/time_range_picker.dart';
 
 class DatePicker extends StatefulWidget {
@@ -18,6 +20,7 @@ class _DatePickerState extends State<DatePicker> {
 
   @override
   Widget build(BuildContext context) {
+    final ap = Provider.of<AuthProvider>(context, listen: false);
     return Scaffold(
       appBar: AppBar(
         title: const Text('Выберите дату'),
@@ -57,8 +60,9 @@ class _DatePickerState extends State<DatePicker> {
                 lastDate: DateTime.now().add(Duration(days: 14)),
                 onDateChanged: (date) {
                   setState(() {
+                    ap.setBookedDate(date);
+                    print("Picked Date: $date");
                     _dateTime = date;
-                    print(_dateTime);
                   });
                 }),
             SizedBox(
@@ -96,28 +100,28 @@ class _DatePickerState extends State<DatePicker> {
                               endTime: TimeOfDay(hour: 9, minute: 59)),
                           interval: Duration(minutes: 30),
                       maxDuration: Duration(hours: 1, minutes: 30));
+                      setState(() {
+                        ap.setBookedTime(selectedTime);
+                      });
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) => AlertDialog(
+                          title: const Text('Ваше бронирование было успешно выполнено'),
+                          // content: const Text(
+                          //     'Ваше бронирование было успешно выполнено'),
+                          actions: <Widget>[
+                            TextButton(
+                              onPressed: () => Navigator.pop(context, 'OK'),
+                              child: const Text('OK'),
+                            ),
+                          ],
+                        ),
+                      );
                     },
                   ),
                 ),
               ),
             ),
-
-            /*
-              showDialog(
-                            context: context,
-                            builder: (BuildContext context) => AlertDialog(
-                              title: const Text('Ваше бронирование было успешно выполнено'),
-                              // content: const Text(
-                              //     'Ваше бронирование было успешно выполнено'),
-                              actions: <Widget>[
-                                TextButton(
-                                  onPressed: () => Navigator.pop(context, 'OK'),
-                                  child: const Text('OK'),
-                                ),
-                              ],
-                            ),
-                          );
-               */
           ],
         ),
       ),
