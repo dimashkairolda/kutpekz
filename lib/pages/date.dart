@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:kutpekz/auth_provider.dart';
@@ -53,73 +54,105 @@ class _DatePickerState extends State<DatePicker> {
       body: Padding(
         padding: const EdgeInsets.all(25),
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            CalendarDatePicker(
-                initialDate: DateTime.now(),
-                firstDate: DateTime.now(),
-                lastDate: DateTime.now().add(Duration(days: 14)),
-                onDateChanged: (date) {
-                  setState(() {
-                    ap.setBookedDate(date);
-                    print("Picked Date: $date");
-                    _dateTime = date;
-                  });
-                }),
-            SizedBox(
-              width: 365,
-              height: 50,
-              child: Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10.0),
-                  gradient: const LinearGradient(
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                    colors: <Color>[
-                      Color.fromRGBO(145, 122, 253, 1),
-                      Color.fromRGBO(98, 78, 234, 1)
-                    ],
+            Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                color: Theme.of(context).colorScheme.outline,
+              ),
+              child: CalendarDatePicker(
+                  initialDate: DateTime.now(),
+                  firstDate: DateTime.now(),
+                  lastDate: DateTime.now().add(Duration(days: 14)),
+                  onDateChanged: (date) {
+                    setState(() {
+                      ap.setBookedDate(date);
+                      print("Picked Date: $date");
+                      _dateTime = date;
+                    });
+                  }),
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 0, vertical: 20),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "Доступное время",
+                    style: TextStyle(fontWeight: FontWeight.w700, fontSize: 14),
                   ),
-                ),
-                child: Material(
-                  elevation: 5,
-                  color: Colors.transparent,
-                  child: MaterialButton(
-                    child: const Text(
-                      "Забронировать",
-                      style: TextStyle(
-                          fontWeight: FontWeight.w600,
-                          fontSize: 16.0,
-                          color: Colors.white),
-                    ),
-                    onPressed: () async {
-                      TimeRange selectedTime = await showTimeRangePicker(
-                          context: context,
-                          start: TimeOfDay(hour: 10, minute: 00),
-                          disabledTime: TimeRange(
-                              startTime: TimeOfDay(hour: 24, minute: 00),
-                              endTime: TimeOfDay(hour: 9, minute: 59)),
-                          interval: Duration(minutes: 30),
-                      maxDuration: Duration(hours: 1, minutes: 30));
-                      setState(() {
-                        ap.setBookedTime(selectedTime);
-                      });
-                      showDialog(
-                        context: context,
-                        builder: (BuildContext context) => AlertDialog(
-                          title: const Text('Ваше бронирование было успешно выполнено'),
-                          // content: const Text(
-                          //     'Ваше бронирование было успешно выполнено'),
-                          actions: <Widget>[
-                            TextButton(
-                              onPressed: () => Navigator.pop(context, 'OK'),
-                              child: const Text('OK'),
+                  Container(
+                    height: 55,
+                    width: MediaQuery.of(context).size.width,
+                    child: ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        itemCount: 10,
+                        itemBuilder: (context, index) {
+                          return Container(
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 10.0, horizontal: 5.0),
+                            width: 120,
+                            child: ListTile(
+                              shape: RoundedRectangleBorder(
+                                side: BorderSide(color: Theme.of(context).colorScheme.primary),
+                                borderRadius: BorderRadius.circular(15),
+                              ),
+                              title: Align(
+                                alignment: FractionalOffset.topCenter,
+                                child: const Text(
+                                  "10:00 - 11:00",
+                                  style: TextStyle(fontSize: 10),
+                                ),
+                              )
                             ),
-                          ],
-                        ),
-                      );
-                    },
+                          );
+                        }),
                   ),
+                ],
+              ),
+            ),
+            SizedBox(
+              width: MediaQuery.of(context).size.width * 0.85,
+              child: CupertinoButton(
+                color: Color.fromRGBO(98, 78, 234, 1),
+                borderRadius: BorderRadius.circular(10),
+                child: const Text(
+                  "Забронировать",
+                  style: TextStyle(
+                      fontWeight: FontWeight.w700,
+                      fontSize: 20.0,
+                      color: Colors.white),
                 ),
+                onPressed: () async {
+                  TimeRange selectedTime = await showTimeRangePicker(
+                      context: context,
+                      start: TimeOfDay(hour: 10, minute: 00),
+                      disabledTime: TimeRange(
+                          startTime: TimeOfDay(hour: 24, minute: 00),
+                          endTime: TimeOfDay(hour: 9, minute: 59)),
+                      interval: Duration(minutes: 30),
+                      maxDuration: Duration(hours: 1, minutes: 30));
+                  setState(() {
+                    ap.setBookedTime(selectedTime);
+                  });
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) => AlertDialog(
+                      title: const Text(
+                          'Ваше бронирование было успешно выполнено'),
+                      // content: const Text(
+                      //     'Ваше бронирование было успешно выполнено'),
+                      actions: <Widget>[
+                        TextButton(
+                          onPressed: () => Navigator.pop(context, 'OK'),
+                          child: const Text('OK'),
+                        ),
+                      ],
+                    ),
+                  );
+                },
               ),
             ),
           ],

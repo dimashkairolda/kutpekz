@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:kutpekz/auth_provider.dart';
@@ -39,100 +40,124 @@ class _UserInformationPageState extends State<UserInformationPage> {
     final isLoading =
         Provider.of<AuthProvider>(context, listen: true).isLoading;
     return Scaffold(
-      backgroundColor: Color.fromRGBO(112, 166, 255, 1.0),
-      body: SafeArea(
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.symmetric(vertical: 25,horizontal: 5),
-          child: isLoading == true ?
-          const Center(
-            child: CircularProgressIndicator(color: Colors.grey,),
-          ) : Center(
-            child: Column(
-              children: [
-                InkWell(
-                  onTap: () {
-                    selectImage();
-                  },
-                  child: image == null ?
-                  const CircleAvatar(
-                    backgroundColor: Colors.amber,
-                    radius: 50,
-                    child: Icon(Icons.account_circle, size: 50, color: Colors.white),
-                  )
-                  : CircleAvatar(
-                    backgroundImage: FileImage(image!),
-                    radius: 50,
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.symmetric(vertical: 25, horizontal: 5),
+        child: isLoading == true
+            ? Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: const [
+                    CircularProgressIndicator(
+                      color: Colors.grey,
+                    ),
+                  ])
+            : Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Padding(padding: EdgeInsets.only(top: 60)),
+                  Text(
+                    'Введите данные',
+                    style:
+                    TextStyle(fontWeight: FontWeight.w700, fontSize: 24),
                   ),
-                ),
-                Container(
-                  width: MediaQuery.of(context).size.width,
-                  padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 15),
-                  margin: const EdgeInsets.only(top: 20),
-                  child: Column(
-                    children: [
-                      // name
-                      textField(hintText: 'Имя', icon: Icons.account_circle, inputType: TextInputType.name, maxLines: 1, controller: nameController),
-                      // email
-                      textField(hintText: 'E-mail', icon: Icons.email, inputType: TextInputType.emailAddress, maxLines: 1, controller: emailController),
-                      const SizedBox(
-                        height: 50,
-                      ),
-                      SizedBox(
-                        height: 50,
-                        width: MediaQuery.of(context).size.width * 0.9,
-                        child: CustomButton(
-                          text: 'Продолжить',
-                          onPressed: (){
-                            storeData();
-                          },
+                  Padding(padding: EdgeInsets.only(top: 40)),
+                  InkWell(
+                    onTap: () {
+                      selectImage();
+                    },
+                    child: image == null
+                        ? CircleAvatar(
+                            backgroundColor:
+                                Theme.of(context).colorScheme.background,
+                            radius: 50,
+                            child: Icon(
+                              Icons.account_circle,
+                              size: 100,
+                              color: Theme.of(context).colorScheme.secondary,
+                            ),
+                          )
+                        : CircleAvatar(
+                            backgroundImage: FileImage(image!),
+                            radius: 50,
+                          ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(padding: EdgeInsets.only(top: 20)),
+                        const Padding(
+                          padding: EdgeInsets.symmetric(vertical: 10, horizontal: 5),
+                          child: Text(
+                            'Имя',
+                            style:
+                            TextStyle(fontWeight: FontWeight.w500, fontSize: 14),
+                          ),
                         ),
-                      ),
-                    ],
+                        GestureDetector(
+                          child: TextFormField(
+                            keyboardType: TextInputType.name,
+                            controller: nameController,
+                            style: TextStyle(
+                                fontSize: 16, fontFamily: "San Francisco"),
+                            inputFormatters: [
+                              LengthLimitingTextInputFormatter(20),
+                            ],
+                            decoration: const InputDecoration(
+                              filled: true,
+                              enabledBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: Colors.transparent,
+                                    style: BorderStyle.none),
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(20.0),
+                                ),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: Colors.transparent,
+                                    style: BorderStyle.none),
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(20.0),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
-                )
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget textField({
-    required String hintText,
-    required IconData icon,
-    required TextInputType inputType,
-    required int maxLines,
-    required TextEditingController controller
-  }) {
-    return Padding(
-        padding: EdgeInsets.only(bottom: 10),
-        child: TextFormField(
-          maxLines: maxLines,
-          controller: controller,
-          decoration: InputDecoration(
-            prefixIcon: Container(
-              margin: EdgeInsets.all(8),
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(8), color: Colors.amber
+                  SizedBox(height: 120,),
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width * 0.85,
+                    child: CupertinoButton(
+                      color: Color.fromRGBO(98, 78, 234, 1),
+                      borderRadius: BorderRadius.circular(10),
+                      child: const Text(
+                        "Отправить код",
+                        style: TextStyle(
+                            fontWeight: FontWeight.w700,
+                            fontSize: 20.0,
+                            color: Colors.white),
+                      ),
+                      onPressed: () {
+                        if(nameController.text.isEmpty){
+                          showSnackBar(context, "Введите свое имя");
+                          return;
+                        }
+                        else if(nameController.text.length < 2){
+                          showSnackBar(context, "Имя должно быть не меньше двух символов");
+                          return;
+                        }
+                        else{
+                          storeData();
+                        }
+                      },
+                    ),
+                  ),
+                ],
               ),
-              child: Icon(icon,size:20, color: Colors.white,),
-            ),
-            enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(10),
-                borderSide: const BorderSide(color: Colors.amber),
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(10),
-              borderSide: const BorderSide(color: Colors.amber),
-            ),
-            hintText: hintText,
-            alignLabelWithHint: true,
-            border: InputBorder.none,
-            fillColor: Colors.amber.shade50,
-            filled: true
-          ),
-        ),
+      ),
     );
   }
 
@@ -140,32 +165,31 @@ class _UserInformationPageState extends State<UserInformationPage> {
     final ap = Provider.of<AuthProvider>(context, listen: false);
     await ap.getCarWashesFromStorage();
     List<bool> favs = List.filled(ap.carWashes.length, false, growable: true);
-    HistoryModel hist = HistoryModel(names: [], addresses: [], dates: [], times: []);
+    HistoryModel hist =
+        HistoryModel(names: [], addresses: [], dates: [], times: []);
     UserModel userModel = UserModel(
-        phoneNumber: "",
-        email: emailController.text.trim(),
-        name: nameController.text.trim(),
-        profilePicture: "",
-        createdAt: "",
-        uid: "",
-        isFavourite: favs,
-        history: hist,
+      phoneNumber: "",
+      email: "",
+      name: nameController.text.trim(),
+      profilePicture: "",
+      createdAt: "",
+      uid: "",
+      isFavourite: favs,
+      history: hist,
     );
-    if(image != null){
+    if (image != null) {
       ap.saveUserData(
-        context: context,
-        userModel: userModel,
-        profilePicture: image!,
-        onSuccess: (){
-          ap.saveUserDataPreferences().then((value)
-          => ap.setSignIn().then((value)
-          => Navigator.pushAndRemoveUntil(
-              context, MaterialPageRoute(builder: (context) => const HomeScreen()), (route) => false)
-          ));
-        }
-      );
-    }
-    else{
+          context: context,
+          userModel: userModel,
+          profilePicture: image!,
+          onSuccess: () {
+            ap.saveUserDataPreferences().then((value) => ap.setSignIn().then(
+                (value) => Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(builder: (context) => const HomeScreen()),
+                    (route) => false)));
+          });
+    } else {
       // use default image
       print('Продолжить без аватара?');
     }
