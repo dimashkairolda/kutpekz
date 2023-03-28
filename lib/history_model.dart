@@ -20,15 +20,6 @@ class HistoryModel {
       );
   }
 
-  factory HistoryModel.fromMapString(Map<String, List<String>> map){
-    return HistoryModel(
-      names: (map['names']!),
-      addresses: (map['addresses']!),
-      dates: (map['dates']!),
-      times: (map['times']!),
-    );
-  }
-
   Map<String, dynamic> toMap() {
     return {
       "names": names,

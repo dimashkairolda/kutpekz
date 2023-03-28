@@ -31,16 +31,8 @@ class Inactive extends StatelessWidget {
             width: 340,
             height: 170,
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: Theme.of(context).colorScheme.secondary,
               borderRadius: BorderRadius.circular(20),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.grey.withOpacity(0.5),
-                  spreadRadius: 3,
-                  blurRadius: 30,
-                  offset: const Offset(0, 3),
-                )
-              ],
             ),
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),

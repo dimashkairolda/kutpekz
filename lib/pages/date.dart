@@ -1,28 +1,46 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:kutpekz/auth_provider.dart';
+import 'package:kutpekz/car_washes_model.dart';
 import 'package:provider/provider.dart';
 import 'package:time_range_picker/time_range_picker.dart';
 
 class DatePicker extends StatefulWidget {
-  const DatePicker({Key? key}) : super(key: key);
+  CarWashes carWash;
+  DatePicker({Key? key, required this.carWash}) : super(key: key);
 
   @override
   State<DatePicker> createState() => _DatePickerState();
 }
 
 class _DatePickerState extends State<DatePicker> {
-  DateTime _dateTime = DateTime.now();
+  DateTime dateTime = DateTime.now();
+  DateTime today = DateTime.now();
   TimeOfDay time = TimeOfDay(hour: 10, minute: 0);
+  bool dateSelected = false;
+  Map<String,bool> times = {};
   late TimeOfDay bookedTime;
+  int dateIndex = 0;
   DateTimeRange range = DateTimeRange(
       start: DateTime.now(), end: DateTime.now().add(Duration(days: 14)));
+  List<bool> selected = [];
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    times = widget.carWash.times.times[0];
+    selected = List.generate(20, (i) => false);
+  }
 
   @override
   Widget build(BuildContext context) {
+    today = today.subtract(Duration(hours: today.hour, minutes: today.minute, seconds: today.second, milliseconds:  today.millisecond, microseconds: today.microsecond));
     final ap = Provider.of<AuthProvider>(context, listen: false);
     return Scaffold(
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
         title: const Text('Выберите дату'),
         toolbarHeight: 100,
@@ -54,13 +72,14 @@ class _DatePickerState extends State<DatePicker> {
       body: Padding(
         padding: const EdgeInsets.all(25),
         child: Column(
+
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),
-                color: Theme.of(context).colorScheme.outline,
+                color: Theme.of(context).colorScheme.secondary,
               ),
               child: CalendarDatePicker(
                   initialDate: DateTime.now(),
@@ -68,9 +87,13 @@ class _DatePickerState extends State<DatePicker> {
                   lastDate: DateTime.now().add(Duration(days: 14)),
                   onDateChanged: (date) {
                     setState(() {
-                      ap.setBookedDate(date);
-                      print("Picked Date: $date");
-                      _dateTime = date;
+                      dateSelected = true;
+                      selected = List.generate(20, (i) => false);
+                      dateIndex = date.difference(today).inDays;
+                      times = widget.carWash.times.times[dateIndex];
+                      dateTime = date;
+                      ap.setBookedDate(dateTime);
+                      print(times);
                     });
                   }),
             ),
@@ -83,33 +106,44 @@ class _DatePickerState extends State<DatePicker> {
                     "Доступное время",
                     style: TextStyle(fontWeight: FontWeight.w700, fontSize: 14),
                   ),
-                  Container(
-                    height: 55,
-                    width: MediaQuery.of(context).size.width,
-                    child: ListView.builder(
-                        scrollDirection: Axis.horizontal,
-                        itemCount: 10,
-                        itemBuilder: (context, index) {
-                          return Container(
-                            padding: const EdgeInsets.symmetric(
-                                vertical: 10.0, horizontal: 5.0),
-                            width: 120,
-                            child: ListTile(
-                              shape: RoundedRectangleBorder(
-                                side: BorderSide(color: Theme.of(context).colorScheme.primary),
-                                borderRadius: BorderRadius.circular(15),
+                  SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Container(
+                      height: 55,
+                      width: MediaQuery.of(context).size.width,
+                      child: ListView.builder(
+                        shrinkWrap: true,
+                          clipBehavior: Clip.hardEdge,
+                          scrollDirection: Axis.horizontal,
+                          itemCount: times.length,
+                          itemBuilder: (context, index) {
+                            return Container(
+                              padding: const EdgeInsets.symmetric(
+                                  vertical: 10.0, horizontal: 5.0),
+                              width: 120,
+                              child: ListTile(
+                                  tileColor: selected[index] ? Theme.of(context).colorScheme.primary.withOpacity(0.5) : Theme.of(context).scaffoldBackgroundColor,
+                                  onTap: (){
+                                    setState(() {
+                                      selected[index] = !selected[index];
+                                    });
+                                  },
+                                  shape: RoundedRectangleBorder(
+                                    side: BorderSide(color: Theme.of(context).colorScheme.primary, width: 1),
+                                    borderRadius: BorderRadius.circular(15),
+                                  ),
+                                  title: Align(
+                                    alignment: FractionalOffset.topCenter,
+                                    child: Text(
+                                      times.keys.elementAt(index),
+                                      style: TextStyle(fontSize: 10),
+                                    ),
+                                  )
                               ),
-                              title: Align(
-                                alignment: FractionalOffset.topCenter,
-                                child: const Text(
-                                  "10:00 - 11:00",
-                                  style: TextStyle(fontSize: 10),
-                                ),
-                              )
-                            ),
-                          );
-                        }),
-                  ),
+                            );
+                          }),
+                    ),
+                  )
                 ],
               ),
             ),
@@ -126,24 +160,11 @@ class _DatePickerState extends State<DatePicker> {
                       color: Colors.white),
                 ),
                 onPressed: () async {
-                  TimeRange selectedTime = await showTimeRangePicker(
-                      context: context,
-                      start: TimeOfDay(hour: 10, minute: 00),
-                      disabledTime: TimeRange(
-                          startTime: TimeOfDay(hour: 24, minute: 00),
-                          endTime: TimeOfDay(hour: 9, minute: 59)),
-                      interval: Duration(minutes: 30),
-                      maxDuration: Duration(hours: 1, minutes: 30));
-                  setState(() {
-                    ap.setBookedTime(selectedTime);
-                  });
                   showDialog(
                     context: context,
                     builder: (BuildContext context) => AlertDialog(
                       title: const Text(
                           'Ваше бронирование было успешно выполнено'),
-                      // content: const Text(
-                      //     'Ваше бронирование было успешно выполнено'),
                       actions: <Widget>[
                         TextButton(
                           onPressed: () => Navigator.pop(context, 'OK'),

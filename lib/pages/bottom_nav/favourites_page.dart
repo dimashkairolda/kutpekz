@@ -50,15 +50,16 @@ class _FavouritesPageState extends State<FavouritesPage> {
         automaticallyImplyLeading: false,
         centerTitle: true,
       ),
-      body: favourites.isEmpty
+      body: !favourites.contains(true)
           ? Scaffold(
               body: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: [
+                children: isLoading ? [Center(child: Padding(padding: EdgeInsets.only(bottom: 100), child: CircularProgressIndicator()),)] : [
                   Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: isLoading ? [CircularProgressIndicator()] : [
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
                       Image.asset(
                         'assets/Empty_box.png',
                         width: 340,

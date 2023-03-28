@@ -44,7 +44,7 @@ class _ProfilePageState extends State<ProfilePage> {
               height: 20,
             ),
             Text(
-              "Здравстуйте, ${ap.userModel.name}",
+              "Здравствуйте, ${ap.userModel.name}",
               style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
             ),
             const SizedBox(
@@ -117,10 +117,11 @@ class _ProfilePageState extends State<ProfilePage> {
                         Color.fromRGBO(98, 78, 234, 1)
                       ]),
                 ),
-                child: Material(
-                  elevation: 5,
-                  color: Colors.transparent,
-                  child: MaterialButton(
+                child: SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.85,
+                  child: CupertinoButton(
+                    color: Color.fromRGBO(98, 78, 234, 1),
+                    borderRadius: BorderRadius.circular(10),
                     child: const Text(
                       "Выйти",
                       style: TextStyle(

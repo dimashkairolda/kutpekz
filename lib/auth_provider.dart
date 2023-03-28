@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:collection';
 import 'dart:convert';
 import 'dart:io';
 
@@ -11,6 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:kutpekz/car_washes_model.dart';
 import 'package:kutpekz/history_model.dart';
 import 'package:kutpekz/otp_page.dart';
+import 'package:kutpekz/times_model.dart';
 import 'package:kutpekz/user_model.dart';
 import 'package:kutpekz/utils/utils.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -275,6 +277,15 @@ class AuthProvider extends ChangeNotifier {
     _carWashNames = [];
     var snapshot = await _firebaseFirestore.collection('car-washes').get();
     for (var item in snapshot.docs) {
+      bool contains = false;
+      SplayTreeMap<String, dynamic> times = SplayTreeMap();
+      if(item.data().containsKey("times")){
+        times = SplayTreeMap<String,dynamic>.from(item['times'], (a, b) => a.compareTo(b));
+        // times.keys.toList().sort((a,b) => a.compareTo(b));
+        print(times.toString());
+        contains = true;
+      }
+
       CarWashes c = CarWashes(
         name: item['name'],
         address: item['address'],
@@ -285,6 +296,7 @@ class AuthProvider extends ChangeNotifier {
         phoneNumber: item['phoneNumber'],
         weekEndHours: item['weekEndHours'],
         weekDayHours: item['weekDayHours'],
+        times: contains ? TimesModel.fromMap(Map.from(times)) : TimesModel(dates: [], times: []),
       );
       _carWashNames.add(c.name);
       _carWashes.add(c);

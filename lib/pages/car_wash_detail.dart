@@ -1,7 +1,9 @@
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:kutpekz/car_washes_model.dart';
+import 'package:kutpekz/pages/booking.dart';
 import 'package:provider/provider.dart';
 
 import '../auth_provider.dart';
@@ -320,40 +322,24 @@ class _CarWashDetailState extends State<CarWashDetail> {
             ),
             const Padding(padding: EdgeInsets.only(top: 40)),
             SizedBox(
-              width: 334,
-              height: 35,
-              child: Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10.0),
-                  gradient: const LinearGradient(
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                    colors: <Color>[
-                      Color.fromRGBO(145, 122, 253, 1),
-                      Color.fromRGBO(98, 78, 234, 1)
-                    ],
-                  ),
+              width: MediaQuery.of(context).size.width * 0.85,
+              child: CupertinoButton(
+                color: Color.fromRGBO(98, 78, 234, 1),
+                borderRadius: BorderRadius.circular(10),
+                child: const Text(
+                  "Забронировать",
+                  style: TextStyle(
+                      fontWeight: FontWeight.w700,
+                      fontSize: 20.0,
+                      color: Colors.white),
                 ),
-                child: Material(
-                  elevation: 5,
-                  color: Colors.transparent,
-                  child: MaterialButton(
-                    child: const Text(
-                      "Забронировать",
-                      style: TextStyle(
-                          fontWeight: FontWeight.w600,
-                          fontSize: 16.0,
-                          color: Colors.white),
-                    ),
-                    onPressed: () {
-                      setState(() {
-                        ap.setBookedCarWashName(widget.carWash.name);
-                        ap.setBookedCarWashAddress(widget.carWash.address);
-                      });
-                      Navigator.pushNamed(context, '/booking');
-                    },
-                  ),
-                ),
+                onPressed: () {
+                  setState(() {
+                    ap.setBookedCarWashName(widget.carWash.name);
+                    ap.setBookedCarWashAddress(widget.carWash.address);
+                  });
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => Booking(carWash: widget.carWash)));
+                },
               ),
             ),
             const Padding(padding: EdgeInsets.only(bottom: 40))

@@ -1,8 +1,13 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:kutpekz/car_washes_model.dart';
+
+import 'date.dart';
 
 class Booking extends StatefulWidget {
-  const Booking({Key? key}) : super(key: key);
+  CarWashes carWash;
+  Booking({Key? key, required this.carWash}) : super(key: key);
 
   @override
   State<Booking> createState() => _BookingState();
@@ -11,7 +16,7 @@ class Booking extends StatefulWidget {
 // TODO - CLICK TILES
 
 class _BookingState extends State<Booking> {
-  bool _checkbox = false;
+    bool _checkbox = false;
   bool _checkbox1 = false;
   bool _checkbox2 = false;
   bool _checkbox3 = false;
@@ -166,19 +171,20 @@ class _BookingState extends State<Booking> {
                     ],
                   ),
                 ),
-                child: Material(
-                  elevation: 5,
-                  color: Colors.transparent,
-                  child: MaterialButton(
+                child: SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.85,
+                  child: CupertinoButton(
+                    color: Color.fromRGBO(98, 78, 234, 1),
+                    borderRadius: BorderRadius.circular(10),
                     child: const Text(
                       "Забронировать",
                       style: TextStyle(
-                          fontWeight: FontWeight.w600,
-                          fontSize: 16.0,
+                          fontWeight: FontWeight.w700,
+                          fontSize: 20.0,
                           color: Colors.white),
                     ),
                     onPressed: () {
-                      Navigator.pushNamed(context, '/datepicker');
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => DatePicker(carWash: widget.carWash,)));
                     },
                   ),
                 ),

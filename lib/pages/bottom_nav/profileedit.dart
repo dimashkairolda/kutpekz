@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:iconsax/iconsax.dart';
@@ -129,44 +130,33 @@ class _ProfileEditState extends State<ProfileEdit> {
               ),
               SizedBox(
                 width: MediaQuery.of(context).size.width * 0.85,
-                child: Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10.0),
-                    gradient: const LinearGradient(
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
-                        colors: <Color>[
-                          Color.fromRGBO(145, 122, 253, 1),
-                          Color.fromRGBO(98, 78, 234, 1)
-                        ]),
-                  ),
-                  child: Material(
-                    elevation: 5,
-                    color: Colors.transparent,
-                    child: MaterialButton(
-                      child: const Text(
-                        "Сохранить",
-                        style: TextStyle(
-                            fontWeight: FontWeight.w700,
-                            fontSize: 20.0,
-                            color: Colors.white),
-                      ),
-                      onPressed: () async {
-                        String? nameUpdate = nameController.text;
-                        if (image != null) {
-                          ap.saveUserData(
-                              context: context,
-                              userModel: ap.userModel,
-                              profilePicture: image!,
-                              onSuccess: () {});
-                        }
-                        if (nameUpdate.isEmpty) {
-                          nameUpdate = ap.getCurrentName();
-                        }
-
-                        ap.updateName(context, nameUpdate!);
-                      },
+                child: SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.85,
+                  child: CupertinoButton(
+                    color: Color.fromRGBO(98, 78, 234, 1),
+                    borderRadius: BorderRadius.circular(10),
+                    child: const Text(
+                      "Сохранить",
+                      style: TextStyle(
+                          fontWeight: FontWeight.w700,
+                          fontSize: 20.0,
+                          color: Colors.white),
                     ),
+                    onPressed: () async {
+                      String? nameUpdate = nameController.text;
+                      if (image != null) {
+                        ap.saveUserData(
+                            context: context,
+                            userModel: ap.userModel,
+                            profilePicture: image!,
+                            onSuccess: () {});
+                      }
+                      if (nameUpdate.isEmpty) {
+                        nameUpdate = ap.getCurrentName();
+                      }
+
+                      ap.updateName(context, nameUpdate!);
+                    },
                   ),
                 ),
               ),

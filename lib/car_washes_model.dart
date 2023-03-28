@@ -1,3 +1,5 @@
+import 'package:kutpekz/times_model.dart';
+
 class CarWashes{
   String name;
   String address;
@@ -8,10 +10,12 @@ class CarWashes{
   String phoneNumber;
   String weekEndHours;
   String weekDayHours;
+  TimesModel times;
 
   String get getName => name;
   String get getAddress => address;
   String get getPhotoURL => photoURL;
+  TimesModel get getTimeModel => times;
 
   CarWashes({
     required this.name,
@@ -23,6 +27,7 @@ class CarWashes{
     required this.phoneNumber,
     required this.weekDayHours,
     required this.weekEndHours,
+    required this.times,
     });
 
   factory CarWashes.fromMap(Map<String, dynamic> map){
@@ -36,6 +41,7 @@ class CarWashes{
       phoneNumber: map['phoneNumber'] ?? '',
       weekDayHours: map['weekDayHours'] ?? '',
       weekEndHours: map['weekEndHours'] ?? '',
+      times: map['times'] ?? '',
     );
   }
 
@@ -53,5 +59,9 @@ class CarWashes{
       "weekDayHours": weekDayHours,
     };
   }
+
+}
+
+class TimeModel {
 
 }

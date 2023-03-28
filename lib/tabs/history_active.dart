@@ -38,14 +38,6 @@ class Active extends StatelessWidget {
                     decoration: BoxDecoration(
                       color: Theme.of(context).colorScheme.secondary,
                       borderRadius: BorderRadius.circular(20),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey.withOpacity(0.5),
-                          spreadRadius: 3,
-                          blurRadius: 30,
-                          offset: const Offset(0, 3),
-                        )
-                      ],
                     ),
                     child: Padding(
                       padding: const EdgeInsets.symmetric(
