@@ -57,10 +57,6 @@ class AuthProvider extends ChangeNotifier {
 
   List<bool> get favourites => _favourites;
 
-  TimeRange? _bookedTime;
-
-  TimeRange? get bookedTime => _bookedTime;
-
   String? _bookedCarWashName;
   String get bookedCarWashName => _bookedCarWashName!;
   void setBookedCarWashName(String name) => _bookedCarWashName = name;
@@ -73,7 +69,9 @@ class AuthProvider extends ChangeNotifier {
   DateTime get bookedDate => _bookedDate!;
   void setBookedDate(DateTime date) => _bookedDate = date;
 
-  void setBookedTime(TimeRange timeRange) => _bookedTime = timeRange;
+  String? _bookedTime;
+  String? get bookedTime => _bookedTime;
+  void setBookedTime(String timeRange) => _bookedTime = timeRange;
 
   late CachedNetworkImageProvider pfp;
 

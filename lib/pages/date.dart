@@ -4,6 +4,7 @@ import 'package:flutter/rendering.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:kutpekz/auth_provider.dart';
 import 'package:kutpekz/car_washes_model.dart';
+import 'package:kutpekz/home_page.dart';
 import 'package:provider/provider.dart';
 import 'package:time_range_picker/time_range_picker.dart';
 
@@ -93,7 +94,6 @@ class _DatePickerState extends State<DatePicker> {
                       times = widget.carWash.times.times[dateIndex];
                       dateTime = date;
                       ap.setBookedDate(dateTime);
-                      print(times);
                     });
                   }),
             ),
@@ -125,6 +125,10 @@ class _DatePickerState extends State<DatePicker> {
                                   tileColor: selected[index] ? Theme.of(context).colorScheme.primary.withOpacity(0.5) : Theme.of(context).scaffoldBackgroundColor,
                                   onTap: (){
                                     setState(() {
+                                      ap.setBookedDate(dateTime);
+                                      ap.setBookedCarWashName(widget.carWash.name);
+                                      ap.setBookedCarWashAddress(widget.carWash.address);
+                                      ap.setBookedTime(times.keys.elementAt(index));
                                       selected[index] = !selected[index];
                                     });
                                   },
@@ -167,7 +171,7 @@ class _DatePickerState extends State<DatePicker> {
                           'Ваше бронирование было успешно выполнено'),
                       actions: <Widget>[
                         TextButton(
-                          onPressed: () => Navigator.pop(context, 'OK'),
+                          onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => HomeScreen())),
                           child: const Text('OK'),
                         ),
                       ],

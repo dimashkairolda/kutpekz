@@ -109,8 +109,7 @@ class Active extends StatelessWidget {
                               ),
                               const Spacer(),
                               Text(
-                                "${ap.bookedTime!.startTime.hour.toString().padLeft(2,'0')}:${ap.bookedTime!.startTime.minute.toString().padLeft(2,'0')}"
-                                    " - ${ap.bookedTime!.endTime.hour.toString().padLeft(2,'0')}:${ap.bookedTime!.endTime.minute.toString().padLeft(2,'0')}",
+                                "${ap.bookedTime}",
                                 style: const TextStyle(
                                     fontWeight: FontWeight.w700, fontSize: 15),
                               ),
