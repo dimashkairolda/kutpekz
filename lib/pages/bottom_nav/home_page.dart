@@ -4,10 +4,10 @@ import 'package:iconsax/iconsax.dart';
 import 'package:kutpekz/auth_provider.dart';
 import 'package:kutpekz/generated/locale_keys.g.dart';
 import 'package:kutpekz/pages/bottom_nav/favourites_page.dart';
-import 'package:kutpekz/pages/bottom_nav/profile_page.dart';
-import 'package:kutpekz/pages/search_bar.dart';
+import 'package:kutpekz/pages/bottom_nav/profile/profile_page.dart';
+import 'package:kutpekz/pages/bottom_nav/map/search_bar.dart';
 import 'package:provider/provider.dart';
-import 'package:kutpekz/pages/history_page.dart';
+import 'package:kutpekz/pages/bottom_nav/history/history_page.dart';
 
 // DID - PFP CHANGE
 // DID - CUSTOM BOTTOM NAV BAR(HEIGHT, ICONS, CURVE)

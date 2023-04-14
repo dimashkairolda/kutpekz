@@ -2,21 +2,19 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:kutpekz/auth_provider.dart';
-import 'package:kutpekz/pages/bottom_nav/languageedit.dart';
-import 'package:kutpekz/pages/bottom_nav/profileedit.dart';
-import 'package:kutpekz/pages/loading_page.dart';
-import 'package:kutpekz/pages/onboard_pages/onboard_page_1.dart';
-import 'package:kutpekz/pages/onboard_pages/onboard_page_2.dart';
-import 'package:kutpekz/pages/onboard_pages/onboard_page_3.dart';
-import 'package:kutpekz/pages/signup_page.dart';
-import 'package:kutpekz/pages/password_reset_page.dart';
-import 'package:kutpekz/pages/car_wash_detail.dart';
+import 'package:kutpekz/pages/bottom_nav/profile/languageedit.dart';
+import 'package:kutpekz/pages/bottom_nav/profile/profileedit.dart';
+import 'package:kutpekz/pages/login/loading_page.dart';
+import 'package:kutpekz/pages/login/signup_page.dart';
+import 'package:kutpekz/pages/login/password_reset_page.dart';
 import 'package:kutpekz/theme_provider.dart';
 import 'package:provider/provider.dart';
-import 'package:kutpekz/pages/booking.dart';
-import 'package:kutpekz/pages/date.dart';
 
 import 'generated/codegen_loader.g.dart';
+
+// TODO - SEARCH HISTORY
+// TODO - SEARCH HIDE
+// TODO - GEOLOCATION
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -68,9 +66,6 @@ class MyApp extends StatelessWidget {
       initialRoute: '/',
       routes: {
         '/': (context) => const LoadingPage(),
-        '/onboard1': (context) => const FirstOnboardPage(),
-        '/onboard2': (context) => const SecondOnboardPage(),
-        '/onboard3': (context) => const ThirdOnboardPage(),
         '/signup': (context) => const SignUp(),
         '/reset': (context) => const ResetPassword(),
         '/profile_edit': (context) => const ProfileEdit(),

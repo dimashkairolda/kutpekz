@@ -1,7 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
-import 'package:kutpekz/theme_provider.dart';
 
 class LanguageEdit extends StatefulWidget {
   const LanguageEdit({Key? key}) : super(key: key);

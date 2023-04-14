@@ -7,7 +7,7 @@ import 'dart:io';
 import 'package:kutpekz/auth_provider.dart';
 import 'package:provider/provider.dart';
 
-import '../../utils/utils.dart';
+import '../../../utils/utils.dart';
 
 //TODO make notifications
 

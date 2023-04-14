@@ -4,10 +4,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:kutpekz/auth_provider.dart';
-import 'package:kutpekz/custom_button.dart';
-import 'package:kutpekz/history_model.dart';
-import 'package:kutpekz/home_page.dart';
-import 'package:kutpekz/user_model.dart';
+import 'package:kutpekz/models/history_model.dart';
+import 'package:kutpekz/pages/bottom_nav/home_page.dart';
+import 'package:kutpekz/models/user_model.dart';
 import 'package:kutpekz/utils/utils.dart';
 import 'package:provider/provider.dart';
 
@@ -176,6 +175,7 @@ class _UserInformationPageState extends State<UserInformationPage> {
       uid: "",
       isFavourite: favs,
       history: hist,
+      bookings: [],
     );
     if (image != null) {
       ap.saveUserData(

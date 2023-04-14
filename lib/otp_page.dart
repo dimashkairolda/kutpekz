@@ -1,9 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:kutpekz/auth_provider.dart';
-import 'package:kutpekz/home_page.dart';
-import 'package:kutpekz/pages/user_information_page.dart';
-import 'package:kutpekz/utils/utils.dart';
+import 'package:kutpekz/pages/bottom_nav//home_page.dart';
+import 'package:kutpekz/pages/login/user_information_page.dart';
 import 'package:pinput/pinput.dart';
 import 'package:provider/provider.dart';
 
@@ -123,7 +122,6 @@ class _OtpPageState extends State<OtpPage> {
         ap.checkExistingUsers().then((value) async {
           if (value) {
             // user exists
-            print('User Exists');
             ap.getDataFromStorage().then((value) => ap
                 .saveUserDataPreferences()
                 .then((value) => ap.setSignIn().then((value) =>

@@ -1,12 +1,10 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:kutpekz/auth_provider.dart';
-import 'package:kutpekz/home_page.dart';
-import 'package:kutpekz/pages/bottom_nav/languageedit.dart';
-import 'package:kutpekz/pages/bottom_nav/profileedit.dart';
-import 'package:kutpekz/pages/loading_page.dart';
+import 'package:kutpekz/pages/bottom_nav/profile/languageedit.dart';
+import 'package:kutpekz/pages/bottom_nav/profile/profileedit.dart';
+import 'package:kutpekz/pages/login/loading_page.dart';
 import 'package:provider/provider.dart';
 
 class ProfilePage extends StatefulWidget {

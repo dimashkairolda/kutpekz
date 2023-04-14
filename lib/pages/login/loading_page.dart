@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:kutpekz/auth_provider.dart';
-import 'package:kutpekz/home_page.dart';
-import 'package:kutpekz/pages/onboard_pages/onboard_page_1.dart';
-import 'package:kutpekz/pages/signup_page.dart';
-import 'package:kutpekz/pages/user_information_page.dart';
-import 'package:kutpekz/tabs/login.dart';
+import 'package:kutpekz/pages/bottom_nav/home_page.dart';
+import 'package:kutpekz/pages/login/signup_page.dart';
 import 'package:provider/provider.dart';
 
 class LoadingPage extends StatefulWidget {

@@ -1,4 +1,4 @@
-import 'package:kutpekz/times_model.dart';
+import 'package:kutpekz/models/times_model.dart';
 
 class CarWashes{
   String name;

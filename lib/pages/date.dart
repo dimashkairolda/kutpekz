@@ -3,10 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:kutpekz/auth_provider.dart';
-import 'package:kutpekz/car_washes_model.dart';
-import 'package:kutpekz/home_page.dart';
+import 'package:kutpekz/models/car_washes_model.dart';
+import 'package:kutpekz/pages/bottom_nav/home_page.dart';
 import 'package:provider/provider.dart';
-import 'package:time_range_picker/time_range_picker.dart';
 
 class DatePicker extends StatefulWidget {
   CarWashes carWash;
@@ -35,6 +34,10 @@ class _DatePickerState extends State<DatePicker> {
     times = widget.carWash.times.times[0];
     selected = List.generate(20, (i) => false);
   }
+
+  // on entering carwash get all bookings in this carwash that are greater or equal to DateTime.now() & don't display them
+  //
+
 
   @override
   Widget build(BuildContext context) {

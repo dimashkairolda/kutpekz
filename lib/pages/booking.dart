@@ -1,7 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
-import 'package:kutpekz/car_washes_model.dart';
+import 'package:kutpekz/models/car_washes_model.dart';
+import 'booking_calendar.dart';
 
 import 'date.dart';
 
@@ -184,7 +185,8 @@ class _BookingState extends State<Booking> {
                           color: Colors.white),
                     ),
                     onPressed: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => DatePicker(carWash: widget.carWash,)));
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => Booking(carWash: widget.carWash)));
+                      //Navigator.push(context, MaterialPageRoute(builder: (context) => DatePicker(carWash: widget.carWash,)));
                     },
                   ),
                 ),

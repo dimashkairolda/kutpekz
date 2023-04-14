@@ -2,8 +2,8 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:kutpekz/auth_provider.dart';
 import 'package:kutpekz/generated/locale_keys.g.dart';
-import 'package:kutpekz/tabs/history_active.dart';
-import 'package:kutpekz/tabs/history_inactive.dart';
+import 'package:kutpekz/pages/bottom_nav/history/history_active.dart';
+import 'package:kutpekz/pages/bottom_nav/history/history_inactive.dart';
 import 'package:provider/provider.dart';
 
 class History extends StatelessWidget {

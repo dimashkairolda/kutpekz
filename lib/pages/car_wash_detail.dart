@@ -2,7 +2,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
-import 'package:kutpekz/car_washes_model.dart';
+import 'package:kutpekz/models/car_washes_model.dart';
 import 'package:kutpekz/pages/booking.dart';
 import 'package:provider/provider.dart';
 

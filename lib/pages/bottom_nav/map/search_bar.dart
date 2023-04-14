@@ -3,9 +3,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:kutpekz/auth_provider.dart';
-import 'package:kutpekz/car_washes_model.dart';
+import 'package:kutpekz/models/car_washes_model.dart';
 import 'package:kutpekz/generated/locale_keys.g.dart';
-import 'package:kutpekz/pages/map_page.dart';
+import 'package:kutpekz/pages/bottom_nav/map/map_page.dart';
 import 'package:kutpekz/pages/car_wash_detail.dart';
 import 'package:provider/provider.dart';
 
