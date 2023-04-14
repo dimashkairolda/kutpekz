@@ -185,7 +185,7 @@ class _BookingState extends State<Booking> {
                           color: Colors.white),
                     ),
                     onPressed: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => Booking(carWash: widget.carWash)));
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => DatePicker(carWash: widget.carWash)));
                       //Navigator.push(context, MaterialPageRoute(builder: (context) => DatePicker(carWash: widget.carWash,)));
                     },
                   ),

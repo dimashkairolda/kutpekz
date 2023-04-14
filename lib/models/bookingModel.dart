@@ -22,7 +22,7 @@ class BookingModel {
   static DateTime _dateTimeAsIs(DateTime dateTime) => dateTime;
 
   static DateTime _dateTimeFromTimestamp(Timestamp timestamp) {
-    return timestamp.toDate();
+    return timestamp.toDate().add(Duration(hours: 6));
   }
 
   BookingModel(

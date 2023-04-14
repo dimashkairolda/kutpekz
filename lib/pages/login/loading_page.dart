@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:kutpekz/auth_provider.dart';
 import 'package:kutpekz/pages/bottom_nav/home_page.dart';
 import 'package:kutpekz/pages/login/signup_page.dart';
@@ -19,6 +20,7 @@ class _LoadingPageState extends State<LoadingPage> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    Intl.defaultLocale = 'ru_Ru';
     isLoading = false;
   }
 

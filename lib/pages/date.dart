@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:kutpekz/auth_provider.dart';
+import 'package:kutpekz/models/bookingModel.dart';
 import 'package:kutpekz/models/car_washes_model.dart';
 import 'package:kutpekz/pages/bottom_nav/home_page.dart';
+import 'package:kutpekz/utils/utils.dart';
 import 'package:provider/provider.dart';
 
 class DatePicker extends StatefulWidget {
@@ -16,28 +18,43 @@ class DatePicker extends StatefulWidget {
 }
 
 class _DatePickerState extends State<DatePicker> {
+  bool isLoading = true;
   DateTime dateTime = DateTime.now();
   DateTime today = DateTime.now();
-  TimeOfDay time = TimeOfDay(hour: 10, minute: 0);
-  bool dateSelected = false;
-  Map<String,bool> times = {};
-  late TimeOfDay bookedTime;
   int dateIndex = 0;
-  DateTimeRange range = DateTimeRange(
-      start: DateTime.now(), end: DateTime.now().add(Duration(days: 14)));
+  String selectedTime = "";
   List<bool> selected = [];
-
+  late final ap = Provider.of<AuthProvider>(context, listen: false);
+  List<String> bookedTimes = [];
+  List<String> availableTimes = [];
+ // TODO limit to 2 bookings per 2 weeks
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    times = widget.carWash.times.times[0];
-    selected = List.generate(20, (i) => false);
+    loadBookedTimes(0);
+    selected = List.generate(24, (i) => false);
   }
 
-  // on entering carwash get all bookings in this carwash that are greater or equal to DateTime.now() & don't display them
-  //
+  Future loadBookedTimes(int index) async {
+    setState(() {
+      isLoading = true;
+    });
 
+    bookedTimes = await ap.getBookings(widget.carWash.name);
+    availableTimes = [];
+    // list of available times for a day => remove bookedTimes => show in listview
+    for(int i = 9; i < 24; i++){
+      if(!(index == 0 && i <= DateTime.now().hour + 7)){
+        if(!bookedTimes.contains("${index},$i")){
+          availableTimes.add(i.toString().padLeft(2, "0").padRight(3,":00"));
+        }
+      }
+    }
+    setState(() {
+      isLoading = false;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -87,66 +104,71 @@ class _DatePickerState extends State<DatePicker> {
               ),
               child: CalendarDatePicker(
                   initialDate: DateTime.now(),
+                  currentDate: DateTime.now(),
                   firstDate: DateTime.now(),
                   lastDate: DateTime.now().add(Duration(days: 14)),
                   onDateChanged: (date) {
                     setState(() {
-                      dateSelected = true;
                       selected = List.generate(20, (i) => false);
                       dateIndex = date.difference(today).inDays;
-                      times = widget.carWash.times.times[dateIndex];
                       dateTime = date;
                       ap.setBookedDate(dateTime);
-                    });
+                      loadBookedTimes(dateIndex);
+                      });
                   }),
             ),
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 0, vertical: 20),
+              padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 20),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
+                  const Text(
                     "Доступное время",
                     style: TextStyle(fontWeight: FontWeight.w700, fontSize: 14),
                   ),
-                  SingleChildScrollView(
+                  const SizedBox(height: 8,),
+                  isLoading ? const Center(child: CircularProgressIndicator(),) : SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
                     child: Container(
-                      height: 55,
-                      width: MediaQuery.of(context).size.width,
+                      height: 45,
                       child: ListView.builder(
                         shrinkWrap: true,
                           clipBehavior: Clip.hardEdge,
                           scrollDirection: Axis.horizontal,
-                          itemCount: times.length,
+                          itemCount: availableTimes.length,
                           itemBuilder: (context, index) {
-                            return Container(
-                              padding: const EdgeInsets.symmetric(
-                                  vertical: 10.0, horizontal: 5.0),
-                              width: 120,
-                              child: ListTile(
-                                  tileColor: selected[index] ? Theme.of(context).colorScheme.primary.withOpacity(0.5) : Theme.of(context).scaffoldBackgroundColor,
-                                  onTap: (){
-                                    setState(() {
-                                      ap.setBookedDate(dateTime);
-                                      ap.setBookedCarWashName(widget.carWash.name);
-                                      ap.setBookedCarWashAddress(widget.carWash.address);
-                                      ap.setBookedTime(times.keys.elementAt(index));
-                                      selected[index] = !selected[index];
-                                    });
-                                  },
-                                  shape: RoundedRectangleBorder(
-                                    side: BorderSide(color: Theme.of(context).colorScheme.primary, width: 1),
-                                    borderRadius: BorderRadius.circular(15),
+                            return GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  if(!selected[index]){
+                                    selected.replaceRange(0, selected.length, selected.map((element) => false));
+                                    selectedTime = availableTimes[index];
+                                  }
+                                  else{
+                                    selectedTime = "";
+                                  }
+                                  selected[index] = !selected[index];
+                                });
+                              },
+                                child: Container(
+                                  margin: const EdgeInsets.symmetric(horizontal: 6),
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 10, horizontal: 6
                                   ),
-                                  title: Align(
-                                    alignment: FractionalOffset.topCenter,
+                                  width: 100,
+                                  decoration: BoxDecoration(
+                                    color: selected[index] ? Theme.of(context).colorScheme.primary.withOpacity(0.5) : Theme.of(context).scaffoldBackgroundColor,
+                                    borderRadius: const BorderRadius.all(Radius.circular(16)),
+                                    border: Border.all(color: Theme.of(context).colorScheme.primary, width: 2),
+                                  ),
+
+                                  child: Center(
                                     child: Text(
-                                      times.keys.elementAt(index),
-                                      style: TextStyle(fontSize: 10),
+                                      availableTimes[index],
+                                      style: const TextStyle(fontSize: 10),
                                     ),
-                                  )
-                              ),
+                                  ),
+                                ),
                             );
                           }),
                     ),
@@ -157,7 +179,7 @@ class _DatePickerState extends State<DatePicker> {
             SizedBox(
               width: MediaQuery.of(context).size.width * 0.85,
               child: CupertinoButton(
-                color: Color.fromRGBO(98, 78, 234, 1),
+                color: const Color.fromRGBO(98, 78, 234, 1),
                 borderRadius: BorderRadius.circular(10),
                 child: const Text(
                   "Забронировать",
@@ -167,6 +189,25 @@ class _DatePickerState extends State<DatePicker> {
                       color: Colors.white),
                 ),
                 onPressed: () async {
+                  DateTime bookingStart = today.add(Duration(days: dateIndex, hours: int.parse(selectedTime.substring(0,2)) - 6));
+                  if(dateIndex == 0 && bookingStart.hour <= DateTime.now().hour + 6){
+                    showSnackBar(context, "Ошибка");
+                    return;
+                  }
+
+                  print(bookingStart.timeZoneOffset);
+                  print(bookingStart);
+                  ap.addBooking(BookingModel(
+                    bookingStart: bookingStart,
+                    bookingEnd: bookingStart.add(Duration(hours: 1)),
+                    bookedTime: DateTime.now(),
+                    phoneNumber: ap.userModel.phoneNumber,
+                    userName: ap.userModel.name,
+                    userId: ap.userModel.uid,
+                    washName: widget.carWash.name,
+                    address: widget.carWash.address
+                  ));
+
                   showDialog(
                     context: context,
                     builder: (BuildContext context) => AlertDialog(

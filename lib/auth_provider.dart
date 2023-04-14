@@ -87,6 +87,8 @@ class AuthProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+
+
   Future setSignIn() async {
     final SharedPreferences s = await SharedPreferences.getInstance();
     s.setBool("is_signedin", true);
@@ -214,26 +216,33 @@ class AuthProvider extends ChangeNotifier {
     }
   }
 
-  Future getBookings() async {
-    _bookingModel.clear();
+  Future<List<String>> getBookings(String carWash) async {
+    List<String> booked = [];
     await _firebaseFirestore
         .collection("bookings")
         .get().then((snapshot) {
       final document = snapshot.docs;
       document.forEach((doc) {
-        if(!DateTime.now().isAfter((doc.data()['bookingStart'] as Timestamp).toDate())){
-          _bookingModel.add(BookingModel.fromJson(doc.data()));
+        DateTime bookingStart = (doc.data()['bookingStart'] as Timestamp).toDate();
+        bookingStart =  bookingStart.add(const Duration(hours: 6));
+        if(doc.data().containsValue(carWash)){
+          if(bookingStart.isAfter(DateTime.now())){
+            booked.add("${bookingStart.day - DateTime.now().day},${bookingStart.hour}");
+          }
         }
       });
     });
+    return booked;
   }
 
-  Future<Map<String, dynamic>> getBookingsWithId(String id) async {
+  Future<Map<String, dynamic>> getBookingsById(String id) async {
     Map<String, dynamic> output = {};
     await _firebaseFirestore
         .collection("bookings")
         .doc(id)
-        .get().then((value) => output = value.data()!);
+        .get().then((value) {
+          output = value.data()!;
+    });
     return output;
   }
 
@@ -278,17 +287,16 @@ class AuthProvider extends ChangeNotifier {
       b.clear();
       _uid = userModel.uid;
       pfp = CachedNetworkImageProvider(userModel.profilePicture);
-      await getBookings();
-      addBooking(BookingModel.fromJson({
-        "phoneNumber": "333",
-        "address" : "Address2",
-        "bookingStart" : Timestamp.fromDate(DateTime.now().add(Duration(hours: 4))),
-        "bookingEnd" : Timestamp.fromDate(DateTime.now().add(Duration(hours: 5))),
-        "userId" : userModel.uid,
-        "userName" : userModel.name,
-        "washName" : "PROAUTO2",
-        "bookedTime" : Timestamp.fromDate(DateTime.now()),
-      }));
+      // addBooking(BookingModel.fromJson({
+      //   "phoneNumber": "333",
+      //   "address" : "Address2",
+      //   "bookingStart" : Timestamp.fromDate(DateTime.now().add(Duration(hours: 22))),
+      //   "bookingEnd" : Timestamp.fromDate(DateTime.now().add(Duration(hours: 23))),
+      //   "userId" : userModel.uid,
+      //   "userName" : userModel.name,
+      //   "washName" : "PROAUTO2",
+      //   "bookedTime" : Timestamp.fromDate(DateTime.now()),
+      // }));
     });
   }
 
