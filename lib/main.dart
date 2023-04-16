@@ -15,8 +15,6 @@ import 'generated/codegen_loader.g.dart';
 // TODO - SEARCH HISTORY
 // TODO - ?LOAD APP DURING SPLASH SCREEN
 
-
-
 // DOING - NOTIFY USER
 // TODO - GEOLOCATION
 // TODO - OPEN IN 2GIS

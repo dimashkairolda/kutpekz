@@ -12,7 +12,6 @@ import 'package:flutter/material.dart';
 import 'package:kutpekz/models/bookingModel.dart';
 import 'package:kutpekz/models/car_washes_model.dart';
 import 'package:kutpekz/otp_page.dart';
-import 'package:kutpekz/models/times_model.dart';
 import 'package:kutpekz/models/user_model.dart';
 import 'package:kutpekz/utils/utils.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -348,7 +347,6 @@ class AuthProvider extends ChangeNotifier {
         phoneNumber: item['phoneNumber'],
         weekEndHours: item['weekEndHours'],
         weekDayHours: item['weekDayHours'],
-        times: contains ? TimesModel.fromMap(Map.from(times)) : TimesModel(dates: [], times: []),
       );
       _carWashNames.add(c.name);
       _carWashes.add(c);
