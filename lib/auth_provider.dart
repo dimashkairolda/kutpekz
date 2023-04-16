@@ -11,7 +11,6 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:kutpekz/models/bookingModel.dart';
 import 'package:kutpekz/models/car_washes_model.dart';
-import 'package:kutpekz/models/history_model.dart';
 import 'package:kutpekz/otp_page.dart';
 import 'package:kutpekz/models/times_model.dart';
 import 'package:kutpekz/models/user_model.dart';
@@ -24,6 +23,9 @@ class AuthProvider extends ChangeNotifier {
 
   bool _isLoading = false;
   bool get isLoading => _isLoading;
+
+  String _verificationId = "";
+  int? _resendToken;
 
   String? _uid;
   String get uid => _uid!;
@@ -107,21 +109,24 @@ class AuthProvider extends ChangeNotifier {
             await _firebaseAuth.signInWithCredential(phoneAuthCredential);
           },
           verificationFailed: (error) {
-            throw Exception(error.message);
+            showSnackBar(context, error.message.toString());
           },
-          codeSent: (verificationId, forceResendingToken) {
+          codeSent: (verificationId, resendToken) {
+            _verificationId = verificationId;
+            _resendToken = resendToken;
             Navigator.push(
               context,
               MaterialPageRoute(
                 builder: (context) => OtpPage(
                   verificationId: verificationId,
-                  phoneNumber: phoneNumber,
-                  isChange: false,
+                  phoneNumber: phoneNumber
                 ),
               ),
             );
           },
-          codeAutoRetrievalTimeout: (verificationId) {});
+          timeout: const Duration(seconds: 25),
+          codeAutoRetrievalTimeout: (verificationId) {
+          });
     } on FirebaseAuthException catch (e) {
       showSnackBar(context, e.message.toString());
     }
@@ -138,8 +143,8 @@ class AuthProvider extends ChangeNotifier {
     required String verificationId,
     required String userOtp,
     required Function onSuccess,
+    required Function onError,
   }) async {
-    _isLoading = true;
     notifyListeners();
 
     try {
@@ -147,16 +152,15 @@ class AuthProvider extends ChangeNotifier {
       PhoneAuthCredential credential = PhoneAuthProvider.credential(
           verificationId: verificationId, smsCode: userOtp);
       User? user = (await _firebaseAuth.signInWithCredential(credential)).user;
-
       if (user != null) {
         // store user
         _uid = user.uid;
         onSuccess();
       }
-      _isLoading = false;
       notifyListeners();
     } on FirebaseAuthException catch (e) {
-      showSnackBar(context, e.message.toString());
+      onError();
+      showSnackBar(context, "Неверный код!");
     }
   }
 
@@ -275,13 +279,11 @@ class AuthProvider extends ChangeNotifier {
 
       _userModel = UserModel(
         phoneNumber: snapshot['phoneNumber'],
-        email: snapshot ['email'],
         name: snapshot['name'],
         profilePicture: snapshot['profilePicture'],
         createdAt: snapshot['createdAt'],
         uid: snapshot['uid'],
         isFavourite: List<bool>.from(b),
-        history: HistoryModel.fromMap(snapshot['history']),
         bookings: List<String>.from(snapshot['bookings']),
       );
       b.clear();

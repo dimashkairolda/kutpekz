@@ -338,7 +338,7 @@ class _CarWashDetailState extends State<CarWashDetail> {
                     ap.setBookedCarWashName(widget.carWash.name);
                     ap.setBookedCarWashAddress(widget.carWash.address);
                   });
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => Booking(carWash: widget.carWash)));
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => DatePicker(carWash: widget.carWash)));
                 },
               ),
             ),

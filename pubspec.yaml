@@ -53,6 +53,7 @@ dependencies:
   time_range_picker: ^2.2.0
   json_annotation: ^4.8.0
   intl: ^0.17.0
+  flutter_local_notifications: ^13.0.0
 
 dev_dependencies:
   flutter_test:
@@ -90,6 +91,7 @@ flutter:
      - assets/login.png
      - assets/sign_up.png
      - assets/otp.png
+     - assets/default.jpg
      - assets/translations/ru.json
      - assets/translations/kk.json
 

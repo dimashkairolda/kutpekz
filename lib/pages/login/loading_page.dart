@@ -3,6 +3,7 @@ import 'package:intl/intl.dart';
 import 'package:kutpekz/auth_provider.dart';
 import 'package:kutpekz/pages/bottom_nav/home_page.dart';
 import 'package:kutpekz/pages/login/signup_page.dart';
+import 'package:kutpekz/pages/login/user_information_page.dart';
 import 'package:provider/provider.dart';
 
 class LoadingPage extends StatefulWidget {
@@ -15,13 +16,13 @@ class LoadingPage extends StatefulWidget {
 class _LoadingPageState extends State<LoadingPage> {
   late final ap = Provider.of<AuthProvider>(context, listen: true);
   bool isLoading = false;
+  late Widget page;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     Intl.defaultLocale = 'ru_Ru';
-    isLoading = false;
   }
 
   Future loadData() async {
@@ -35,9 +36,11 @@ class _LoadingPageState extends State<LoadingPage> {
   Widget build(BuildContext context) {
     if(ap.isSignedIn){
       loadData();
-      return const HomeScreen();
+      isLoading = false;
+      return const UserInformationPage();
     }
     else {
+      isLoading = false;
       return const SignUp();
     }
   }

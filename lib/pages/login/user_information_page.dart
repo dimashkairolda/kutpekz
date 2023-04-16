@@ -4,11 +4,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:kutpekz/auth_provider.dart';
-import 'package:kutpekz/models/history_model.dart';
 import 'package:kutpekz/pages/bottom_nav/home_page.dart';
 import 'package:kutpekz/models/user_model.dart';
 import 'package:kutpekz/utils/utils.dart';
 import 'package:provider/provider.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:flutter/services.dart' show rootBundle;
+
 
 class UserInformationPage extends StatefulWidget {
   const UserInformationPage({Key? key}) : super(key: key);
@@ -34,31 +36,40 @@ class _UserInformationPageState extends State<UserInformationPage> {
     setState(() {});
   }
 
+  Future<File> getImageFileFromAssets(String path) async {
+    final byteData = await rootBundle.load('assets/$path');
+
+    final file = File('${(await getTemporaryDirectory()).path}/$path');
+    await file.create(recursive: true);
+    await file.writeAsBytes(byteData.buffer.asUint8List(byteData.offsetInBytes, byteData.lengthInBytes));
+
+    return file;
+  }
+
   @override
   Widget build(BuildContext context) {
     final isLoading =
         Provider.of<AuthProvider>(context, listen: true).isLoading;
     return Scaffold(
-      body: SingleChildScrollView(
+      body: isLoading == true
+          ? const Center(
+        child: Center(
+          child: CircularProgressIndicator(
+            color: Colors.grey,
+          ),
+        ),
+      )
+          : SingleChildScrollView(
         padding: const EdgeInsets.symmetric(vertical: 25, horizontal: 5),
-        child: isLoading == true
-            ? Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: const [
-                    CircularProgressIndicator(
-                      color: Colors.grey,
-                    ),
-                  ])
-            : Column(
+        child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  Padding(padding: EdgeInsets.only(top: 60)),
-                  Text(
+                  const Padding(padding: EdgeInsets.only(top: 60)),
+                  const Text(
                     'Введите данные',
-                    style:
-                    TextStyle(fontWeight: FontWeight.w700, fontSize: 24),
+                    style: TextStyle(fontWeight: FontWeight.w700, fontSize: 24),
                   ),
-                  Padding(padding: EdgeInsets.only(top: 40)),
+                  const Padding(padding: EdgeInsets.only(top: 40)),
                   InkWell(
                     onTap: () {
                       selectImage();
@@ -80,24 +91,26 @@ class _UserInformationPageState extends State<UserInformationPage> {
                           ),
                   ),
                   Padding(
-                    padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                    padding:
+                        const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Padding(padding: EdgeInsets.only(top: 20)),
+                        const Padding(padding: EdgeInsets.only(top: 20)),
                         const Padding(
-                          padding: EdgeInsets.symmetric(vertical: 10, horizontal: 5),
+                          padding:
+                              EdgeInsets.symmetric(vertical: 10, horizontal: 5),
                           child: Text(
                             'Имя',
-                            style:
-                            TextStyle(fontWeight: FontWeight.w500, fontSize: 14),
+                            style: TextStyle(
+                                fontWeight: FontWeight.w500, fontSize: 14),
                           ),
                         ),
                         GestureDetector(
                           child: TextFormField(
                             keyboardType: TextInputType.name,
                             controller: nameController,
-                            style: TextStyle(
+                            style: const TextStyle(
                                 fontSize: 16, fontFamily: "San Francisco"),
                             inputFormatters: [
                               LengthLimitingTextInputFormatter(20),
@@ -126,11 +139,13 @@ class _UserInformationPageState extends State<UserInformationPage> {
                       ],
                     ),
                   ),
-                  SizedBox(height: 120,),
+                  const SizedBox(
+                    height: 120,
+                  ),
                   SizedBox(
                     width: MediaQuery.of(context).size.width * 0.85,
                     child: CupertinoButton(
-                      color: Color.fromRGBO(98, 78, 234, 1),
+                      color: const Color.fromRGBO(98, 78, 234, 1),
                       borderRadius: BorderRadius.circular(10),
                       child: const Text(
                         "Отправить код",
@@ -140,15 +155,14 @@ class _UserInformationPageState extends State<UserInformationPage> {
                             color: Colors.white),
                       ),
                       onPressed: () {
-                        if(nameController.text.isEmpty){
+                        if (nameController.text.isEmpty) {
                           showSnackBar(context, "Введите свое имя");
                           return;
-                        }
-                        else if(nameController.text.length < 2){
-                          showSnackBar(context, "Имя должно быть не меньше двух символов");
+                        } else if (nameController.text.length < 2) {
+                          showSnackBar(context,
+                              "Имя должно быть не меньше двух символов");
                           return;
-                        }
-                        else{
+                        } else {
                           storeData();
                         }
                       },
@@ -164,34 +178,26 @@ class _UserInformationPageState extends State<UserInformationPage> {
     final ap = Provider.of<AuthProvider>(context, listen: false);
     await ap.getCarWashesFromStorage();
     List<bool> favs = List.filled(ap.carWashes.length, false, growable: true);
-    HistoryModel hist =
-        HistoryModel(names: [], addresses: [], dates: [], times: []);
     UserModel userModel = UserModel(
       phoneNumber: "",
-      email: "",
       name: nameController.text.trim(),
       profilePicture: "",
       createdAt: "",
       uid: "",
       isFavourite: favs,
-      history: hist,
       bookings: [],
     );
-    if (image != null) {
-      ap.saveUserData(
-          context: context,
-          userModel: userModel,
-          profilePicture: image!,
-          onSuccess: () {
-            ap.saveUserDataPreferences().then((value) => ap.setSignIn().then(
-                (value) => Navigator.pushAndRemoveUntil(
-                    context,
-                    MaterialPageRoute(builder: (context) => const HomeScreen()),
-                    (route) => false)));
-          });
-    } else {
-      // use default image
-      print('Продолжить без аватара?');
-    }
+    ap.saveUserData(
+      context: context,
+      userModel: userModel,
+      profilePicture: image == null ? await getImageFileFromAssets("default.jpg") : image!,
+      onSuccess: () {
+        ap.saveUserDataPreferences().then((value) => ap.setSignIn().then(
+            (value) => Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(builder: (context) => const HomeScreen()),
+                (route) => false)));
+      },
+    );
   }
 }

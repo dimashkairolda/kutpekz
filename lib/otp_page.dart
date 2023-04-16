@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:kutpekz/auth_provider.dart';
@@ -9,13 +11,11 @@ import 'package:provider/provider.dart';
 class OtpPage extends StatefulWidget {
   final String verificationId;
   final String phoneNumber;
-  final bool isChange;
 
   const OtpPage(
       {super.key,
       required this.verificationId,
-      required this.phoneNumber,
-      required this.isChange});
+      required this.phoneNumber,});
 
   @override
   State<OtpPage> createState() => _OtpPageState();
@@ -23,11 +23,23 @@ class OtpPage extends StatefulWidget {
 
 class _OtpPageState extends State<OtpPage> {
   String? otpCode;
+  bool isLoading = false;
+  bool isOtpSent = true;
+  var timer;
+  int countdown = 30;
+  bool isCountdownFinished = false;
+  late final ap = Provider.of<AuthProvider>(context, listen: false);
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    startResendOtpTimer();
+  }
+
 
   @override
   Widget build(BuildContext context) {
-    final isLoading =
-        Provider.of<AuthProvider>(context, listen: true).isLoading;
     return Scaffold(
       body: Center(
         child: isLoading == true
@@ -39,20 +51,20 @@ class _OtpPageState extends State<OtpPage> {
             : SingleChildScrollView(
           child: Column(
             children: [
-              Padding(padding: EdgeInsets.only(top: 60)),
-              Image(
+              const Padding(padding: EdgeInsets.only(top: 60)),
+              const Image(
                 image: AssetImage("assets/otp.png"),
               ),
               Padding(
-                padding: EdgeInsets.symmetric(vertical: 20, horizontal: 10),
+                padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
                       ('Код подтверждения \nОтправлен на номер ${widget.phoneNumber}'),
-                      style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
+                      style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 30,
                     ),
                     Pinput(
@@ -76,12 +88,16 @@ class _OtpPageState extends State<OtpPage> {
                 ),
               ),
               TextButton(
-                  onPressed: () {}, child: Text("Отправить код еще раз")),
+                  onPressed: isCountdownFinished ? () {
+                    ap.signInWithPhone(context, widget.phoneNumber);
+                  } : null,
+                  child: const Text("Отправить код еще раз")),
+              !isCountdownFinished ? Text("00:${countdown.toString().padLeft(2,"0")}") : const SizedBox(height: 0,),
               const SizedBox(height: 45),
               SizedBox(
                 width: MediaQuery.of(context).size.width * 0.85,
                 child: CupertinoButton(
-                  color: Color.fromRGBO(98, 78, 234, 1),
+                  color: const Color.fromRGBO(98, 78, 234, 1),
                   borderRadius: BorderRadius.circular(10),
                   child: const Text(
                     "Подтвердить",
@@ -91,6 +107,9 @@ class _OtpPageState extends State<OtpPage> {
                         color: Colors.white),
                   ),
                   onPressed: () {
+                    setState(() {
+                      isLoading = true;
+                    });
                     verifyOtp(context, otpCode!);
                   },
                 ),
@@ -103,23 +122,38 @@ class _OtpPageState extends State<OtpPage> {
     );
   }
 
+  startResendOtpTimer() {
+    isCountdownFinished = false;
+    timer = Timer.periodic(Duration(seconds: 1), (timer) {
+      if (countdown != 0) {
+        countdown--;
+      } else {
+        countdown = 30;
+        isCountdownFinished = true;
+        timer.cancel();
+      }
+      setState(() {
+
+      });
+    });
+  }
+
   void verifyOtp(BuildContext context, String userOtp) {
-    final ap = Provider.of<AuthProvider>(context, listen: false);
-    if (widget.isChange) {
-      ap.getCredentials(context, widget.verificationId, userOtp);
-      Navigator.pushAndRemoveUntil(
-          context,
-          MaterialPageRoute(builder: (context) => const HomeScreen()),
-          (route) => false);
-      return;
-    }
 
     ap.verifyOtp(
       context: context,
       verificationId: widget.verificationId,
       userOtp: userOtp,
+      onError: (){
+        setState(() {
+          isLoading = false;
+        });
+      },
       onSuccess: () {
         ap.checkExistingUsers().then((value) async {
+          setState(() {
+            isLoading = false;
+          });
           if (value) {
             // user exists
             ap.getDataFromStorage().then((value) => ap

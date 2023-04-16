@@ -13,8 +13,13 @@ import 'package:provider/provider.dart';
 import 'generated/codegen_loader.g.dart';
 
 // TODO - SEARCH HISTORY
-// TODO - SEARCH HIDE
+// TODO - ?LOAD APP DURING SPLASH SCREEN
+
+
+
+// DOING - NOTIFY USER
 // TODO - GEOLOCATION
+// TODO - OPEN IN 2GIS
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
