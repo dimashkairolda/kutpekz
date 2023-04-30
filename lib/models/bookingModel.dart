@@ -7,6 +7,7 @@ part 'bookingModel.g.dart';
 class BookingModel {
   final String? userId;
   final String? userName;
+  final String? bookId;
 
   @JsonKey(fromJson: _dateTimeFromTimestamp, toJson: _dateTimeAsIs)
   final DateTime bookedTime;
@@ -18,15 +19,17 @@ class BookingModel {
   final String? phoneNumber;
   final String? address;
   final String? washName;
+  final String? offset;
 
   static DateTime _dateTimeAsIs(DateTime dateTime) => dateTime;
 
   static DateTime _dateTimeFromTimestamp(Timestamp timestamp) {
-    return timestamp.toDate().add(Duration(hours: 6));
+    return timestamp.toDate();
   }
 
   BookingModel(
       {
+        this.bookId,
         this.phoneNumber,
         this.address,
         required this.bookingStart,
@@ -35,6 +38,7 @@ class BookingModel {
         this.userName,
         this.washName,
         required this.bookedTime,
+        required this.offset,
       });
 
   factory BookingModel.fromJson(Map<String, dynamic> json) => _$BookingModelFromJson(json);

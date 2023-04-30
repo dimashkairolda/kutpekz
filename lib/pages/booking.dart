@@ -44,11 +44,12 @@ class _DatePickerState extends State<DatePicker> {
     availableTimes = [];
 
     for(int i = 9; i < 24; i++){
-      if(!(index == 0 && i <= DateTime.now().hour + 7)){
+      if(!dateTime.isAfter(dateTime.add(Duration(hours: i + (6 - today.timeZoneOffset.inHours))))){
         if(!bookedTimes.contains("$index,$i")){
           availableTimes.add(i.toString().padLeft(2, "0").padRight(3,":00"));
         }
       }
+
     }
     setState(() {
       isLoading = false;
@@ -102,10 +103,10 @@ class _DatePickerState extends State<DatePicker> {
                 color: Theme.of(context).colorScheme.secondary,
               ),
               child: CalendarDatePicker(
-                  initialDate: DateTime.now(),
-                  currentDate: DateTime.now(),
-                  firstDate: DateTime.now(),
-                  lastDate: DateTime.now().add(const Duration(days: 14)),
+                  initialDate: DateTime.now().add(Duration(hours: 6 - DateTime.now().timeZoneOffset.inHours)),
+                  currentDate: DateTime.now().add(Duration(hours: 6 - DateTime.now().timeZoneOffset.inHours)),
+                  firstDate: DateTime.now().add(Duration(hours: 6 - DateTime.now().timeZoneOffset.inHours)),
+                  lastDate: DateTime.now().add(Duration(days: 14, hours: 6 - DateTime.now().timeZoneOffset.inHours)),
                   onDateChanged: (date) {
                     setState(() {
                       selected = List.generate(20, (i) => false);
@@ -122,7 +123,7 @@ class _DatePickerState extends State<DatePicker> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const Text(
-                    "Доступное время",
+                    "Доступное время (GMT +6)",
                     style: TextStyle(fontWeight: FontWeight.w700, fontSize: 14),
                   ),
                   const SizedBox(height: 8,),
@@ -185,24 +186,32 @@ class _DatePickerState extends State<DatePicker> {
                   style: TextStyle(
                       fontWeight: FontWeight.w700,
                       fontSize: 20.0,
-                      color: Colors.white),
+                      color: Colors.white,),
                 ),
                 onPressed: () async {
-                  DateTime bookingStart = today.add(Duration(days: dateIndex, hours: int.parse(selectedTime.substring(0,2)) - 6));
-                  if(dateIndex == 0 && bookingStart.hour <= DateTime.now().hour + 6){
+                  DateTime bookingStart = today.add(Duration(days: dateIndex, hours: int.parse(selectedTime.substring(0,2))));
+                  if(dateIndex == 0 && !bookingStart.isAfter(DateTime.now())){
                     showSnackBar(context, "Ошибка");
+                    return;
+                  }
+                  var offset = today.timeZoneOffset;
+
+                  if(await ap.isBookedLimitExceeded()){
+                    showSnackBar(context, "Превышено число бронирований");
                     return;
                   }
 
                   ap.addBooking(BookingModel(
                     bookingStart: bookingStart,
+                    bookId: UniqueKey().hashCode.toString(),
                     bookingEnd: bookingStart.add(const Duration(hours: 1)),
                     bookedTime: DateTime.now(),
                     phoneNumber: ap.userModel.phoneNumber,
                     userName: ap.userModel.name,
                     userId: ap.userModel.uid,
                     washName: widget.carWash.name,
-                    address: widget.carWash.address
+                    address: widget.carWash.address,
+                    offset: "${offset.inHours}:${offset.inMinutes%60}",
                   ));
 
                   showDialog(
@@ -212,8 +221,13 @@ class _DatePickerState extends State<DatePicker> {
                           'Ваше бронирование было успешно выполнено'),
                       actions: <Widget>[
                         TextButton(
-                          onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => const HomeScreen())),
-                          child: const Text('OK'),
+                          onPressed: () {
+                            setState(() {
+                              Navigator.pop(context);
+                              loadBookedTimes(dateIndex);
+                            });
+                          },
+                          child: const Text('Ок'),
                         ),
                       ],
                     ),

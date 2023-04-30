@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:kutpekz/auth_provider.dart';
 import 'package:kutpekz/pages/bottom_nav/home_page.dart';
+import 'package:kutpekz/pages/bottom_nav/map/map_page.dart';
 import 'package:kutpekz/pages/login/signup_page.dart';
 import 'package:kutpekz/pages/login/user_information_page.dart';
 import 'package:provider/provider.dart';
@@ -37,7 +38,7 @@ class _LoadingPageState extends State<LoadingPage> {
     if(ap.isSignedIn){
       loadData();
       isLoading = false;
-      return const UserInformationPage();
+      return const HomeScreen();
     }
     else {
       isLoading = false;

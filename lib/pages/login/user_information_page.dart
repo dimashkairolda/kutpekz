@@ -177,14 +177,13 @@ class _UserInformationPageState extends State<UserInformationPage> {
   void storeData() async {
     final ap = Provider.of<AuthProvider>(context, listen: false);
     await ap.getCarWashesFromStorage();
-    List<bool> favs = List.filled(ap.carWashes.length, false, growable: true);
     UserModel userModel = UserModel(
       phoneNumber: "",
       name: nameController.text.trim(),
       profilePicture: "",
       createdAt: "",
       uid: "",
-      isFavourite: favs,
+      favorites: [],
       bookings: [],
     );
     ap.saveUserData(

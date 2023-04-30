@@ -51,7 +51,6 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     final ap = Provider.of<AuthProvider>(context, listen: false);
-    ap.getFavourites();
     return Scaffold(
       body: Stack(
         children: [

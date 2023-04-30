@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:kutpekz/auth_provider.dart';
 import 'package:kutpekz/generated/locale_keys.g.dart';
+import 'package:kutpekz/models/car_washes_model.dart';
 import 'package:kutpekz/pages/car_wash_detail.dart';
 import 'package:provider/provider.dart';
 
@@ -16,17 +17,16 @@ class FavouritesPage extends StatefulWidget {
 class _FavouritesPageState extends State<FavouritesPage> {
   late final ap = Provider.of<AuthProvider>(context, listen: false);
   bool isLoading = false;
-
-  List<bool> favourites = [];
+  List<String> favourites = [];
 
   Future getFavourites() async {
     isLoading = true;
-    await ap.getFavourites();
+    favourites = [];
     if(!mounted) return;
     setState(() {
-      favourites = ap.favourites;
+      favourites = ap.userModel.favorites;
+      print(favourites);
       isLoading = false;
-      print(favourites.isEmpty);
     });
   }
 
@@ -50,7 +50,7 @@ class _FavouritesPageState extends State<FavouritesPage> {
         automaticallyImplyLeading: false,
         centerTitle: true,
       ),
-      body: !favourites.contains(true)
+      body: favourites.isEmpty
           ? Scaffold(
               body: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -80,7 +80,6 @@ class _FavouritesPageState extends State<FavouritesPage> {
           : ListView.builder(
               itemCount: favourites.length,
               itemBuilder: (BuildContext context, int index) {
-                if (favourites[index]) {
                   return Padding(
                     padding: EdgeInsets.symmetric(horizontal: 12, vertical: 0),
                     child: Card(
@@ -90,7 +89,7 @@ class _FavouritesPageState extends State<FavouritesPage> {
                               context,
                               MaterialPageRoute(
                                   builder: (context) => CarWashDetail(
-                                        carWash: ap.carWashes[index],
+                                        carWash: ap.carWashes[int.parse(favourites[index])],
                                       ))).then((_) {
                             setState(() {
 
@@ -98,20 +97,15 @@ class _FavouritesPageState extends State<FavouritesPage> {
                           });
                         },
                         title: Text(
-                          ap.carWashes[index].name,
+                          ap.carWashes[int.parse(favourites[index])].name,
                           style: const TextStyle(
                             fontSize: 20,
                           ),
                         ),
-                        subtitle: Text(ap.carWashes[index].address),
+                        subtitle: Text(ap.carWashes[int.parse(favourites[index])].address),
                       ),
                     ),
                   );
-                } else {
-                  return const SizedBox(
-                    height: 0,
-                  );
-                }
               }),
     );
   }

@@ -45,8 +45,6 @@ class _InactiveState extends State<Inactive> {
 
   @override
   Widget build(BuildContext context) {
-    final ap = Provider.of<AuthProvider>(context, listen: false);
-
     return isLoading
         ? const Center(child: CircularProgressIndicator())
         : (bookings.isEmpty
@@ -74,106 +72,128 @@ class _InactiveState extends State<Inactive> {
                   ],
                 ),
               )
-            : ListView.builder(
-                itemCount: bookings.length,
-                itemBuilder: (context, index) {
-                  return Center(
-                    heightFactor: 1.25,
-                    child: Container(
-                      width: 340,
-                      height: 170,
-                      decoration: BoxDecoration(
-                        color: Theme.of(context).colorScheme.secondary,
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 15, vertical: 30),
-                        child: Column(
-                          children: [
-                            Row(
-                              children: [
-                                const Text(
-                                  'Автомойка',
-                                  style: TextStyle(
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.w400,
+            : Container(
+                height: MediaQuery.of(context).size.height,
+                margin: EdgeInsets.only(bottom: 60),
+                child: ListView.builder(
+                  itemCount: bookings.length,
+                  itemBuilder: (context, index) {
+                    return Center(
+                      heightFactor: 1.25,
+                      child: Container(
+                        width: 340,
+                        height: 170,
+                        decoration: BoxDecoration(
+                          color: Theme.of(context).colorScheme.secondary,
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 15, vertical: 30),
+                          child: Column(
+                            children: [
+                              Row(
+                                children: [
+                                  const Text(
+                                    'Автомойка',
+                                    style: TextStyle(
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.w400,
+                                    ),
                                   ),
-                                ),
-                                const Spacer(),
-                                Text(
-                                  bookings[index].washName!,
-                                  style: const TextStyle(
-                                      fontWeight: FontWeight.w700,
-                                      fontSize: 15),
-                                ),
-                              ],
-                            ),
-                            const Padding(padding: EdgeInsets.only(top: 10)),
-                            Row(
-                              children: [
-                                const Text(
-                                  'Адрес',
-                                  style: TextStyle(
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.w400,
+                                  const Spacer(),
+                                  Text(
+                                    bookings[index].washName!,
+                                    style: const TextStyle(
+                                        fontWeight: FontWeight.w700,
+                                        fontSize: 15),
                                   ),
-                                ),
-                                const Spacer(),
-                                Text(
-                                  bookings[index].address!,
-                                  style: const TextStyle(
-                                      fontWeight: FontWeight.w700,
-                                      fontSize: 15),
-                                ),
-                              ],
-                            ),
-                            const Padding(padding: EdgeInsets.only(top: 10)),
-                            Row(
-                              children: [
-                                const Text(
-                                  'День брони',
-                                  style: TextStyle(
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.w400,
+                                ],
+                              ),
+                              const Padding(padding: EdgeInsets.only(top: 10)),
+                              Row(
+                                children: [
+                                  const Text(
+                                    'Адрес',
+                                    style: TextStyle(
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.w400,
+                                    ),
                                   ),
-                                ),
-                                const Spacer(),
-                                Text(
-                                  DateFormat("dd.MM.yy")
-                                      .format(bookings[index].bookingStart),
-                                  style: const TextStyle(
-                                      fontWeight: FontWeight.w700,
-                                      fontSize: 15),
-                                ),
-                              ],
-                            ),
-                            const Padding(padding: EdgeInsets.only(top: 10)),
-                            Row(
-                              children: [
-                                const Text(
-                                  'Время брони',
-                                  style: TextStyle(
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.w400,
+                                  const Spacer(),
+                                  Text(
+                                    bookings[index].address!,
+                                    style: const TextStyle(
+                                        fontWeight: FontWeight.w700,
+                                        fontSize: 15),
                                   ),
-                                ),
-                                const Spacer(),
-                                Text(
-                                  DateFormat("HH:mm")
-                                      .format(bookings[index].bookingStart),
-                                  style: const TextStyle(
-                                      fontWeight: FontWeight.w700,
-                                      fontSize: 15),
-                                ),
-                              ],
-                            ),
-                          ],
+                                ],
+                              ),
+                              const Padding(padding: EdgeInsets.only(top: 10)),
+                              Row(
+                                children: [
+                                  const Text(
+                                    'День брони',
+                                    style: TextStyle(
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.w400,
+                                    ),
+                                  ),
+                                  const Spacer(),
+                                  Text(
+                                    DateFormat("dd.MM.yy")
+                                        .format(ap.timeConvert(bookings[index].offset!, bookings[index].bookingStart)),
+                                    style: const TextStyle(
+                                        fontWeight: FontWeight.w700,
+                                        fontSize: 15),
+                                  ),
+                                ],
+                              ),
+                              const Padding(padding: EdgeInsets.only(top: 10)),
+                              Row(
+                                children: [
+                                  const Text(
+                                    'Время брони',
+                                    style: TextStyle(
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.w400,
+                                    ),
+                                  ),
+                                  const Spacer(),
+                                  Text(
+                                    DateFormat("HH:mm").format(ap.timeConvert(bookings[index].offset!, bookings[index].bookingStart)),
+                                    style: const TextStyle(
+                                        fontWeight: FontWeight.w700,
+                                        fontSize: 15),
+                                  ),
+                                ],
+                              ),
+                              const Padding(padding: EdgeInsets.only(top: 10)),
+                              Row(
+                                children: [
+                                  const Text(
+                                    'ID брони',
+                                    style: TextStyle(
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.w400,
+                                    ),
+                                  ),
+                                  const Spacer(),
+                                  Text(
+                                    bookings[index].bookId!,
+                                    style: const TextStyle(
+                                        fontWeight: FontWeight.w700,
+                                        fontSize: 15),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
                         ),
                       ),
-                    ),
-                  );
-                },
+                    );
+                  },
+                ),
               ));
   }
 }

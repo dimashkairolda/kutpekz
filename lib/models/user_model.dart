@@ -5,7 +5,7 @@ class UserModel{
   String profilePicture;
   String createdAt;
   String uid;
-  List<bool> isFavourite;
+  List<String> favorites;
   List<String> bookings;
 
   UserModel({
@@ -14,7 +14,7 @@ class UserModel{
     required this.profilePicture,
     required this.createdAt,
     required this.uid,
-    required this.isFavourite,
+    required this.favorites,
     required this.bookings,
   });
 
@@ -25,10 +25,10 @@ class UserModel{
     return UserModel(
         phoneNumber: map['phoneNumber'] ?? '',
         name: map['name'] ?? '',
+        favorites: List<String>.from(map['favorites'] ?? []),
         profilePicture: map['profilePicture'] ?? '',
         createdAt: map['createdAt'] ?? '',
         uid: map['uid'] ?? '',
-        isFavourite: List<bool>.from(map['isFavourite']),
         bookings: List<String>.from(map['bookings'] ?? []),
     );
   }
@@ -41,12 +41,8 @@ class UserModel{
       "profilePicture": profilePicture,
       "createdAt": createdAt,
       "uid": uid,
-      "isFavourite" : isFavourite,
+      "favorites" : favorites,
       "bookings" : bookings,
     };
-  }
-
-  void setFavourites(List<bool> favourites){
-    isFavourite = favourites;
   }
 }

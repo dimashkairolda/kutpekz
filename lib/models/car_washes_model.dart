@@ -2,7 +2,7 @@
 class CarWashes{
   String name;
   String address;
-  String photoURL;
+  List<String> photoURL;
   String uid;
   String latitude;
   String longitude;
@@ -12,7 +12,7 @@ class CarWashes{
 
   String get getName => name;
   String get getAddress => address;
-  String get getPhotoURL => photoURL;
+  List<String> get getPhotoURL => photoURL;
 
   CarWashes({
     required this.name,
@@ -30,7 +30,7 @@ class CarWashes{
     return CarWashes(
       name: map['name'] ?? '',
       address: map['address'] ?? '',
-      photoURL: map['photoURL'] ?? '',
+      photoURL: List<String>.from(map['photoURL']),
       uid: map['uid'] ?? '',
       latitude: map['latitude'] ?? '',
       longitude: map['longitude'] ?? '',

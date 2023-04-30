@@ -18,9 +18,9 @@ class MapPage extends StatefulWidget {
 }
 
 class _MapPageState extends State<MapPage> {
-  Position currentPosition = Position(longitude: 76.897746, latitude: 43.234571, timestamp: DateTime.now(), accuracy: 0, altitude: 0, heading: 0, speed: 0, speedAccuracy: 0);
+  Position currentPosition = Position(longitude: 76.897746, latitude: 43.234571, timestamp: DateTime.now(), accuracy: 0, altitude: 180, heading: 0, speed: 0, speedAccuracy: 0);
   final GisMapController controller = GisMapController();
-  List<GisMapMarker>? list;
+  List<GisMapMarker> list = [];
   List<GisMapMarker> tempList = [];
   late AuthProvider ap;
   Uint8List? icon;
@@ -68,7 +68,7 @@ class _MapPageState extends State<MapPage> {
   }
 
   Future<void> getMarkers() async {
-    if (ap.carWashMarkers.isNotEmpty) {
+    if (list.isNotEmpty) {
       return;
     }
     List<GisMapMarker> markers = [];
@@ -84,6 +84,7 @@ class _MapPageState extends State<MapPage> {
           zIndex: 1));
       index += 1;
     }
+
     list = markers;
     if(!mounted) return;
     setState(() {

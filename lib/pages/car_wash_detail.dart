@@ -23,16 +23,21 @@ Icon getIcon(bool isFavourite) {
 }
 
 class _CarWashDetailState extends State<CarWashDetail> {
-  final urlImages = [
-    'https://images.unsplash.com/photo-1678765247633-deb85f9d980d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1964&q=80',
-    'https://images.unsplash.com/photo-1678769045823-b3a11ed82835?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1172&q=80'
-  ];
+
+  var urlImages = [];
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    urlImages = widget.carWash.photoURL;
+  }
 
   @override
   Widget build(BuildContext context) {
     final ap = Provider.of<AuthProvider>(context, listen: false);
     int id = int.parse(widget.carWash.uid);
-    bool isFavourite = ap.favourites[id];
+    bool isFavourite = ap.userModel.favorites.contains(id.toString());
     Icon icon = isFavourite
         ? const Icon(Iconsax.heart5, )
         : const Icon(Iconsax.heart,);
@@ -76,8 +81,7 @@ class _CarWashDetailState extends State<CarWashDetail> {
                 onPressed: () {
                   setState(() {
                     isFavourite = !isFavourite;
-                    ap.favourites[id] = isFavourite;
-                    ap.updateFavourites(context);
+                    ap.updateFavourites(context, id.toString());
                     icon = isFavourite
                         ? const Icon(Icons.favorite,)
                         : const Icon(Icons.favorite_border,);

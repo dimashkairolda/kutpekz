@@ -110,36 +110,58 @@ class CustomSearchDelegate extends SearchDelegate {
       }
     }
 
-    return matchQuery.length == 0 ? Text("По запросу: \"$query\", автомоек не найдено", style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),) :ListView.builder(
-      itemCount: matchQuery.length,
-      itemBuilder: (context, index) {
-        var item = result[index];
-        return Container(
-          // padding: EdgeInsets.fromLTRB(25, 16, 0, 0),
-          child: TextButton(
-            style: const ButtonStyle(alignment: Alignment.centerLeft),
-            child: Text(
-              item.name,
-              style: const TextStyle(fontSize: 16),
-            ),
-            onPressed: () {
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (context) => CarWashDetail(
-                    carWash: item,
+    return GestureDetector(
+      onTap: (){FocusScope.of(context).unfocus();},
+      child: matchQuery.length == 0 ? Text("По запросу: \"$query\", автомоек не найдено", style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),) :ListView.builder(
+        itemCount: matchQuery.length,
+        itemBuilder: (context, index) {
+          var item = result[index];
+          return Container(
+            // padding: EdgeInsets.fromLTRB(25, 16, 0, 0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  TextButton(
+                    style: const ButtonStyle(alignment: Alignment.centerLeft),
+                    child: Container(
+                      width: MediaQuery.of(context).size.width,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            item.name,
+                            style: const TextStyle(fontSize: 16),
+                          ),
+                          Text(
+                            item.address,
+                            style: const TextStyle(fontSize: 12, color: Colors.white30),
+                          )
+                        ],
+                      ),
+                    ),
+                    onPressed: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => CarWashDetail(
+                            carWash: item,
+                          ),
+                        ),
+                      );
+                    },
                   ),
-                ),
-              );
-            },
-          ),
-        );
-      },
+                  Divider(height: 2,),
+                ],
+              )
+          );
+        },
+      ),
     );
   }
 
   @override
   Widget buildResults(BuildContext context) {
     // TODO: implement buildResults
-    throw UnimplementedError();
+    return buildSuggestions(context);
   }
 }
