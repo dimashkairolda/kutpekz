@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:kutpekz/auth_provider.dart';
 import 'package:kutpekz/pages/bottom_nav/home_page.dart';
-import 'package:kutpekz/pages/bottom_nav/map/map_page.dart';
 import 'package:kutpekz/pages/login/signup_page.dart';
-import 'package:kutpekz/pages/login/user_information_page.dart';
 import 'package:provider/provider.dart';
 
 class LoadingPage extends StatefulWidget {
@@ -21,28 +19,33 @@ class _LoadingPageState extends State<LoadingPage> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     Intl.defaultLocale = 'ru_Ru';
   }
 
   Future loadData() async {
-    if(isLoading) return;
+    if (isLoading) return;
     isLoading = true;
     ap.getDataFromStorage();
-    ap.saveUserDataPreferences();
+    await ap.saveUserDataPreferences();
+  }
+  
+  Future<bool> isSignedIn() async {
+    return ap.isSignedIn;
   }
 
   @override
   Widget build(BuildContext context) {
-    if(ap.isSignedIn){
-      loadData();
-      isLoading = false;
-      return const HomeScreen();
-    }
-    else {
-      isLoading = false;
-      return const SignUp();
-    }
+    return FutureBuilder(
+      future: Future.wait([isSignedIn(), loadData()]),
+      builder: (context, snapshot){
+        if(ap.isSignedIn){
+          return const HomeScreen();
+        }
+        else{
+          return const SignUp();
+        }
+      }
+    );
   }
 }

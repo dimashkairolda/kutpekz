@@ -116,7 +116,6 @@ class AuthProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  // TODO FIX!!1!!
   void signInWithPhone(BuildContext context, String phoneNumber) async {
     try {
       await _firebaseAuth.verifyPhoneNumber(
@@ -352,7 +351,6 @@ class AuthProvider extends ChangeNotifier {
   }
 
   Future removeBooking(BuildContext context, String id) async {
-    // get id of a car wash with bookId == id
     String uid = "";
     await _firebaseFirestore.collection("bookings").get().then((value) => {
       for(var doc in value.docs){
@@ -368,14 +366,10 @@ class AuthProvider extends ChangeNotifier {
     await FirebaseFirestore.instance.collection("bookings").doc(uid).delete();
     userModel.bookings.remove(uid);
     var db = FirebaseFirestore.instance.collection("users");
-    db.doc(userModel.uid)
-        .update({'bookings': FieldValue.arrayRemove(listId)})
-        .then((_) => print('Removed'))
-        .catchError((error) => print('Remove failed: $error'));
+    db.doc(userModel.uid).update({'bookings': FieldValue.arrayRemove(listId)});
   }
 
   Future<bool> isBookedLimitExceeded() async {
-    // get bookings id list of a user
     List<String> booked = [];
     int count = 0;
     await _firebaseFirestore.collection("users").doc(uid).get().then((value) => booked = List<String>.from(value.data()!['bookings']));
@@ -388,8 +382,6 @@ class AuthProvider extends ChangeNotifier {
       }
     }
     return false;
-    // check time
-
   }
 
   Future<Map<String, dynamic>> getBookingsById(String id) async {
@@ -407,11 +399,7 @@ class AuthProvider extends ChangeNotifier {
     db.doc(id).set(book.toJson());
     userModel.bookings.add(id);
     db = FirebaseFirestore.instance.collection("users");
-    db
-        .doc(userModel.uid)
-        .update({'bookings': FieldValue.arrayUnion(listId)})
-        .then((_) => print('Added'))
-        .catchError((error) => print('Add failed: $error'));
+    db.doc(userModel.uid).update({'bookings': FieldValue.arrayUnion(listId)});
   }
 
   Future<List<String>> getBookings(String carWash) async {
@@ -438,7 +426,6 @@ class AuthProvider extends ChangeNotifier {
         }
       });
     });
-    print(booked);
     return booked;
   }
 

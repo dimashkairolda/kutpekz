@@ -28,7 +28,6 @@ class _CarWashDetailState extends State<CarWashDetail> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     urlImages = widget.carWash.photoURL;
   }
@@ -328,7 +327,7 @@ class _CarWashDetailState extends State<CarWashDetail> {
             SizedBox(
               width: MediaQuery.of(context).size.width * 0.85,
               child: CupertinoButton(
-                color: Color.fromRGBO(98, 78, 234, 1),
+                color: const Color.fromRGBO(98, 78, 234, 1),
                 borderRadius: BorderRadius.circular(10),
                 child: const Text(
                   "Забронировать",

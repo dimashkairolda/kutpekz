@@ -31,6 +31,7 @@ class _ActiveState extends State<Active> {
 
     bookings.clear();
     for (String bookId in ap.userModel.bookings) {
+      if(!mounted) return;
       BookingModel model =
           BookingModel.fromJson(await ap.getBookingsById(bookId));
       if (model.bookingStart.isAfter(DateTime.now())) {

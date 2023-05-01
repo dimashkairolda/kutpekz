@@ -5,7 +5,6 @@ import 'package:iconsax/iconsax.dart';
 import 'package:kutpekz/auth_provider.dart';
 import 'package:kutpekz/models/bookingModel.dart';
 import 'package:kutpekz/models/car_washes_model.dart';
-import 'package:kutpekz/pages/bottom_nav/home_page.dart';
 import 'package:kutpekz/utils/utils.dart';
 import 'package:provider/provider.dart';
 

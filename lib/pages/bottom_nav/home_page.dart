@@ -1,24 +1,11 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
-import 'package:kutpekz/auth_provider.dart';
 import 'package:kutpekz/generated/locale_keys.g.dart';
 import 'package:kutpekz/pages/bottom_nav/favourites_page.dart';
 import 'package:kutpekz/pages/bottom_nav/profile/profile_page.dart';
 import 'package:kutpekz/pages/bottom_nav/map/search_bar.dart';
-import 'package:provider/provider.dart';
 import 'package:kutpekz/pages/bottom_nav/history/history_page.dart';
-
-// DID - PFP CHANGE
-// DID - CUSTOM BOTTOM NAV BAR(HEIGHT, ICONS, CURVE)
-// DID COLOR THEMES
-
-
-// TODO - TIME PICKER -> BOOKING
-
-// TODO - LOAD DATA WHILE APPLICATION LOADS
-// TODO - BUG FIXING
-// TODO if sms expired go to register page -> bug after which otp page doesn't show up
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -37,20 +24,19 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   final List<Widget> _pages = [
-    SearchBar(),
-    History(),
-    FavouritesPage(),
-    ProfilePage(),
+    const SearchBar(),
+    const History(),
+    const FavouritesPage(),
+    const ProfilePage(),
   ];
 
   @override
   void initState() {
-    // TODO: implement initState
+    super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    final ap = Provider.of<AuthProvider>(context, listen: false);
     return Scaffold(
       body: Stack(
         children: [
@@ -94,14 +80,13 @@ class _HomeScreenState extends State<HomeScreen> {
           unselectedItemColor: Theme.of(context).primaryColor,
           showUnselectedLabels: true,
           items: <BottomNavigationBarItem>[
-            //fontawesome antdesign
-            BottomNavigationBarItem(icon: Icon(Iconsax.home, size: 24,), label: LocaleKeys.btm_nav_home.tr()),
+            BottomNavigationBarItem(icon: const Icon(Iconsax.home, size: 24,), label: LocaleKeys.btm_nav_home.tr()),
             BottomNavigationBarItem(
-                icon: Icon(Iconsax.clock, size: 24,), label: LocaleKeys.btm_nav_history.tr()),
+                icon: const Icon(Iconsax.clock, size: 24,), label: LocaleKeys.btm_nav_history.tr()),
             BottomNavigationBarItem(
-                icon: Icon(Iconsax.heart, size: 24,), label: LocaleKeys.btm_nav_favourites.tr()),
+                icon: const Icon(Iconsax.heart, size: 24,), label: LocaleKeys.btm_nav_favourites.tr()),
             BottomNavigationBarItem(
-                icon: Icon(Iconsax.user, size: 24,), label: LocaleKeys.btm_nav_profile.tr()),
+                icon: const Icon(Iconsax.user, size: 24,), label: LocaleKeys.btm_nav_profile.tr()),
           ],
         ),
       ),

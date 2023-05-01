@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:kutpekz/auth_provider.dart';
 import 'package:pinput/pinput.dart';
 import 'package:provider/provider.dart';
@@ -17,6 +18,7 @@ class _SignUpState extends State<SignUp> {
   TextEditingController phoneNumberController = TextEditingController();
   @override
   Widget build(BuildContext context) {
+    FlutterNativeSplash.remove();
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
@@ -58,7 +60,7 @@ class _SignUpState extends State<SignUp> {
                     child: TextFormField(
                       keyboardType: TextInputType.phone,
                       controller: phoneNumberController,
-                      style:  TextStyle(
+                      style:  const TextStyle(
                           fontSize: 16, fontFamily: "San Francisco"),
                       inputFormatters: [
                         LengthLimitingTextInputFormatter(10),
@@ -98,7 +100,7 @@ class _SignUpState extends State<SignUp> {
             SizedBox(
               width: MediaQuery.of(context).size.width * 0.85,
               child: CupertinoButton(
-                color: Color.fromRGBO(98, 78, 234, 1),
+                color: const Color.fromRGBO(98, 78, 234, 1),
                 borderRadius: BorderRadius.circular(10),
                 child: const Text(
                   "Отправить код",

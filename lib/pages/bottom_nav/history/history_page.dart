@@ -18,7 +18,7 @@ class History extends StatelessWidget {
         appBar: AppBar(
           title: Text(
             LocaleKeys.btm_nav_history.tr(),
-            style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
+            style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
           ),
           toolbarHeight: 60,
           backgroundColor: Colors.transparent,

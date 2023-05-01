@@ -124,7 +124,7 @@ class _OtpPageState extends State<OtpPage> {
 
   startResendOtpTimer() {
     isCountdownFinished = false;
-    timer = Timer.periodic(Duration(seconds: 1), (timer) {
+    timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       if (countdown != 0) {
         countdown--;
       } else {

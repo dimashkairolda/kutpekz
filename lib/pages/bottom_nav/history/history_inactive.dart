@@ -32,6 +32,7 @@ class _InactiveState extends State<Inactive> {
     for (String bookId in ap.userModel.bookings) {
       BookingModel model =
           BookingModel.fromJson(await ap.getBookingsById(bookId));
+      if(!mounted) return;
       if (!model.bookingStart.isAfter(DateTime.now())) {
         setState(() {
           bookings.add(model);
@@ -74,7 +75,7 @@ class _InactiveState extends State<Inactive> {
               )
             : Container(
                 height: MediaQuery.of(context).size.height,
-                margin: EdgeInsets.only(bottom: 60),
+                margin: const EdgeInsets.only(bottom: 60),
                 child: ListView.builder(
                   itemCount: bookings.length,
                   itemBuilder: (context, index) {

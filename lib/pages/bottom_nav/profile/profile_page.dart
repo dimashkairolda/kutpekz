@@ -21,7 +21,7 @@ class _ProfilePageState extends State<ProfilePage> {
     return Scaffold(
       appBar: AppBar(
         toolbarHeight: 60,
-        title: Text(
+        title: const Text(
         'Профиль',
         style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
         ),
@@ -70,7 +70,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     style: TextStyle(fontWeight: FontWeight.w500, fontSize: 20),
                   ),
                   onTap: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => ProfileEdit()));
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => const ProfileEdit()));
                   },
                 ),
                 ListTile(
@@ -84,7 +84,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
                   ),
                   onTap: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => LanguageEdit())).then((value) {
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => const LanguageEdit())).then((value) {
                       setState(() {
 
                       });
@@ -118,7 +118,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 child: SizedBox(
                   width: MediaQuery.of(context).size.width * 0.85,
                   child: CupertinoButton(
-                    color: Color.fromRGBO(98, 78, 234, 1),
+                    color: const Color.fromRGBO(98, 78, 234, 1),
                     borderRadius: BorderRadius.circular(10),
                     child: const Text(
                       "Выйти",

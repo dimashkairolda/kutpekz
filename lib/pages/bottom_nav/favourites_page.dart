@@ -25,7 +25,6 @@ class _FavouritesPageState extends State<FavouritesPage> {
     if(!mounted) return;
     setState(() {
       favourites = ap.userModel.favorites;
-      print(favourites);
       isLoading = false;
     });
   }
@@ -55,7 +54,7 @@ class _FavouritesPageState extends State<FavouritesPage> {
               body: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: isLoading ? [Center(child: Padding(padding: EdgeInsets.only(bottom: 100), child: CircularProgressIndicator()),)] : [
+                children: isLoading ? [const Center(child: Padding(padding: EdgeInsets.only(bottom: 100), child: CircularProgressIndicator()),)] : [
                   Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -81,7 +80,7 @@ class _FavouritesPageState extends State<FavouritesPage> {
               itemCount: favourites.length,
               itemBuilder: (BuildContext context, int index) {
                   return Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 12, vertical: 0),
+                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 0),
                     child: Card(
                       child: ListTile(
                         onTap: () {
@@ -106,7 +105,7 @@ class _FavouritesPageState extends State<FavouritesPage> {
                       ),
                     ),
                   );
-              }),
+              },),
     );
   }
 }
